@@ -156,6 +156,34 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
         return languageRepo.getQuestionsForLevel(levelId)
     }
 
+    suspend fun getPracticeQuestions(limit: Int = 10): List<Question> {
+        val activeLangId = _currentLanguageId.value
+        val currentCefr = _uiState.value.userAssignedLevel.take(2).uppercase()
+        val allLevels = db.levelDao().getLevelsForLanguageSync(activeLangId)
+        val matchingLevels = allLevels.filter { it.cefrCode.take(2).equals(currentCefr, ignoreCase = true) }
+        val targetLevels = if (matchingLevels.isNotEmpty()) matchingLevels else allLevels.take(3)
+        val questions = mutableListOf<Question>()
+        for (lvl in targetLevels) {
+            val qEntities = db.questionDao().getQuestionsForLevel(lvl.id)
+            for (q in qEntities) {
+                questions.add(
+                    Question(
+                        id = q.id,
+                        lessonId = q.levelId,
+                        type = com.linguaflow.app.domain.model.QuestionType.valueOf(q.type),
+                        prompt = q.prompt,
+                        promptPhonetic = q.promptPhonetic,
+                        promptAudioText = q.promptAudioText,
+                        options = q.options,
+                        correctAnswer = q.correctAnswer,
+                        explanation = q.explanation
+                    )
+                )
+            }
+        }
+        return questions.shuffled().take(limit)
+    }
+
     suspend fun getPendingMistakeQuestions(): List<Question> {
         val userId = _uiState.value.currentUser?.id ?: return emptyList()
         return progressRepo.getPendingMistakeQuestions(userId).first()

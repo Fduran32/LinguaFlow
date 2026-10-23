@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Lock
@@ -49,6 +50,7 @@ fun LearningPathScreen(
     onSelectViewingLevel: (String) -> Unit = {},
     onOpenMistakesReview: () -> Unit = {},
     onOpenProfile: () -> Unit = {},
+    onBackToHome: (() -> Unit)? = null,
     onStartLevel: (Level) -> Unit,
     onTakePlacementTest: () -> Unit
 ) {
@@ -58,6 +60,13 @@ fun LearningPathScreen(
     Scaffold(
         topBar = {
             TopAppBar(
+                navigationIcon = {
+                    if (onBackToHome != null) {
+                        IconButton(onClick = onBackToHome) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Menú Principal")
+                        }
+                    }
+                },
                 title = {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
