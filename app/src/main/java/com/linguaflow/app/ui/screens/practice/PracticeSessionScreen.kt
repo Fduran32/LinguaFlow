@@ -125,8 +125,8 @@ fun PracticeSessionScreen(
     val progress = (currentIndex + 1).toFloat() / questions.size.toFloat()
 
     // Determinamos si el ejercicio actual es de tipo Habla, Escucha o Escritura
-    val isSpeakingType = skillMode == PracticeSkillMode.SPEAKING || (skillMode == PracticeSkillMode.MIX && currentIndex % 3 == 0)
-    val isListeningType = skillMode == PracticeSkillMode.LISTENING || (skillMode == PracticeSkillMode.MIX && currentIndex % 3 == 1)
+    val isSpeakingType = currentQuestion.type == com.linguaflow.app.domain.model.QuestionType.SPEAKING || skillMode == PracticeSkillMode.SPEAKING
+    val isListeningType = !isSpeakingType && (currentQuestion.type == com.linguaflow.app.domain.model.QuestionType.LISTENING || skillMode == PracticeSkillMode.LISTENING)
 
     Scaffold(
         topBar = {
@@ -204,7 +204,7 @@ fun PracticeSessionScreen(
             // TIPO 1: PRÁCTICA DE SPEAKING (VOZ / MICRÓFONO IN-APP)
             // ========================================================
             if (isSpeakingType) {
-                val targetText: String = currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt }
+                val targetText: String = currentQuestion.correctAnswer.ifBlank { currentQuestion.promptAudioText ?: currentQuestion.prompt }
 
                 Card(
                     shape = RoundedCornerShape(20.dp),
@@ -383,7 +383,7 @@ fun PracticeSessionScreen(
                 // ========================================================
                 // TIPO 2: PRÁCTICA DE LISTENING (COMPRENSIÓN AUDITIVA)
                 // ========================================================
-                val spokenPhrase: String = currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt }
+                val spokenPhrase: String = (currentQuestion.promptAudioText ?: currentQuestion.correctAnswer).ifBlank { currentQuestion.prompt }
 
                 Card(
                     shape = RoundedCornerShape(20.dp),
@@ -523,10 +523,14 @@ fun PracticeSessionScreen(
                         }
 
                         if (!isCurrentCorrect) {
-                            Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = if (isSpeakingType) "Frase esperada: ${currentQuestion.correctAnswer}" else currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt },
-                                fontWeight = FontWeight.Bold,
+                                text = if (isSpeakingType) {
+                                    "Frase esperada: ${currentQuestion.correctAnswer}"
+                                } else if (isListeningType) {
+                                    "Frase esperada: ${(currentQuestion.promptAudioText ?: currentQuestion.correctAnswer).ifBlank { currentQuestion.prompt }}"
+                                } else {
+                                    "Traducción esperada: ${currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt }}"
+                                },
                                 fontSize = 15.sp,
                                 color = TextDark
                             )
@@ -609,8 +613,13 @@ fun PracticeSessionScreen(
                                 .replace(Regex("\\s+"), " ")
                                 .trim()
                         }
+                        val targetText = if (isListeningType) {
+                            (currentQuestion.promptAudioText ?: currentQuestion.correctAnswer).ifBlank { currentQuestion.prompt }
+                        } else {
+                            currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt }
+                        }
                         val cleanInput = normalize(writtenInput)
-                        val target = normalize(currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt })
+                        val target = normalize(targetText)
                         isCurrentCorrect = cleanInput == target
                         isAnswerChecked = true
                     },
