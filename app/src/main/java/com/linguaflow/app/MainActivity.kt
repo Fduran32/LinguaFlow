@@ -186,8 +186,8 @@ fun LinguaFlowApp(
                     currentSelectedLevel = level
                     isMistakeReviewMode = false
                     coroutineScope.launch {
-                        // Cargar preguntas desde Room SQLite
-                        val questions = viewModel.getQuestionsForLevel(level.id)
+                        // Cargar preguntas desde Room SQLite y barajar su orden aleatoriamente
+                        val questions = viewModel.getQuestionsForLevel(level.id).shuffled()
                         activeQuestions = questions
                         navState = AppNavState.LESSON_SESSION
                     }

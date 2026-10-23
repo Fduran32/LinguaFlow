@@ -456,12 +456,16 @@ fun LessonSessionScreen(
                         )
                         Spacer(modifier = Modifier.height(10.dp))
 
-                        // Banco de Fichas
+                        // Banco de Fichas barajado aleatoriamente para evitar que aparezcan en la misma posición
+                        val shuffledWordBank = remember(currentQuestion.id, currentIndex) {
+                            currentQuestion.options.shuffled()
+                        }
+
                         FlowRow(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            currentQuestion.options.forEach { word ->
+                            shuffledWordBank.forEach { word ->
                                 val usedCount = sentenceTokens.count { it == word }
                                 val availableInPool = currentQuestion.options.count { it == word }
                                 val isAvailable = usedCount < availableInPool
@@ -513,7 +517,12 @@ fun LessonSessionScreen(
 
                         Spacer(modifier = Modifier.height(24.dp))
 
-                        currentQuestion.options.forEach { option ->
+                        // Opciones barajadas aleatoriamente cada vez que se presenta la pregunta
+                        val shuffledOptions = remember(currentQuestion.id, currentIndex) {
+                            currentQuestion.options.shuffled()
+                        }
+
+                        shuffledOptions.forEach { option ->
                             RenderOptionCard(
                                 option = option,
                                 isSelected = selectedOption == option,
@@ -569,13 +578,35 @@ fun LessonSessionScreen(
                     Button(
                         onClick = {
                             showCompletionDialog = false
-                            onLessonFinished(passed, scorePercentage)
+                            if (passed) {
+                                onLessonFinished(true, scorePercentage)
+                            } else {
+                                // Si reprobó, reiniciamos la sesión del nivel actual
+                                currentIndex = 0
+                                correctCount = 0
+                                selectedOption = null
+                                answerResult = null
+                                sentenceTokens = emptyList()
+                                spokenAnswer = null
+                            }
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = if (passed) PrimaryGreen else ErrorRed
                         )
                     ) {
                         Text(if (passed) "Continuar a la ruta" else "Reintentar nivel", fontWeight = FontWeight.Bold)
+                    }
+                },
+                dismissButton = {
+                    if (!passed) {
+                        TextButton(
+                            onClick = {
+                                showCompletionDialog = false
+                                onLessonFinished(false, scorePercentage)
+                            }
+                        ) {
+                            Text("Volver a la ruta", color = TextGray, fontWeight = FontWeight.SemiBold)
+                        }
                     }
                 }
             )

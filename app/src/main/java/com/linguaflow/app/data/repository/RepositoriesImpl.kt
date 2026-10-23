@@ -234,6 +234,9 @@ class ProgressRepositoryImpl(
         completedLevelId: String,
         score: Int
     ) {
+        // Solo desbloquear si el puntaje es de al menos 80% (Opción B)
+        if (score < 80) return
+
         val levels = db.levelDao().getLevelsForLanguage(languageId).first()
         val currentLevel = levels.firstOrNull { it.id == completedLevelId } ?: return
         val timestamp = System.currentTimeMillis()
