@@ -12,6 +12,7 @@ import com.linguaflow.app.domain.model.Language
 import com.linguaflow.app.domain.model.Level
 import com.linguaflow.app.domain.model.Question
 import com.linguaflow.app.domain.model.User
+import com.linguaflow.app.ui.screens.practice.PracticeSkillMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -156,7 +157,7 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
         return languageRepo.getQuestionsForLevel(levelId)
     }
 
-    suspend fun getPracticeQuestions(limit: Int = 10): List<Question> {
+    suspend fun getPracticeQuestions(skillMode: PracticeSkillMode = PracticeSkillMode.MIX, limit: Int = 10): List<Question> {
         val activeLangId = _currentLanguageId.value
         val currentCefr = _uiState.value.userAssignedLevel.take(2).uppercase()
         val allLevels = db.levelDao().getLevelsForLanguageSync(activeLangId)
@@ -166,19 +167,88 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
         for (lvl in targetLevels) {
             val qEntities = db.questionDao().getQuestionsForLevel(lvl.id)
             for (q in qEntities) {
-                questions.add(
-                    Question(
-                        id = q.id,
-                        lessonId = q.levelId,
-                        type = com.linguaflow.app.domain.model.QuestionType.valueOf(q.type),
-                        prompt = q.prompt,
-                        promptPhonetic = q.promptPhonetic,
-                        promptAudioText = q.promptAudioText,
-                        options = q.options,
-                        correctAnswer = q.correctAnswer,
-                        explanation = q.explanation
+                val qType = com.linguaflow.app.domain.model.QuestionType.valueOf(q.type)
+
+                if (skillMode == PracticeSkillMode.WRITING) {
+                    // Modo Writing: 100% ejercicios de escritura/traducción directa sin audios
+                    if (qType == com.linguaflow.app.domain.model.QuestionType.TRANSLATE_BUILD ||
+                        qType == com.linguaflow.app.domain.model.QuestionType.MULTIPLE_CHOICE) {
+                        val cleanPrompt = q.prompt
+                            .replace("Ordena las fichas: ", "")
+                            .replace("¿Cómo se saluda cortésmente en la mañana en inglés?", "Buenos días")
+                            .replace("\"", "")
+                            .replace("'", "")
+                            .trim()
+
+                        val formattedPrompt = if (cleanPrompt.startsWith("Traduce", ignoreCase = true)) cleanPrompt else "Traduce al inglés: \"$cleanPrompt\""
+
+                        questions.add(
+                            Question(
+                                id = q.id,
+                                lessonId = q.levelId,
+                                type = com.linguaflow.app.domain.model.QuestionType.FILL_BLANK,
+                                prompt = formattedPrompt,
+                                promptPhonetic = null,
+                                promptAudioText = null, // Sin audios en Writing
+                                options = emptyList(), // Sin opciones para evitar botones vacíos
+                                correctAnswer = q.correctAnswer,
+                                explanation = q.explanation
+                            )
+                        )
+                    }
+                } else if (skillMode == PracticeSkillMode.SPEAKING) {
+                    // Modo Speaking: frases en inglés para pronunciar
+                    if (qType == com.linguaflow.app.domain.model.QuestionType.SPEAKING ||
+                        qType == com.linguaflow.app.domain.model.QuestionType.TRANSLATE_BUILD ||
+                        qType == com.linguaflow.app.domain.model.QuestionType.MULTIPLE_CHOICE) {
+                        questions.add(
+                            Question(
+                                id = q.id,
+                                lessonId = q.levelId,
+                                type = com.linguaflow.app.domain.model.QuestionType.SPEAKING,
+                                prompt = "Pronuncia en voz alta en inglés:",
+                                promptPhonetic = q.promptPhonetic,
+                                promptAudioText = q.promptAudioText ?: q.correctAnswer,
+                                options = emptyList(),
+                                correctAnswer = q.correctAnswer,
+                                explanation = q.explanation
+                            )
+                        )
+                    }
+                } else if (skillMode == PracticeSkillMode.LISTENING) {
+                    // Modo Listening: audio para escuchar y transcribir
+                    val audioText = q.promptAudioText ?: q.correctAnswer
+                    if (audioText.isNotBlank()) {
+                        questions.add(
+                            Question(
+                                id = q.id,
+                                lessonId = q.levelId,
+                                type = com.linguaflow.app.domain.model.QuestionType.LISTENING,
+                                prompt = "Escucha atentamente el audio y escribe lo que oyes:",
+                                promptPhonetic = null,
+                                promptAudioText = audioText,
+                                options = emptyList(),
+                                correctAnswer = audioText,
+                                explanation = q.explanation
+                            )
+                        )
+                    }
+                } else {
+                    // Modo MIX: combinación natural de todos los tipos
+                    questions.add(
+                        Question(
+                            id = q.id,
+                            lessonId = q.levelId,
+                            type = qType,
+                            prompt = q.prompt,
+                            promptPhonetic = q.promptPhonetic,
+                            promptAudioText = q.promptAudioText,
+                            options = q.options,
+                            correctAnswer = q.correctAnswer,
+                            explanation = q.explanation
+                        )
                     )
-                )
+                }
             }
         }
         return questions.shuffled().take(limit)

@@ -6,6 +6,7 @@ import android.speech.RecognizerIntent
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,11 +20,16 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Hearing
 import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.core.content.ContextCompat
+import android.content.pm.PackageManager
+import com.linguaflow.app.util.SpeechManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -69,19 +75,35 @@ fun LessonSessionScreen(
     val scorePercentage = if (total > 0) (correctCount * 100) / total else 0
     val passed = scorePercentage >= 80
 
-    // Lanzador nativo de reconocimiento de voz (Speech-to-Text)
-    val speechRecognizerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        isListeningSpeech = false
-        if (result.resultCode == Activity.RESULT_OK) {
-            val spokenText = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()
-            if (!spokenText.isNullOrEmpty()) {
-                spokenAnswer = spokenText
-                selectedOption = spokenText
-            }
+    // Motor nativo integrado de voz (SpeechManager in-app sin Google Dialog)
+    val speechManager = remember { SpeechManager(context) }
+    DisposableEffect(Unit) {
+        onDispose {
+            speechManager.destroy()
         }
     }
+
+    var hasRecordPermission by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(context, android.Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        hasRecordPermission = granted
+    }
+
+    val infiniteTransition = rememberInfiniteTransition(label = "lessonMicPulse")
+    val pulseScale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = if (isListeningSpeech) 1.25f else 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(600, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "pulse"
+    )
 
     // Auto-reproducir audio si es LISTENING
     LaunchedEffect(currentQuestion?.id) {
@@ -298,34 +320,65 @@ fun LessonSessionScreen(
 
                                 Spacer(modifier = Modifier.height(24.dp))
 
-                                // Botón de Micrófono
+                                // Botón de Micrófono Integrado (100% in-app, sin Google Dialog)
                                 Box(
-                                    modifier = Modifier
-                                        .size(80.dp)
-                                        .clip(CircleShape)
-                                        .background(if (isListeningSpeech) ErrorRed else PrimaryGreen)
-                                        .clickable {
-                                            try {
-                                                isListeningSpeech = true
-                                                val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                                                    putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                                                    putExtra(RecognizerIntent.EXTRA_LANGUAGE, ttsLocaleStr)
-                                                    putExtra(RecognizerIntent.EXTRA_PROMPT, "Habla ahora...")
-                                                }
-                                                speechRecognizerLauncher.launch(intent)
-                                            } catch (e: Exception) {
-                                                isListeningSpeech = false
-                                                Toast.makeText(context, "Reconocimiento de voz no disponible", Toast.LENGTH_SHORT).show()
-                                            }
-                                        },
+                                    modifier = Modifier.size(110.dp),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Icon(
-                                        Icons.Default.Mic,
-                                        contentDescription = "Micrófono",
-                                        tint = Color.White,
-                                        modifier = Modifier.size(40.dp)
-                                    )
+                                    if (isListeningSpeech) {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(100.dp)
+                                                .scale(pulseScale)
+                                                .clip(CircleShape)
+                                                .background(PrimaryGreen.copy(alpha = 0.25f))
+                                        )
+                                    }
+
+                                    Box(
+                                        modifier = Modifier
+                                            .size(76.dp)
+                                            .clip(CircleShape)
+                                            .background(if (isListeningSpeech) ErrorRed else PrimaryGreen)
+                                            .clickable {
+                                                if (!hasRecordPermission) {
+                                                    permissionLauncher.launch(android.Manifest.permission.RECORD_AUDIO)
+                                                    return@clickable
+                                                }
+
+                                                if (isListeningSpeech) {
+                                                    speechManager.stopListening()
+                                                    isListeningSpeech = false
+                                                } else {
+                                                    spokenAnswer = null
+                                                    speechManager.startListening(
+                                                        localeStr = ttsLocaleStr,
+                                                        onReady = { isListeningSpeech = true },
+                                                        onPartialResult = { partial ->
+                                                            spokenAnswer = partial
+                                                            selectedOption = partial
+                                                        },
+                                                        onFinalResult = { finalResult ->
+                                                            isListeningSpeech = false
+                                                            spokenAnswer = finalResult
+                                                            selectedOption = finalResult
+                                                        },
+                                                        onError = { errorMsg ->
+                                                            isListeningSpeech = false
+                                                            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
+                                                        }
+                                                    )
+                                                }
+                                            },
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = if (isListeningSpeech) Icons.Default.Stop else Icons.Default.Mic,
+                                            contentDescription = "Micrófono",
+                                            tint = Color.White,
+                                            modifier = Modifier.size(38.dp)
+                                        )
+                                    }
                                 }
 
                                 Spacer(modifier = Modifier.height(16.dp))

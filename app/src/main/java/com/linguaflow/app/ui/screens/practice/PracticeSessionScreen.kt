@@ -566,6 +566,7 @@ fun PracticeSessionScreen(
                             feedbackText = ""
                             recognizedSpokenText = ""
                             speechSimilarityPercentage = 0
+                            speechErrorMessage = null
                         } else {
                             isFinished = true
                         }
@@ -584,9 +585,9 @@ fun PracticeSessionScreen(
                 // Botón Comprobar para Writing y Listening
                 Button(
                     onClick = {
-                        val cleanInput = writtenInput.trim()
-                        val target = currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt }.trim()
-                        isCurrentCorrect = cleanInput.equals(target, ignoreCase = true)
+                        val cleanInput = writtenInput.lowercase().replace(Regex("[.,?!¿¡:;\"']"), "").replace(Regex("\\s+"), " ").trim()
+                        val target = currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt }.lowercase().replace(Regex("[.,?!¿¡:;\"']"), "").replace(Regex("\\s+"), " ").trim()
+                        isCurrentCorrect = cleanInput == target
                         isAnswerChecked = true
                     },
                     enabled = writtenInput.isNotBlank(),

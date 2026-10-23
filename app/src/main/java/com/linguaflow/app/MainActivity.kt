@@ -206,7 +206,7 @@ fun LinguaFlowApp(
                 onStartPractice = { mode ->
                     selectedPracticeMode = mode
                     coroutineScope.launch {
-                        practiceQuestionsList = viewModel.getPracticeQuestions(10)
+                        practiceQuestionsList = viewModel.getPracticeQuestions(mode, 10)
                         navState = AppNavState.PRACTICE_SESSION
                     }
                 },

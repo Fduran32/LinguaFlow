@@ -23,6 +23,15 @@ class SpeechManager(private val context: Context) {
         return SpeechRecognizer.isRecognitionAvailable(context)
     }
 
+    private fun stopListeningInternal() {
+        try {
+            speechRecognizer?.stopListening()
+            speechRecognizer?.destroy()
+        } catch (_: Exception) {}
+        speechRecognizer = null
+        isListening = false
+    }
+
     /**
      * Inicia la escucha de voz de manera 100% interna (headless) sin lanzar diálogos ni popups de Google.
      */
@@ -34,62 +43,66 @@ class SpeechManager(private val context: Context) {
         onFinalResult: (String) -> Unit,
         onError: (String) -> Unit
     ) {
-        mainHandler.post {
+        val action = {
             try {
-                stopListening()
+                stopListeningInternal()
 
-                speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context).apply {
-                    setRecognitionListener(object : RecognitionListener {
-                        override fun onReadyForSpeech(params: Bundle?) {
-                            isListening = true
-                            onReady()
+                val recognizer = SpeechRecognizer.createSpeechRecognizer(context)
+                speechRecognizer = recognizer
+
+                recognizer.setRecognitionListener(object : RecognitionListener {
+                    override fun onReadyForSpeech(params: Bundle?) {
+                        isListening = true
+                        onReady()
+                    }
+
+                    override fun onBeginningOfSpeech() {
+                        isListening = true
+                    }
+
+                    override fun onRmsChanged(rmsdB: Float) {
+                        // rmsdB suele ir de -2 a 10 aprox. Normalizamos a 0.0 - 1.0 para la animación visual
+                        val normalized = ((rmsdB + 2f) / 12f).coerceIn(0f, 1f)
+                        onRmsChanged(normalized)
+                    }
+
+                    override fun onBufferReceived(buffer: ByteArray?) {}
+
+                    override fun onEndOfSpeech() {
+                        isListening = false
+                    }
+
+                    override fun onError(error: Int) {
+                        isListening = false
+                        val message = when (error) {
+                            SpeechRecognizer.ERROR_NO_MATCH -> "No se reconoció ninguna frase. Intenta hablar más claro."
+                            SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No se detectó audio a tiempo."
+                            SpeechRecognizer.ERROR_AUDIO -> "Error de grabación de audio."
+                            SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Se requiere permiso de micrófono."
+                            SpeechRecognizer.ERROR_NETWORK, SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Verifica tu conexión para reconocimiento de voz."
+                            SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "El micrófono está ocupado. Intenta de nuevo."
+                            else -> "Intenta pronunciar de nuevo."
                         }
+                        onError(message)
+                    }
 
-                        override fun onBeginningOfSpeech() {}
+                    override fun onResults(results: Bundle?) {
+                        isListening = false
+                        val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                        val recognized = matches?.firstOrNull() ?: ""
+                        onFinalResult(recognized)
+                    }
 
-                        override fun onRmsChanged(rmsdB: Float) {
-                            // rmsdB suele ir de -2 a 10 aprox. Normalizamos a 0.0 - 1.0 para la animación visual
-                            val normalized = ((rmsdB + 2f) / 12f).coerceIn(0f, 1f)
-                            onRmsChanged(normalized)
+                    override fun onPartialResults(partialResults: Bundle?) {
+                        val matches = partialResults?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                        val recognized = matches?.firstOrNull() ?: ""
+                        if (recognized.isNotBlank()) {
+                            onPartialResult(recognized)
                         }
+                    }
 
-                        override fun onBufferReceived(buffer: ByteArray?) {}
-
-                        override fun onEndOfSpeech() {
-                            isListening = false
-                        }
-
-                        override fun onError(error: Int) {
-                            isListening = false
-                            val message = when (error) {
-                                SpeechRecognizer.ERROR_NO_MATCH -> "No se reconoció ninguna frase. Intenta hablar más claro."
-                                SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No se detectó audio a tiempo."
-                                SpeechRecognizer.ERROR_AUDIO -> "Error de grabación de audio."
-                                SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Se requiere permiso de micrófono."
-                                SpeechRecognizer.ERROR_NETWORK, SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Verifica tu conexión para reconocimiento de voz."
-                                else -> "Intenta de nuevo."
-                            }
-                            onError(message)
-                        }
-
-                        override fun onResults(results: Bundle?) {
-                            isListening = false
-                            val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                            val recognized = matches?.firstOrNull() ?: ""
-                            onFinalResult(recognized)
-                        }
-
-                        override fun onPartialResults(partialResults: Bundle?) {
-                            val matches = partialResults?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                            val recognized = matches?.firstOrNull() ?: ""
-                            if (recognized.isNotBlank()) {
-                                onPartialResult(recognized)
-                            }
-                        }
-
-                        override fun onEvent(eventType: Int, params: Bundle?) {}
-                    })
-                }
+                    override fun onEvent(eventType: Int, params: Bundle?) {}
+                })
 
                 val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                     putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
@@ -98,24 +111,28 @@ class SpeechManager(private val context: Context) {
                     putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, localeStr)
                     putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
                     putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3)
+                    putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context.packageName)
                 }
 
-                speechRecognizer?.startListening(intent)
+                recognizer.startListening(intent)
             } catch (e: Exception) {
                 isListening = false
                 onError("No se pudo iniciar el micrófono: ${e.localizedMessage}")
             }
         }
+
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            action()
+        } else {
+            mainHandler.post(action)
+        }
     }
 
     fun stopListening() {
-        mainHandler.post {
-            try {
-                speechRecognizer?.stopListening()
-                speechRecognizer?.destroy()
-                speechRecognizer = null
-                isListening = false
-            } catch (_: Exception) {}
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            stopListeningInternal()
+        } else {
+            mainHandler.post { stopListeningInternal() }
         }
     }
 
