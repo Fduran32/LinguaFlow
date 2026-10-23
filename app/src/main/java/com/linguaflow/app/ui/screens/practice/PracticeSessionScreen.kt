@@ -313,10 +313,10 @@ fun PracticeSessionScreen(
                                         onReady = { isListening = true },
                                         onRmsChanged = { soundLevel = it },
                                         onPartialResult = { recognizedSpokenText = it },
-                                        onFinalResult = { finalResult ->
+                                        onFinalResult = { finalResult, allCandidates ->
                                             isListening = false
-                                            recognizedSpokenText = finalResult
-                                            val evaluation = SpeechManager.calculateSimilarity(finalResult, targetText)
+                                            val evaluation = SpeechManager.calculateBestSimilarity(allCandidates.ifEmpty { listOf(finalResult) }, targetText)
+                                            recognizedSpokenText = evaluation.bestSpoken.ifBlank { finalResult }
                                             speechSimilarityPercentage = evaluation.percentage
                                             isCurrentCorrect = evaluation.isPassed
                                             feedbackText = evaluation.feedback
@@ -465,18 +465,18 @@ fun PracticeSessionScreen(
                             .padding(20.dp)
                     ) {
                         Text(
-                            text = "Escribe la traducción en inglés:",
+                            text = "Traduce la siguiente frase al inglés:",
                             fontSize = 14.sp,
                             color = TextMedium
                         )
 
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
 
                         Text(
                             text = currentQuestion.prompt,
-                            fontSize = 19.sp,
+                            fontSize = 22.sp,
                             fontWeight = FontWeight.Bold,
-                            color = TextDark
+                            color = PrimaryGreenDark
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
@@ -585,8 +585,28 @@ fun PracticeSessionScreen(
                 // Botón Comprobar para Writing y Listening
                 Button(
                     onClick = {
-                        val cleanInput = writtenInput.lowercase().replace(Regex("[.,?!¿¡:;\"']"), "").replace(Regex("\\s+"), " ").trim()
-                        val target = currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt }.lowercase().replace(Regex("[.,?!¿¡:;\"']"), "").replace(Regex("\\s+"), " ").trim()
+                        fun normalize(text: String): String {
+                            return text.lowercase()
+                                .replace("she's", "she is")
+                                .replace("he's", "he is")
+                                .replace("it's", "it is")
+                                .replace("i'm", "i am")
+                                .replace("you're", "you are")
+                                .replace("we're", "we are")
+                                .replace("they're", "they are")
+                                .replace("that's", "that is")
+                                .replace("don't", "do not")
+                                .replace("doesn't", "does not")
+                                .replace("didn't", "did not")
+                                .replace("can't", "cannot")
+                                .replace("isn't", "is not")
+                                .replace("aren't", "are not")
+                                .replace(Regex("[.,?!¿¡:;\"']"), "")
+                                .replace(Regex("\\s+"), " ")
+                                .trim()
+                        }
+                        val cleanInput = normalize(writtenInput)
+                        val target = normalize(currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt })
                         isCurrentCorrect = cleanInput == target
                         isAnswerChecked = true
                     },

@@ -170,26 +170,21 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
                 val qType = com.linguaflow.app.domain.model.QuestionType.valueOf(q.type)
 
                 if (skillMode == PracticeSkillMode.WRITING) {
-                    // Modo Writing: 100% ejercicios de escritura/traducción directa sin audios
-                    if (qType == com.linguaflow.app.domain.model.QuestionType.TRANSLATE_BUILD ||
-                        qType == com.linguaflow.app.domain.model.QuestionType.MULTIPLE_CHOICE) {
-                        val cleanPrompt = q.prompt
-                            .replace("Ordena las fichas: ", "")
-                            .replace("¿Cómo se saluda cortésmente en la mañana en inglés?", "Buenos días")
-                            .replace("\"", "")
-                            .replace("'", "")
+                    // Modo Writing: 100% ejercicios de traducción de frases reales y completas
+                    if (qType == com.linguaflow.app.domain.model.QuestionType.TRANSLATE_BUILD) {
+                        val cleanSpanishSentence = q.prompt
+                            .replace(Regex("^Ordena( las fichas)?:\\s*['\"]?"), "")
+                            .replace(Regex("['\"]$"), "")
                             .trim()
-
-                        val formattedPrompt = if (cleanPrompt.startsWith("Traduce", ignoreCase = true)) cleanPrompt else "Traduce al inglés: \"$cleanPrompt\""
 
                         questions.add(
                             Question(
                                 id = q.id,
                                 lessonId = q.levelId,
                                 type = com.linguaflow.app.domain.model.QuestionType.FILL_BLANK,
-                                prompt = formattedPrompt,
+                                prompt = cleanSpanishSentence,
                                 promptPhonetic = null,
-                                promptAudioText = null, // Sin audios en Writing
+                                promptAudioText = null, // Cero audios en Writing
                                 options = emptyList(), // Sin opciones para evitar botones vacíos
                                 correctAnswer = q.correctAnswer,
                                 explanation = q.explanation

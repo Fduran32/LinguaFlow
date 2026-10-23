@@ -358,10 +358,11 @@ fun LessonSessionScreen(
                                                             spokenAnswer = partial
                                                             selectedOption = partial
                                                         },
-                                                        onFinalResult = { finalResult ->
+                                                        onFinalResult = { finalResult, allCandidates ->
                                                             isListeningSpeech = false
-                                                            spokenAnswer = finalResult
-                                                            selectedOption = finalResult
+                                                            val evaluation = SpeechManager.calculateBestSimilarity(allCandidates.ifEmpty { listOf(finalResult) }, currentQuestion.correctAnswer)
+                                                            spokenAnswer = evaluation.bestSpoken.ifBlank { finalResult }
+                                                            selectedOption = if (evaluation.isPassed) currentQuestion.correctAnswer else spokenAnswer
                                                         },
                                                         onError = { errorMsg ->
                                                             isListeningSpeech = false

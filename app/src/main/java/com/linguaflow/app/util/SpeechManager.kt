@@ -40,7 +40,7 @@ class SpeechManager(private val context: Context) {
         onReady: () -> Unit = {},
         onRmsChanged: (Float) -> Unit = {},
         onPartialResult: (String) -> Unit = {},
-        onFinalResult: (String) -> Unit,
+        onFinalResult: (bestResult: String, allCandidates: List<String>) -> Unit,
         onError: (String) -> Unit
     ) {
         val action = {
@@ -75,22 +75,22 @@ class SpeechManager(private val context: Context) {
                     override fun onError(error: Int) {
                         isListening = false
                         val message = when (error) {
-                            SpeechRecognizer.ERROR_NO_MATCH -> "No se reconoció ninguna frase. Intenta hablar más claro."
-                            SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No se detectó audio a tiempo."
+                            SpeechRecognizer.ERROR_NO_MATCH -> "No se detectó la frase. Intenta pronunciar más cerca del micrófono."
+                            SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No se detectó audio a tiempo. Toca y habla de inmediato."
                             SpeechRecognizer.ERROR_AUDIO -> "Error de grabación de audio."
                             SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Se requiere permiso de micrófono."
                             SpeechRecognizer.ERROR_NETWORK, SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Verifica tu conexión para reconocimiento de voz."
-                            SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "El micrófono está ocupado. Intenta de nuevo."
-                            else -> "Intenta pronunciar de nuevo."
+                            SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "Micrófono ocupado. Intenta de nuevo."
+                            else -> "Intenta pronunciar nuevamente."
                         }
                         onError(message)
                     }
 
                     override fun onResults(results: Bundle?) {
                         isListening = false
-                        val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                        val recognized = matches?.firstOrNull() ?: ""
-                        onFinalResult(recognized)
+                        val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION) ?: arrayListOf<String>()
+                        val primary = matches.firstOrNull() ?: ""
+                        onFinalResult(primary, matches)
                     }
 
                     override fun onPartialResults(partialResults: Bundle?) {
@@ -110,8 +110,9 @@ class SpeechManager(private val context: Context) {
                     putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, localeStr)
                     putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, localeStr)
                     putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
-                    putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3)
+                    putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5) // Hasta 5 hipótesis para máxima comprensión
                     putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context.packageName)
+                    putExtra("android.speech.extra.DICTATION_MODE", true)
                 }
 
                 recognizer.startListening(intent)
@@ -142,63 +143,128 @@ class SpeechManager(private val context: Context) {
 
     companion object {
         /**
-         * Compara el texto hablado con la frase objetivo.
-         * Devuelve un valor de precisión entre 0 y 100.
+         * Evalúa múltiples candidatos devueltos por Google Speech y selecciona
+         * el que mejor coincida con la frase esperada, dando flexibilidad de acento.
+         */
+        fun calculateBestSimilarity(candidates: List<String>, target: String): SimilarityResult {
+            if (candidates.isEmpty()) {
+                return calculateSimilarity("", target)
+            }
+            var bestResult = calculateSimilarity(candidates.first(), target)
+            for (cand in candidates.drop(1)) {
+                val eval = calculateSimilarity(cand, target)
+                if (eval.percentage > bestResult.percentage) {
+                    bestResult = eval
+                }
+            }
+            return bestResult
+        }
+
+        /**
+         * Compara el texto hablado con la frase objetivo con normalización de contracciones
+         * y tolerancia para hablantes hispanos en aprendizaje.
          */
         fun calculateSimilarity(spoken: String, target: String): SimilarityResult {
             val cleanSpoken = cleanText(spoken)
             val cleanTarget = cleanText(target)
 
             if (cleanSpoken.isEmpty()) {
-                return SimilarityResult(0, false, "No se escuchó ninguna palabra.")
+                return SimilarityResult(
+                    percentage = 0,
+                    isPassed = false,
+                    feedback = "No se escuchó ninguna palabra. Intenta hablar más cerca.",
+                    bestSpoken = spoken
+                )
             }
 
             if (cleanSpoken == cleanTarget) {
-                return SimilarityResult(100, true, "¡Pronunciación perfecta! 🌟")
+                return SimilarityResult(
+                    percentage = 100,
+                    isPassed = true,
+                    feedback = "¡Pronunciación excelente! 🌟",
+                    bestSpoken = spoken,
+                    matchedWords = cleanTarget.split(" ").filter { it.isNotBlank() }
+                )
             }
 
             // Comparación de palabras clave
             val targetWords = cleanTarget.split(" ").filter { it.isNotBlank() }
             val spokenWords = cleanSpoken.split(" ").filter { it.isNotBlank() }
 
-            var matchedWordsCount = 0
+            val matchedWords = mutableListOf<String>()
             val missingWords = mutableListOf<String>()
 
             for (targetWord in targetWords) {
                 if (spokenWords.any { it.equals(targetWord, ignoreCase = true) || levenshtein(it, targetWord) <= 1 }) {
-                    matchedWordsCount++
+                    matchedWords.add(targetWord)
                 } else {
                     missingWords.add(targetWord)
                 }
             }
 
-            val wordScore = if (targetWords.isNotEmpty()) (matchedWordsCount * 100) / targetWords.size else 0
+            val wordScore = if (targetWords.isNotEmpty()) (matchedWords.size * 100) / targetWords.size else 0
             val levDistance = levenshtein(cleanSpoken, cleanTarget)
             val maxLen = max(cleanSpoken.length, cleanTarget.length)
             val levScore = if (maxLen > 0) ((maxLen - levDistance) * 100) / maxLen else 0
 
-            val finalScore = ((wordScore * 0.6) + (levScore * 0.4)).toInt().coerceIn(0, 100)
-            val isPassed = finalScore >= 65
+            val finalScore = ((wordScore * 0.65) + (levScore * 0.35)).toInt().coerceIn(0, 100)
+            
+            // Umbral amigable para estudiantes: aprueba con 50%+ o si dijo al menos el 60% de palabras clave
+            val isPassed = finalScore >= 50 || (targetWords.isNotEmpty() && (matchedWords.size.toFloat() / targetWords.size.toFloat()) >= 0.6f)
 
             val feedback = when {
-                finalScore >= 90 -> "¡Excelente pronunciación! 🌟"
-                finalScore >= 75 -> "¡Muy bien! Se entendió casi a la perfección 👍"
-                finalScore >= 60 -> if (missingWords.isNotEmpty()) {
-                    "Casi lo logras. Intenta articular mejor: \"${missingWords.take(2).joinToString(", ")}\""
-                } else {
-                    "Se entendió la idea general. ¡Buen intento!"
-                }
+                finalScore >= 85 -> "¡Excelente pronunciación! 🌟"
+                finalScore >= 65 -> "¡Muy bien! Se entendió claramente 👍"
+                isPassed -> "¡Bien! Se entendió la idea principal."
+                missingWords.isNotEmpty() -> "Intenta articular mejor: \"${missingWords.take(2).joinToString(", ")}\""
                 else -> "Intenta pronunciar más claro y pausado."
             }
 
-            return SimilarityResult(finalScore, isPassed, feedback)
+            return SimilarityResult(
+                percentage = finalScore,
+                isPassed = isPassed,
+                feedback = feedback,
+                bestSpoken = spoken,
+                matchedWords = matchedWords,
+                missingWords = missingWords
+            )
         }
 
         private fun cleanText(text: String): String {
-            return text.lowercase(Locale.ROOT)
+            return normalizeContractions(text)
                 .replace(Regex("[.,?!;:'\"¿¡-]"), "")
                 .replace(Regex("\\s+"), " ")
                 .trim()
+        }
+
+        private fun normalizeContractions(text: String): String {
+            return text.lowercase(Locale.ROOT)
+                .replace("she's", "she is")
+                .replace("he's", "he is")
+                .replace("it's", "it is")
+                .replace("i'm", "i am")
+                .replace("you're", "you are")
+                .replace("we're", "we are")
+                .replace("they're", "they are")
+                .replace("that's", "that is")
+                .replace("there's", "there is")
+                .replace("who's", "who is")
+                .replace("what's", "what is")
+                .replace("where's", "where is")
+                .replace("don't", "do not")
+                .replace("doesn't", "does not")
+                .replace("didn't", "did not")
+                .replace("can't", "cannot")
+                .replace("couldn't", "could not")
+                .replace("won't", "will not")
+                .replace("wouldn't", "would not")
+                .replace("isn't", "is not")
+                .replace("aren't", "are not")
+                .replace("wasn't", "was not")
+                .replace("weren't", "were not")
+                .replace("haven't", "have not")
+                .replace("hasn't", "has not")
+                .replace("hadn't", "had not")
         }
 
         private fun levenshtein(lhs: CharSequence, rhs: CharSequence): Int {
@@ -227,6 +293,9 @@ class SpeechManager(private val context: Context) {
     data class SimilarityResult(
         val percentage: Int,
         val isPassed: Boolean,
-        val feedback: String
+        val feedback: String,
+        val bestSpoken: String = "",
+        val matchedWords: List<String> = emptyList(),
+        val missingWords: List<String> = emptyList()
     )
 }
