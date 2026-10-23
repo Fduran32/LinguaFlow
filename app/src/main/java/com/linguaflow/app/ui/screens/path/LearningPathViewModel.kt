@@ -12,6 +12,7 @@ import com.linguaflow.app.domain.model.Language
 import com.linguaflow.app.domain.model.Level
 import com.linguaflow.app.domain.model.Question
 import com.linguaflow.app.domain.model.User
+import com.linguaflow.app.domain.util.PracticeSentenceFilter
 import com.linguaflow.app.ui.screens.practice.PracticeSkillMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -157,28 +158,11 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
         return languageRepo.getQuestionsForLevel(levelId)
     }
 
-    private fun isMeaningfulSentence(text: String?): Boolean {
-        if (text.isNullOrBlank()) return false
-        val clean = text.trim()
-        // Descartar placeholders de rellenar huecos
-        if (clean.contains("___") || clean.contains("...") || clean.contains("_")) return false
-        // Descartar si empieza con signos de interrogación invertidos (preguntas en español tipo "¿Cómo se dice...?")
-        if (clean.startsWith("¿") || clean.startsWith("?")) return false
-        // Contar palabras
-        val words = clean.split(Regex("[\\s,;:.!?¿¡\"']+")).filter { it.isNotBlank() }
-        // Mínimo 2 palabras y longitud al menos 8 caracteres (para descartar monosílabos o pares cortos como "I am", "to go", "at in")
-        // O si tiene 3 o más palabras (ej: "I am fine")
-        if (words.size < 2) return false
-        if (words.size < 3 && clean.length < 8) return false
-        return true
-    }
+    private fun isMeaningfulSentence(text: String?): Boolean =
+        PracticeSentenceFilter.isMeaningfulSentence(text)
 
-    private fun cleanSpanishPromptText(prompt: String): String {
-        return prompt
-            .replace(Regex("^(Ordena( las fichas)?|Traduce( la siguiente frase)?( al inglés)?|Pronuncia( en voz alta)?):\\s*['\"]?", RegexOption.IGNORE_CASE), "")
-            .replace(Regex("['\"]$"), "")
-            .trim()
-    }
+    private fun cleanSpanishPromptText(prompt: String): String =
+        PracticeSentenceFilter.cleanSpanishPromptText(prompt)
 
     suspend fun getPracticeQuestions(skillMode: PracticeSkillMode = PracticeSkillMode.MIX, limit: Int = 10): List<Question> {
         val activeLangId = _currentLanguageId.value
