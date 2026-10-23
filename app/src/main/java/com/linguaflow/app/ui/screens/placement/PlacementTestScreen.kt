@@ -213,12 +213,17 @@ fun PlacementTestScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onClose) {
-                        Icon(Icons.Default.Close, contentDescription = "Cerrar")
+                        Icon(Icons.Default.Close, contentDescription = "Cerrar", tint = TextLight)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = IndigoBackground,
+                    titleContentColor = TextLight,
+                    navigationIconContentColor = TextLight
+                )
             )
         },
+        containerColor = IndigoBackground,
         bottomBar = {
             if (answerResult != null) {
                 val result = answerResult!!
@@ -424,8 +429,8 @@ fun PlacementTestScreen(
 
                 currentQuestion.options.forEach { option ->
                     val isSelected = selectedOption == option
-                    val borderColor = if (isSelected) PrimaryGreen else CardBorder
-                    val bgColor = if (isSelected) SuccessGreenLight.copy(alpha = 0.35f) else Color.White
+                    val borderColor = if (isSelected) PrimaryCoral else CardBorder
+                    val bgColor = if (isSelected) PrimaryCoral.copy(alpha = 0.2f) else IndigoCard
 
                     Card(
                         modifier = Modifier
@@ -450,14 +455,14 @@ fun PlacementTestScreen(
                             RadioButton(
                                 selected = isSelected,
                                 onClick = null,
-                                colors = RadioButtonDefaults.colors(selectedColor = PrimaryGreen)
+                                colors = RadioButtonDefaults.colors(selectedColor = PrimaryCoral)
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
                                 text = option,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Medium,
-                                color = TextDark
+                                color = TextLight
                             )
                         }
                     }

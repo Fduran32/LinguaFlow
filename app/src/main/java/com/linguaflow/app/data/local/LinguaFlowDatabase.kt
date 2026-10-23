@@ -65,10 +65,8 @@ abstract class LinguaFlowDatabase : RoomDatabase() {
         suspend fun ensureSeeded(context: Context, db: LinguaFlowDatabase) {
             withContext(Dispatchers.IO) {
                 try {
-                    val count = db.languageDao().getLanguageCount()
-                    if (count == 0) {
-                        populateInitialData(context, db)
-                    }
+                    // Siempre sincroniza preguntas, idiomas y niveles desde seed_content.json
+                    populateInitialData(context, db)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

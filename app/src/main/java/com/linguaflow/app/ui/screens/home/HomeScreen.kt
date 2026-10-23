@@ -109,10 +109,14 @@ fun HomeScreen(
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = IndigoBackground,
+                    titleContentColor = TextLight,
+                    actionIconContentColor = TextLight
+                )
             )
         },
-        containerColor = Color(0xFFF7F9FA)
+        containerColor = IndigoBackground
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -125,7 +129,8 @@ fun HomeScreen(
             // Saludo y tarjeta de nivel del usuario
             Card(
                 shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -193,7 +198,8 @@ fun HomeScreen(
             // ========================================================
             Card(
                 shape = RoundedCornerShape(22.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -205,7 +211,7 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .background(
                                 Brush.horizontalGradient(
-                                    colors = listOf(PrimaryGreen, PrimaryGreenDark)
+                                    colors = listOf(PrimaryCoral, PrimaryCoralDark)
                                 )
                             )
                             .padding(horizontal = 20.dp, vertical = 18.dp)
@@ -245,7 +251,7 @@ fun HomeScreen(
                         Text(
                             text = "Avanza por tus 10 subniveles progresivos de A1 a C2. Supera los exámenes finales para desbloquear el siguiente nivel.",
                             fontSize = 14.sp,
-                            color = TextDark,
+                            color = TextLight,
                             lineHeight = 20.sp
                         )
 
@@ -253,7 +259,7 @@ fun HomeScreen(
 
                         Button(
                             onClick = onOpenLearningPath,
-                            colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
+                            colors = ButtonDefaults.buttonColors(containerColor = PrimaryCoral),
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.fillMaxWidth()
                         ) {
@@ -272,7 +278,8 @@ fun HomeScreen(
             // ========================================================
             Card(
                 shape = RoundedCornerShape(22.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -284,7 +291,7 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .background(
                                 Brush.horizontalGradient(
-                                    colors = listOf(Color(0xFF3B82F6), Color(0xFF1D4ED8))
+                                    colors = listOf(Color(0xFF384B70), Color(0xFF1E2640))
                                 )
                             )
                             .padding(horizontal = 20.dp, vertical = 18.dp)
@@ -294,7 +301,7 @@ fun HomeScreen(
                                 modifier = Modifier
                                     .size(46.dp)
                                     .clip(CircleShape)
-                                    .background(Color.White.copy(alpha = 0.25f)),
+                                    .background(Color.White.copy(alpha = 0.15f)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(text = "🎯", fontSize = 24.sp)
@@ -310,7 +317,7 @@ fun HomeScreen(
                                 Text(
                                     text = "Práctica libre adaptada a tu nivel $currentAssignedCefr",
                                     fontSize = 13.sp,
-                                    color = Color.White.copy(alpha = 0.9f)
+                                    color = AccentTeal
                                 )
                             }
                         }
@@ -324,7 +331,7 @@ fun HomeScreen(
                         Text(
                             text = "Entrena habilidades específicas a tu propio ritmo con ejercicios de pronunciación con micrófono, redacción y comprensión auditiva:",
                             fontSize = 14.sp,
-                            color = TextDark,
+                            color = TextLight,
                             lineHeight = 20.sp
                         )
 
@@ -351,13 +358,13 @@ fun HomeScreen(
 
                         Button(
                             onClick = onOpenPracticeHub,
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2563EB)),
+                            colors = ButtonDefaults.buttonColors(containerColor = AccentTeal),
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text("Abrir Centro de Práctica", fontWeight = FontWeight.Bold, color = Color.White)
+                            Text("Abrir Centro de Práctica", fontWeight = FontWeight.Bold, color = IndigoBackground)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Icon(Icons.Default.ArrowForward, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
+                            Icon(Icons.Default.ArrowForward, contentDescription = null, tint = IndigoBackground, modifier = Modifier.size(18.dp))
                         }
                     }
                 }
@@ -372,14 +379,14 @@ fun HomeScreen(
 private fun SkillBadge(label: String, modifier: Modifier = Modifier) {
     Surface(
         shape = RoundedCornerShape(8.dp),
-        color = Color(0xFFF3F4F6),
+        color = IndigoSurfaceLight,
         modifier = modifier
     ) {
         Text(
             text = label,
             fontSize = 12.sp,
             fontWeight = FontWeight.SemiBold,
-            color = Color(0xFF374151),
+            color = TextLight,
             modifier = Modifier.padding(vertical = 6.dp, horizontal = 8.dp)
         )
     }

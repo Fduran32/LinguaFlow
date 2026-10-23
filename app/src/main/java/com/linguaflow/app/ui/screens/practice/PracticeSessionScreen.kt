@@ -133,7 +133,7 @@ fun PracticeSessionScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.White)
+                    .background(IndigoBackground)
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
                 Row(
@@ -141,7 +141,7 @@ fun PracticeSessionScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(onClick = onClose) {
-                        Icon(Icons.Default.Close, contentDescription = "Cerrar", tint = TextDark)
+                        Icon(Icons.Default.Close, contentDescription = "Cerrar", tint = TextLight)
                     }
 
                     LinearProgressIndicator(
@@ -150,8 +150,8 @@ fun PracticeSessionScreen(
                             .weight(1f)
                             .height(10.dp)
                             .clip(RoundedCornerShape(5.dp)),
-                        color = PrimaryGreen,
-                        trackColor = Color(0xFFE5E7EB)
+                        color = PrimaryCoral,
+                        trackColor = IndigoSurfaceLight
                     )
 
                     Spacer(modifier = Modifier.width(12.dp))
@@ -160,12 +160,12 @@ fun PracticeSessionScreen(
                         text = "${currentIndex + 1}/${questions.size}",
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
-                        color = TextMedium
+                        color = TextMuted
                     )
                 }
             }
         },
-        containerColor = Color(0xFFF7F9FA)
+        containerColor = IndigoBackground
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -208,7 +208,8 @@ fun PracticeSessionScreen(
 
                 Card(
                     shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -386,7 +387,8 @@ fun PracticeSessionScreen(
 
                 Card(
                     shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -400,7 +402,7 @@ fun PracticeSessionScreen(
                             text = "Escucha atentamente el audio:",
                             fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
-                            color = TextDark
+                            color = TextLight
                         )
 
                         Spacer(modifier = Modifier.height(18.dp))
@@ -408,13 +410,13 @@ fun PracticeSessionScreen(
                         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                             Button(
                                 onClick = { onPlayAudio(spokenPhrase, false) },
-                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF59E0B)),
+                                colors = ButtonDefaults.buttonColors(containerColor = AccentYellow),
                                 shape = RoundedCornerShape(14.dp),
                                 modifier = Modifier.height(50.dp)
                             ) {
-                                Icon(Icons.Default.VolumeUp, contentDescription = null, tint = Color.White)
+                                Icon(Icons.Default.VolumeUp, contentDescription = null, tint = IndigoBackground)
                                 Spacer(modifier = Modifier.width(8.dp))
-                                Text("Reproducir", color = Color.White, fontWeight = FontWeight.Bold)
+                                Text("Reproducir", color = IndigoBackground, fontWeight = FontWeight.Bold)
                             }
 
                             OutlinedButton(
@@ -424,7 +426,7 @@ fun PracticeSessionScreen(
                             ) {
                                 Text(text = "🐢", fontSize = 20.sp)
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Text("Audio Lento", fontWeight = FontWeight.SemiBold)
+                                Text("Audio Lento", fontWeight = FontWeight.SemiBold, color = TextLight)
                             }
                         }
 
@@ -433,7 +435,7 @@ fun PracticeSessionScreen(
                         Text(
                             text = "¿Qué frase o palabra escuchaste?",
                             fontSize = 14.sp,
-                            color = TextMedium
+                            color = TextMuted
                         )
 
                         Spacer(modifier = Modifier.height(10.dp))
@@ -455,7 +457,8 @@ fun PracticeSessionScreen(
                 // ========================================================
                 Card(
                     shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -467,7 +470,7 @@ fun PracticeSessionScreen(
                         Text(
                             text = "Traduce la siguiente frase al inglés:",
                             fontSize = 14.sp,
-                            color = TextMedium
+                            color = TextMuted
                         )
 
                         Spacer(modifier = Modifier.height(10.dp))
@@ -476,7 +479,7 @@ fun PracticeSessionScreen(
                             text = currentQuestion.prompt,
                             fontSize = 22.sp,
                             fontWeight = FontWeight.Bold,
-                            color = PrimaryGreenDark
+                            color = PrimaryCoral
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
@@ -634,7 +637,7 @@ private fun PracticeResultView(
     onFinish: () -> Unit
 ) {
     Scaffold(
-        containerColor = Color.White
+        containerColor = IndigoBackground
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -655,7 +658,7 @@ private fun PracticeResultView(
                 text = if (scorePercent >= 70) "¡Sesión Completada con Éxito!" else "¡Buen Entrenamiento!",
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 22.sp,
-                color = TextDark,
+                color = TextLight,
                 textAlign = TextAlign.Center
             )
 
@@ -669,14 +672,15 @@ private fun PracticeResultView(
                     PracticeSkillMode.MIX -> "Mix de Habilidades"
                 }}",
                 fontSize = 14.sp,
-                color = TextMedium
+                color = TextMuted
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Surface(
                 shape = RoundedCornerShape(16.dp),
-                color = Color(0xFFF3F4F6),
+                color = IndigoCard,
+                border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Row(
@@ -684,12 +688,12 @@ private fun PracticeResultView(
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Aciertos", fontSize = 13.sp, color = TextMedium)
-                        Text("$correctCount / $totalCount", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = PrimaryGreenDark)
+                        Text("Aciertos", fontSize = 13.sp, color = TextMuted)
+                        Text("$correctCount / $totalCount", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = PrimaryCoral)
                     }
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Precisión", fontSize = 13.sp, color = TextMedium)
-                        Text("$scorePercent%", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = if (scorePercent >= 70) PrimaryGreenDark else Color(0xFFF59E0B))
+                        Text("Precisión", fontSize = 13.sp, color = TextMuted)
+                        Text("$scorePercent%", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = if (scorePercent >= 70) AccentTeal else Color(0xFFF59E0B))
                     }
                 }
             }
@@ -698,7 +702,7 @@ private fun PracticeResultView(
 
             Button(
                 onClick = onFinish,
-                colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
+                colors = ButtonDefaults.buttonColors(containerColor = PrimaryCoral),
                 shape = RoundedCornerShape(14.dp),
                 modifier = Modifier
                     .fillMaxWidth()

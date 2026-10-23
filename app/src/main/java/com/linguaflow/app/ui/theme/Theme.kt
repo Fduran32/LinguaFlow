@@ -1,27 +1,34 @@
 package com.linguaflow.app.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
-private val LightColorScheme = lightColorScheme(
-    primary = PrimaryGreen,
-    onPrimary = androidx.compose.ui.graphics.Color.White,
-    secondary = AccentYellow,
+private val IndigoCoralColorScheme = darkColorScheme(
+    primary = PrimaryCoral,
+    onPrimary = Color.White,
+    primaryContainer = PrimaryCoralDark,
+    onPrimaryContainer = Color.White,
+    secondary = AccentTeal,
+    onSecondary = IndigoBackground,
     error = ErrorRed,
-    background = NeutralBackground,
-    surface = androidx.compose.ui.graphics.Color.White,
-    onSurface = TextDark
+    onError = Color.White,
+    background = IndigoBackground,
+    onBackground = TextLight,
+    surface = IndigoCard,
+    onSurface = TextLight,
+    outline = CardBorder
 )
 
 @Composable
 fun LinguaFlowTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = true,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = LightColorScheme,
+        colorScheme = IndigoCoralColorScheme,
         content = content
     )
 }
+

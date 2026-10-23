@@ -57,16 +57,20 @@ fun ProfileScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Mi Perfil", fontWeight = FontWeight.Bold) },
+                title = { Text("Mi Perfil", fontWeight = FontWeight.Bold, color = TextLight) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver", tint = TextLight)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = IndigoBackground,
+                    titleContentColor = TextLight,
+                    navigationIconContentColor = TextLight
+                )
             )
         },
-        containerColor = Color(0xFFF7F9FA)
+        containerColor = IndigoBackground
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -79,7 +83,8 @@ fun ProfileScreen(
             // Tarjeta Principal del Usuario
             Card(
                 shape = RoundedCornerShape(24.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -130,7 +135,8 @@ fun ProfileScreen(
             // Tarjeta de Niveles Asignados por Idioma
             Card(
                 shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {

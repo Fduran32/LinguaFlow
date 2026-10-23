@@ -39,12 +39,17 @@ fun MistakesReviewScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver", tint = TextLight)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = IndigoBackground,
+                    titleContentColor = TextLight,
+                    navigationIconContentColor = TextLight
+                )
             )
         },
+        containerColor = IndigoBackground,
         bottomBar = {
             if (mistakes.isNotEmpty()) {
                 Box(
@@ -57,15 +62,16 @@ fun MistakesReviewScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(52.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
+                        colors = ButtonDefaults.buttonColors(containerColor = PrimaryCoral),
                         shape = RoundedCornerShape(12.dp)
                     ) {
-                        Icon(Icons.Default.PlayArrow, contentDescription = null)
+                        Icon(Icons.Default.PlayArrow, contentDescription = null, tint = Color.White)
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             "PRACTICAR ESTOS ${mistakes.size} ERRORES",
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp
+                            fontSize = 16.sp,
+                            color = Color.White
                         )
                     }
                 }
@@ -84,7 +90,7 @@ fun MistakesReviewScreen(
                     Icon(
                         Icons.Default.CheckCircle,
                         contentDescription = "Limpio",
-                        tint = PrimaryGreen,
+                        tint = AccentTeal,
                         modifier = Modifier.size(72.dp)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
@@ -92,13 +98,13 @@ fun MistakesReviewScreen(
                         text = "¡Excelente!",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
-                        color = TextDark
+                        color = TextLight
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "No tienes equivocaciones pendientes por repasar. ¡Sigue aprendiendo en tu ruta!",
                         fontSize = 15.sp,
-                        color = TextGray,
+                        color = TextMuted,
                         textAlign = androidx.compose.ui.text.style.TextAlign.Center
                     )
                 }
@@ -108,7 +114,7 @@ fun MistakesReviewScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .background(NeutralBackground),
+                    .background(IndigoBackground),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
@@ -117,7 +123,7 @@ fun MistakesReviewScreen(
                         text = "Preguntas que has fallado (${mistakes.size})",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
-                        color = TextDark,
+                        color = TextLight,
                         modifier = Modifier.padding(bottom = 4.dp)
                     )
                 }
@@ -126,7 +132,8 @@ fun MistakesReviewScreen(
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(14.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {

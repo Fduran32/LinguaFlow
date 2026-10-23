@@ -132,14 +132,18 @@ fun LearningPathScreen(
                                 isCustomPhoto = currentUser.isCustomPhoto,
                                 size = 34.dp,
                                 textSize = 18.sp,
-                                borderWidth = 1.5.dp
+                                 borderWidth = 1.5.dp
                             )
                         } else {
-                            Icon(Icons.Default.Person, contentDescription = "Perfil")
+                            Icon(Icons.Default.Person, contentDescription = "Perfil", tint = TextLight)
                         }
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = IndigoBackground,
+                    titleContentColor = TextLight,
+                    navigationIconContentColor = TextLight
+                )
             )
         }
     ) { paddingValues ->
@@ -150,14 +154,14 @@ fun LearningPathScreen(
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator(color = PrimaryGreen)
+                CircularProgressIndicator(color = PrimaryCoral)
             }
         } else {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .background(NeutralBackground),
+                    .background(IndigoBackground),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 contentPadding = PaddingValues(vertical = 16.dp)
             ) {
@@ -167,7 +171,8 @@ fun LearningPathScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp, vertical = 6.dp),
                         shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                     ) {
                         Column(
@@ -304,11 +309,8 @@ fun LearningPathScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 24.dp, vertical = 8.dp),
                         shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC)),
-                        border = CardDefaults.outlinedCardBorder().copy(
-                            width = 1.dp,
-                            brush = androidx.compose.ui.graphics.SolidColor(CardBorder)
-                        )
+                        colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder)
                     ) {
                         Row(
                             modifier = Modifier

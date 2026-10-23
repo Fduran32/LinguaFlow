@@ -296,7 +296,8 @@ fun LessonSessionScreen(
                         Card(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color.White),
+                            colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                            border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                         ) {
                             Column(
@@ -464,14 +465,14 @@ fun LessonSessionScreen(
                                 .fillMaxWidth()
                                 .defaultMinSize(minHeight = 70.dp)
                                 .clip(RoundedCornerShape(12.dp))
-                                .border(1.dp, if (sentenceTokens.isNotEmpty()) PrimaryGreen else CardBorder, RoundedCornerShape(12.dp))
-                                .background(Color.White)
+                                .border(1.dp, if (sentenceTokens.isNotEmpty()) PrimaryCoral else CardBorder, RoundedCornerShape(12.dp))
+                                .background(IndigoCard)
                                 .padding(12.dp)
                         ) {
                             if (sentenceTokens.isEmpty()) {
                                 Text(
                                     text = "Toca las palabras de abajo para armar la frase...",
-                                    color = TextGray,
+                                    color = TextMuted,
                                     fontSize = 14.sp,
                                     modifier = Modifier.align(Alignment.Center)
                                 )
@@ -483,7 +484,7 @@ fun LessonSessionScreen(
                                     sentenceTokens.forEachIndexed { tokenIndex, word ->
                                         Surface(
                                             shape = RoundedCornerShape(8.dp),
-                                            color = PrimaryGreen,
+                                            color = PrimaryCoral,
                                             modifier = Modifier.clickable(enabled = answerResult == null) {
                                                 sentenceTokens = sentenceTokens.toMutableList().also { it.removeAt(tokenIndex) }
                                             }
@@ -506,7 +507,7 @@ fun LessonSessionScreen(
                             text = "Banco de palabras:",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = TextGray
+                            color = TextMuted
                         )
                         Spacer(modifier = Modifier.height(10.dp))
 
@@ -526,7 +527,7 @@ fun LessonSessionScreen(
 
                                 Surface(
                                     shape = RoundedCornerShape(8.dp),
-                                    color = if (isAvailable) Color.White else LockedGray.copy(alpha = 0.3f),
+                                    color = if (isAvailable) IndigoSurfaceLight else LockedGray.copy(alpha = 0.3f),
                                     border = androidx.compose.foundation.BorderStroke(1.dp, if (isAvailable) CardBorder else Color.Transparent),
                                     modifier = Modifier.clickable(enabled = isAvailable && answerResult == null) {
                                         sentenceTokens = sentenceTokens + word
@@ -534,7 +535,7 @@ fun LessonSessionScreen(
                                 ) {
                                     Text(
                                         text = word,
-                                        color = if (isAvailable) TextDark else Color.Transparent,
+                                        color = if (isAvailable) TextLight else Color.Transparent,
                                         fontWeight = FontWeight.Medium,
                                         fontSize = 16.sp,
                                         modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
@@ -675,8 +676,8 @@ private fun RenderOptionCard(
     isEnabled: Boolean,
     onSelect: () -> Unit
 ) {
-    val borderColor = if (isSelected) PrimaryGreen else CardBorder
-    val bgColor = if (isSelected) SuccessGreenLight.copy(alpha = 0.35f) else Color.White
+    val borderColor = if (isSelected) PrimaryCoral else CardBorder
+    val bgColor = if (isSelected) PrimaryCoral.copy(alpha = 0.2f) else IndigoCard
 
     Card(
         modifier = Modifier
@@ -699,14 +700,14 @@ private fun RenderOptionCard(
             RadioButton(
                 selected = isSelected,
                 onClick = null,
-                colors = RadioButtonDefaults.colors(selectedColor = PrimaryGreen)
+                colors = RadioButtonDefaults.colors(selectedColor = PrimaryCoral)
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = option,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
-                color = TextDark
+                color = TextLight
             )
         }
     }

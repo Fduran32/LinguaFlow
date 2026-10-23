@@ -40,16 +40,20 @@ fun PracticeHubScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Centro de Entrenamiento", fontWeight = FontWeight.Bold) },
+                title = { Text("Centro de Entrenamiento", fontWeight = FontWeight.Bold, color = TextLight) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver", tint = TextLight)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = IndigoBackground,
+                    titleContentColor = TextLight,
+                    navigationIconContentColor = TextLight
+                )
             )
         },
-        containerColor = Color(0xFFF7F9FA)
+        containerColor = IndigoBackground
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -62,7 +66,8 @@ fun PracticeHubScreen(
             // Tarjeta de Nivel Activo
             Card(
                 shape = RoundedCornerShape(18.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -79,21 +84,21 @@ fun PracticeHubScreen(
                             text = "Idioma: $languageName",
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
-                            color = TextDark
+                            color = TextLight
                         )
                         Text(
                             text = "Entrenando contenido del nivel:",
                             fontSize = 12.sp,
-                            color = TextMedium
+                            color = TextMuted
                         )
                     }
                     Surface(
                         shape = RoundedCornerShape(8.dp),
-                        color = PrimaryGreen.copy(alpha = 0.15f)
+                        color = PrimaryCoral.copy(alpha = 0.2f)
                     ) {
                         Text(
                             text = currentCefr,
-                            color = PrimaryGreenDark,
+                            color = PrimaryCoral,
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 15.sp,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
@@ -108,7 +113,7 @@ fun PracticeHubScreen(
                 text = "Selecciona la habilidad que deseas reforzar:",
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
-                color = TextDark,
+                color = TextLight,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -119,7 +124,7 @@ fun PracticeHubScreen(
                 emoji = "🗣️",
                 title = "Speaking (Pronunciación)",
                 description = "Usa tu voz con el micrófono para pronunciar frases en inglés y recibir evaluación de dicción al instante.",
-                accentColor = Color(0xFF10B981),
+                accentColor = AccentTeal,
                 buttonText = "Comenzar Speaking",
                 onClick = { onStartPractice(PracticeSkillMode.SPEAKING) }
             )
@@ -131,7 +136,7 @@ fun PracticeHubScreen(
                 emoji = "✍️",
                 title = "Writing (Escritura)",
                 description = "Fortalece tu ortografía, gramática y construcción de oraciones escribiendo directamente en inglés.",
-                accentColor = Color(0xFF6366F1),
+                accentColor = PrimaryCoral,
                 buttonText = "Comenzar Writing",
                 onClick = { onStartPractice(PracticeSkillMode.WRITING) }
             )
@@ -143,7 +148,7 @@ fun PracticeHubScreen(
                 emoji = "🎧",
                 title = "Listening (Comprensión Auditiva)",
                 description = "Entrena tu oído con pronunciaciones nativas a velocidad normal y lenta (tortuga 🐢).",
-                accentColor = Color(0xFFF59E0B),
+                accentColor = AccentYellow,
                 buttonText = "Comenzar Listening",
                 onClick = { onStartPractice(PracticeSkillMode.LISTENING) }
             )
@@ -155,7 +160,7 @@ fun PracticeHubScreen(
                 emoji = "🔀",
                 title = "Mix de Habilidades",
                 description = "Sesión completa de 10 ejercicios variados combinando habla, escucha y escritura a tu nivel.",
-                accentColor = Color(0xFFEC4899),
+                accentColor = Color(0xFF818CF8),
                 buttonText = "Comenzar Mix",
                 onClick = { onStartPractice(PracticeSkillMode.MIX) }
             )
@@ -176,7 +181,8 @@ private fun SkillPracticeCard(
 ) {
     Card(
         shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = IndigoCard),
+        border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         modifier = Modifier
             .fillMaxWidth()
@@ -192,7 +198,7 @@ private fun SkillPracticeCard(
                     modifier = Modifier
                         .size(44.dp)
                         .clip(CircleShape)
-                        .background(accentColor.copy(alpha = 0.15f)),
+                        .background(accentColor.copy(alpha = 0.2f)),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(text = emoji, fontSize = 22.sp)
@@ -202,7 +208,7 @@ private fun SkillPracticeCard(
                     text = title,
                     fontWeight = FontWeight.Bold,
                     fontSize = 17.sp,
-                    color = TextDark
+                    color = TextLight
                 )
             }
 
@@ -211,7 +217,7 @@ private fun SkillPracticeCard(
             Text(
                 text = description,
                 fontSize = 13.sp,
-                color = TextMedium,
+                color = TextMuted,
                 lineHeight = 18.sp
             )
 
@@ -223,7 +229,11 @@ private fun SkillPracticeCard(
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = buttonText, fontWeight = FontWeight.Bold, color = Color.White)
+                Text(
+                    text = buttonText,
+                    fontWeight = FontWeight.Bold,
+                    color = if (accentColor == AccentTeal || accentColor == AccentYellow) IndigoBackground else Color.White
+                )
             }
         }
     }
