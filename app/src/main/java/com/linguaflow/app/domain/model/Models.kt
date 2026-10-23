@@ -47,6 +47,7 @@ enum class QuestionType {
     FILL_BLANK,
     TRANSLATE_BUILD,
     LISTENING,
+    LISTENING_MC,
     SPEAKING
 }
 

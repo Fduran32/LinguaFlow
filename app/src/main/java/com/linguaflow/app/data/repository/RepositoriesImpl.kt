@@ -181,7 +181,7 @@ class LanguageRepositoryImpl(
             val type = when (entity.type) {
                 "FILL_BLANK" -> QuestionType.FILL_BLANK
                 "TRANSLATE_BUILD" -> QuestionType.TRANSLATE_BUILD
-                "LISTENING" -> QuestionType.LISTENING
+                "LISTENING", "LISTENING_MC" -> QuestionType.LISTENING
                 "SPEAKING" -> QuestionType.SPEAKING
                 else -> QuestionType.MULTIPLE_CHOICE
             }
@@ -384,7 +384,7 @@ class ProgressRepositoryImpl(
                 val type = when (entity.type) {
                     "FILL_BLANK" -> QuestionType.FILL_BLANK
                     "TRANSLATE_BUILD" -> QuestionType.TRANSLATE_BUILD
-                    "LISTENING" -> QuestionType.LISTENING
+                    "LISTENING", "LISTENING_MC" -> QuestionType.LISTENING
                     "SPEAKING" -> QuestionType.SPEAKING
                     else -> QuestionType.MULTIPLE_CHOICE
                 }

@@ -65,7 +65,7 @@
                 },
                 {
                   "id": "en_a1_1_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "How are you today?",
@@ -227,7 +227,7 @@
                 },
                 {
                   "id": "en_a1_2_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "He is very happy today",
@@ -392,7 +392,7 @@
                 },
                 {
                   "id": "en_a1_3_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "There are twelve chairs in the room",
@@ -556,7 +556,7 @@
                 },
                 {
                   "id": "en_a1_4_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Where do you live?",
@@ -719,7 +719,7 @@
                 },
                 {
                   "id": "en_a1_5_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Our house is near the park",
@@ -885,7 +885,7 @@
                 },
                 {
                   "id": "en_a1_6_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "The keys are on the desk",
@@ -1050,7 +1050,7 @@
                 },
                 {
                   "id": "en_a1_7_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "This coffee is too hot to drink",
@@ -1218,7 +1218,7 @@
                 },
                 {
                   "id": "en_a1_8_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "We need bread and fresh milk",
@@ -1385,7 +1385,7 @@
                 },
                 {
                   "id": "en_a1_9_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "I walk to work every day",
@@ -1557,7 +1557,7 @@
                 },
                 {
                   "id": "en_a1_10_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "I would like to pay by credit card",
@@ -1893,7 +1893,7 @@
                 },
                 {
                   "id": "en_a2_1_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "She started a new job on Monday",
@@ -2065,7 +2065,7 @@
                 },
                 {
                   "id": "en_a2_2_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "He took the train to the airport",
@@ -2235,7 +2235,7 @@
                 },
                 {
                   "id": "en_a2_3_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "This is the most expensive hotel in the city",
@@ -2404,7 +2404,7 @@
                 },
                 {
                   "id": "en_a2_4_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "It will rain tomorrow morning",
@@ -2578,7 +2578,7 @@
                 },
                 {
                   "id": "en_a2_5_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "We have a lot of friends in this city",
@@ -2747,7 +2747,7 @@
                 },
                 {
                   "id": "en_a2_6_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "You must wear a seatbelt in the car",
@@ -2919,7 +2919,7 @@
                 },
                 {
                   "id": "en_a2_7_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "They were waiting at the bus stop in the rain",
@@ -3088,7 +3088,7 @@
                 },
                 {
                   "id": "en_a2_8_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "He drives carefully when it is raining",
@@ -3260,7 +3260,7 @@
                 },
                 {
                   "id": "en_a2_9_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "If we miss the bus, we will take a taxi",
@@ -3436,7 +3436,7 @@
                 },
                 {
                   "id": "en_a2_10_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Could you recommend a good local restaurant nearby?",
@@ -3781,7 +3781,7 @@
                 },
                 {
                   "id": "en_b1_1_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "All passengers must proceed to gate fourteen immediately",
@@ -3959,7 +3959,7 @@
                 },
                 {
                   "id": "en_b1_2_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "I am preparing for an important job interview tomorrow",
@@ -4132,7 +4132,7 @@
                 },
                 {
                   "id": "en_b1_3_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Are you currently taking any prescription medications?",
@@ -4306,7 +4306,7 @@
                 },
                 {
                   "id": "en_b1_4_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Climate change is causing extreme weather events around the world",
@@ -4478,7 +4478,7 @@
                 },
                 {
                   "id": "en_b1_5_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "The software update fixed several critical security bugs",
@@ -4655,7 +4655,7 @@
                 },
                 {
                   "id": "en_b1_6_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "He didn't use to drink coffee, but now he loves it",
@@ -4831,7 +4831,7 @@
                 },
                 {
                   "id": "en_b1_7_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Excuse me, does this pasta contain any dairy products?",
@@ -5007,7 +5007,7 @@
                 },
                 {
                   "id": "en_b1_8_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "The landlord agreed to renovate the kitchen before we move in",
@@ -5180,7 +5180,7 @@
                 },
                 {
                   "id": "en_b1_9_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "You should always track your monthly expenses to avoid debt",
@@ -5356,7 +5356,7 @@
                 },
                 {
                   "id": "en_b1_10_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "She would accept the job offer if the salary were higher",
@@ -5710,7 +5710,7 @@
                 },
                 {
                   "id": "en_b2_1_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "The summit brought together diplomatic delegates from diverse cultural backgrounds",
@@ -5890,7 +5890,7 @@
                 },
                 {
                   "id": "en_b2_2_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Her doctoral dissertation investigates the socioeconomic factors that influence literacy rates",
@@ -6069,7 +6069,7 @@
                 },
                 {
                   "id": "en_b2_3_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Clinical trials confirmed the safety and remarkable efficacy of the new therapeutic drug",
@@ -6253,7 +6253,7 @@
                 },
                 {
                   "id": "en_b2_4_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "The confidential documents might have been archived in the secure vault by mistake",
@@ -6432,7 +6432,7 @@
                 },
                 {
                   "id": "en_b2_5_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Editorial independence is under severe threat from corporate consolidation",
@@ -6615,7 +6615,7 @@
                 },
                 {
                   "id": "en_b2_6_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Chronic workplace stress can precipitate severe emotional and physical burnout",
@@ -6795,7 +6795,7 @@
                 },
                 {
                   "id": "en_b2_7_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Unexpected market volatility caused widespread apprehension among institutional investors",
@@ -6979,7 +6979,7 @@
                 },
                 {
                   "id": "en_b2_8_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "If we hadn't invested in cloud infrastructure, we wouldn't be thriving today",
@@ -7166,7 +7166,7 @@
                 },
                 {
                   "id": "en_b2_9_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Under no circumstances should confidential client credentials be shared externally",
@@ -7351,7 +7351,7 @@
                 },
                 {
                   "id": "en_b2_10_4",
-                  "type": "LISTENING_MC",
+                  "type": "LISTENING",
                   "prompt": "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Reaching a viable consensus required extensive concessions and compromises from both parties",

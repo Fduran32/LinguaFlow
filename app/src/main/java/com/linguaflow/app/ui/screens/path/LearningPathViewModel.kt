@@ -167,7 +167,13 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
         for (lvl in targetLevels) {
             val qEntities = db.questionDao().getQuestionsForLevel(lvl.id)
             for (q in qEntities) {
-                val qType = com.linguaflow.app.domain.model.QuestionType.valueOf(q.type)
+                val qType = when (q.type) {
+                    "FILL_BLANK" -> com.linguaflow.app.domain.model.QuestionType.FILL_BLANK
+                    "TRANSLATE_BUILD" -> com.linguaflow.app.domain.model.QuestionType.TRANSLATE_BUILD
+                    "LISTENING", "LISTENING_MC" -> com.linguaflow.app.domain.model.QuestionType.LISTENING
+                    "SPEAKING" -> com.linguaflow.app.domain.model.QuestionType.SPEAKING
+                    else -> com.linguaflow.app.domain.model.QuestionType.MULTIPLE_CHOICE
+                }
 
                 if (skillMode == PracticeSkillMode.WRITING) {
                     // Modo Writing: 100% ejercicios de traducción de frases reales y completas
