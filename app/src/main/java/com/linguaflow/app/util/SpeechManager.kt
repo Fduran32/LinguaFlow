@@ -207,17 +207,22 @@ class SpeechManager(private val context: Context) {
             val maxLen = max(cleanSpoken.length, cleanTarget.length)
             val levScore = if (maxLen > 0) ((maxLen - levDistance) * 100) / maxLen else 0
 
-            val finalScore = ((wordScore * 0.65) + (levScore * 0.35)).toInt().coerceIn(0, 100)
+            val finalScore = ((wordScore * 0.7) + (levScore * 0.3)).toInt().coerceIn(0, 100)
+            val wordsRatio = if (targetWords.isNotEmpty()) matchedWords.size.toFloat() / targetWords.size.toFloat() else 0f
             
-            // Umbral amigable para estudiantes: aprueba con 50%+ o si dijo al menos el 60% de palabras clave
-            val isPassed = finalScore >= 50 || (targetWords.isNotEmpty() && (matchedWords.size.toFloat() / targetWords.size.toFloat()) >= 0.6f)
+            // Rigor de completitud: para aprobar debe pronunciar al menos el 80% de las palabras y score >= 75.
+            // En frases cortas (<= 3 palabras), no puede faltar ninguna palabra.
+            val isPassed = if (targetWords.size <= 3) {
+                missingWords.isEmpty() && finalScore >= 75
+            } else {
+                wordsRatio >= 0.8f && finalScore >= 75
+            }
 
             val feedback = when {
-                finalScore >= 85 -> "¡Excelente pronunciación! 🌟"
-                finalScore >= 65 -> "¡Muy bien! Se entendió claramente 👍"
-                isPassed -> "¡Bien! Se entendió la idea principal."
-                missingWords.isNotEmpty() -> "Intenta articular mejor: \"${missingWords.take(2).joinToString(", ")}\""
-                else -> "Intenta pronunciar más claro y pausado."
+                finalScore >= 90 && missingWords.isEmpty() -> "¡Excelente pronunciación! 🌟"
+                isPassed -> "¡Muy bien! Se entendió casi a la perfección 👍"
+                missingWords.isNotEmpty() -> "Incompleto. Te faltó pronunciar: \"${missingWords.joinToString(" ")}\""
+                else -> "Pronunciación poco clara ($finalScore%). Intenta pronunciar más claro y pausado."
             }
 
             return SimilarityResult(

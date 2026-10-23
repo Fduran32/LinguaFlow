@@ -192,10 +192,16 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
                         )
                     }
                 } else if (skillMode == PracticeSkillMode.SPEAKING) {
-                    // Modo Speaking: frases en inglés para pronunciar
-                    if (qType == com.linguaflow.app.domain.model.QuestionType.SPEAKING ||
-                        qType == com.linguaflow.app.domain.model.QuestionType.TRANSLATE_BUILD ||
-                        qType == com.linguaflow.app.domain.model.QuestionType.MULTIPLE_CHOICE) {
+                    // Modo Speaking: frases completas en inglés para pronunciar
+                    // Excluimos monosílabos o partículas gramaticales sueltas como "am", "is", "at", "in"
+                    val phrase = q.correctAnswer.trim()
+                    val words = phrase.split(Regex("\\s+")).filter { it.isNotBlank() }
+                    val isFullSentence = words.size >= 2 && phrase.length >= 6
+
+                    if (isFullSentence && (
+                        qType == com.linguaflow.app.domain.model.QuestionType.SPEAKING ||
+                        qType == com.linguaflow.app.domain.model.QuestionType.TRANSLATE_BUILD
+                    )) {
                         questions.add(
                             Question(
                                 id = q.id,

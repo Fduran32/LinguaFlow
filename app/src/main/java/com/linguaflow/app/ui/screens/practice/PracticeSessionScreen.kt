@@ -512,7 +512,7 @@ fun PracticeSessionScreen(
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = if (isCurrentCorrect) "¡Excelente!" else "Respuesta correcta:",
+                                text = if (isCurrentCorrect) "¡Excelente pronunciación!" else if (isSpeakingType) "Pronunciación incompleta o a mejorar:" else "Respuesta correcta:",
                                 fontWeight = FontWeight.Bold,
                                 color = if (isCurrentCorrect) PrimaryGreenDark else ErrorRed,
                                 fontSize = 16.sp
@@ -522,7 +522,7 @@ fun PracticeSessionScreen(
                         if (!isCurrentCorrect) {
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt },
+                                text = if (isSpeakingType) "Frase esperada: ${currentQuestion.correctAnswer}" else currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt },
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 15.sp,
                                 color = TextDark
@@ -534,14 +534,15 @@ fun PracticeSessionScreen(
                             Text(
                                 text = feedbackText,
                                 fontSize = 13.sp,
-                                color = TextDark
+                                fontWeight = if (isCurrentCorrect) FontWeight.Normal else FontWeight.SemiBold,
+                                color = if (isCurrentCorrect) TextDark else ErrorRed
                             )
                         }
 
                         if (speechSimilarityPercentage > 0) {
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                text = "Similitud fonética: $speechSimilarityPercentage%",
+                                text = if (isCurrentCorrect) "Similitud fonética: $speechSimilarityPercentage%" else "Similitud fonética: $speechSimilarityPercentage% (Requiere 75% y frase completa)",
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 color = if (isCurrentCorrect) PrimaryGreenDark else ErrorRed
