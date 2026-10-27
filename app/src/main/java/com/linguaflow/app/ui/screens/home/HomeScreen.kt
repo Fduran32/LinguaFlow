@@ -81,12 +81,28 @@ fun HomeScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = onOpenMistakesReview) {
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable(onClick = onOpenMistakesReview)
+                            .padding(horizontal = 10.dp, vertical = 8.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
                         BadgedBox(
                             badge = {
                                 if (pendingMistakesCount > 0) {
-                                    Badge(containerColor = ErrorRed) {
-                                        Text("$pendingMistakesCount", color = Color.White)
+                                    Badge(
+                                        containerColor = ErrorRed,
+                                        contentColor = Color.White,
+                                        modifier = Modifier.offset(x = (-2).dp, y = 2.dp)
+                                    ) {
+                                        Text(
+                                            text = "$pendingMistakesCount",
+                                            color = Color.White,
+                                            fontSize = 10.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
                                     }
                                 }
                             }
@@ -94,7 +110,8 @@ fun HomeScreen(
                             Icon(
                                 Icons.Default.MenuBook,
                                 contentDescription = "Cuaderno de Errores",
-                                tint = if (pendingMistakesCount > 0) ErrorRed else TextDark
+                                tint = if (pendingMistakesCount > 0) ErrorRed else TextDark,
+                                modifier = Modifier.size(24.dp)
                             )
                         }
                     }
