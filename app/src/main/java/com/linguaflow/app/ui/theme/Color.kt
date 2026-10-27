@@ -1,32 +1,73 @@
 package com.linguaflow.app.ui.theme
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 
+/**
+ * Estado reactivo del tema que se sincroniza automáticamente con el Modo Oscuro / Modo Claro del teléfono.
+ */
+object AppThemeState {
+    var isDark by mutableStateOf(true)
+}
+
 // =====================================================================
-// Paleta Opción 1: Deep Indigo & Warm Coral (Diseño Moderno & Elegante)
+// Paleta Dual: Deep Indigo & Warm Coral (Modo Oscuro y Modo Claro Automático)
 // =====================================================================
 val PrimaryCoral = Color(0xFFFF6B4A)          // Coral cálido / Mandarina vibrante
 val PrimaryCoralDark = Color(0xFFE04826)      // Coral profundo para interacción
-val IndigoBackground = Color(0xFF121829)      // Fondo azul noche / índigo profundo
-val IndigoCard = Color(0xFF1E2640)            // Fondo de tarjetas elevado
-val IndigoSurfaceLight = Color(0xFF263252)    // Chips, badges y controles secundarios
-val AccentTeal = Color(0xFF2DD4BF)            // Turquesa / Cyan para detalles finos
-val AccentYellow = Color(0xFFFFC800)          // Amarillo estrellas/XP
 
-val ErrorRed = Color(0xFFEF4444)              // Rojo de corrección/error moderno
-val ErrorRedLight = Color(0x33EF4444)         // Fondo suave del modal de error (alfa 20%)
-val SuccessGreen = Color(0xFF10B981)          // Verde esmeralda de acierto
-val SuccessGreenLight = Color(0x3310B981)     // Fondo suave de éxito (alfa 20%)
+val IndigoBackground: Color
+    get() = if (AppThemeState.isDark) Color(0xFF121829) else Color(0xFFF8FAFC)
 
-val CardBorder = Color(0xFF2E3B5B)            // Borde sutil y elegante de tarjetas
-val TextLight = Color(0xFFF8FAFC)             // Texto principal de alto contraste (blanco nítido)
-val TextMuted = Color(0xFF94A3B8)             // Texto secundario / subtítulos (slate)
-val LockedGray = Color(0xFF475569)            // Candado y niveles bloqueados
+val IndigoCard: Color
+    get() = if (AppThemeState.isDark) Color(0xFF1E2640) else Color(0xFFFFFFFF)
 
-// Aliases para compatibilidad con código existente
-val PrimaryGreen = PrimaryCoral
-val PrimaryGreenDark = PrimaryCoralDark
-val NeutralBackground = IndigoBackground
-val TextDark = TextLight
-val TextGray = TextMuted
-val TextMedium = TextMuted
+val IndigoSurfaceLight: Color
+    get() = if (AppThemeState.isDark) Color(0xFF263252) else Color(0xFFF1F5F9)
+
+val AccentTeal: Color
+    get() = if (AppThemeState.isDark) Color(0xFF2DD4BF) else Color(0xFF0D9488)
+
+val AccentYellow: Color
+    get() = if (AppThemeState.isDark) Color(0xFFFFC800) else Color(0xFFF59E0B)
+
+val ErrorRed = Color(0xFFEF4444)
+val ErrorRedLight: Color
+    get() = if (AppThemeState.isDark) Color(0x33EF4444) else Color(0xFFFEF2F2)
+
+val SuccessGreen = Color(0xFF10B981)
+val SuccessGreenLight: Color
+    get() = if (AppThemeState.isDark) Color(0x3310B981) else Color(0xFFECFDF5)
+
+val CardBorder: Color
+    get() = if (AppThemeState.isDark) Color(0xFF2E3B5B) else Color(0xFFE2E8F0)
+
+val TextLight: Color
+    get() = if (AppThemeState.isDark) Color(0xFFF8FAFC) else Color(0xFF0F172A)
+
+val TextMuted: Color
+    get() = if (AppThemeState.isDark) Color(0xFF94A3B8) else Color(0xFF64748B)
+
+val LockedGray: Color
+    get() = if (AppThemeState.isDark) Color(0xFF475569) else Color(0xFF94A3B8)
+
+// Aliases reactivos para compatibilidad en todas las pantallas
+val PrimaryGreen: Color
+    get() = PrimaryCoral
+
+val PrimaryGreenDark: Color
+    get() = PrimaryCoralDark
+
+val NeutralBackground: Color
+    get() = IndigoBackground
+
+val TextDark: Color
+    get() = TextLight
+
+val TextGray: Color
+    get() = TextMuted
+
+val TextMedium: Color
+    get() = TextMuted

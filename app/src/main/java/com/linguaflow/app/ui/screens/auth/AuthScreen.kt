@@ -74,7 +74,6 @@ fun AuthScreen(
     val coroutineScope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
 
-    // Selector de galería para avatar personalizado
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
@@ -92,7 +91,7 @@ fun AuthScreen(
     }
 
     Scaffold(
-        containerColor = Color(0xFFF7F9FA)
+        containerColor = IndigoBackground
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -123,7 +122,8 @@ fun AuthScreen(
             // Selector Tabs: Iniciar Sesión / Registrarse
             Surface(
                 shape = RoundedCornerShape(16.dp),
-                color = Color(0xFFE5E7EB),
+                color = IndigoSurfaceLight,
+                border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Row(modifier = Modifier.padding(4.dp)) {
@@ -133,7 +133,7 @@ fun AuthScreen(
                             loginError = null
                         },
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = if (!isRegisterMode) Color.White else Color.Transparent,
+                            containerColor = if (!isRegisterMode) IndigoCard else Color.Transparent,
                             contentColor = if (!isRegisterMode) PrimaryGreenDark else TextMedium
                         ),
                         elevation = if (!isRegisterMode) ButtonDefaults.buttonElevation(defaultElevation = 2.dp) else ButtonDefaults.buttonElevation(0.dp),
@@ -149,7 +149,7 @@ fun AuthScreen(
                             regError = null
                         },
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = if (isRegisterMode) Color.White else Color.Transparent,
+                            containerColor = if (isRegisterMode) IndigoCard else Color.Transparent,
                             contentColor = if (isRegisterMode) PrimaryGreenDark else TextMedium
                         ),
                         elevation = if (isRegisterMode) ButtonDefaults.buttonElevation(defaultElevation = 2.dp) else ButtonDefaults.buttonElevation(0.dp),
@@ -169,7 +169,8 @@ fun AuthScreen(
                 // ==========================================
                 Card(
                     shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -192,7 +193,6 @@ fun AuthScreen(
 
                         Spacer(modifier = Modifier.height(20.dp))
 
-                        // Usuario
                         OutlinedTextField(
                             value = loginUsername,
                             onValueChange = {
@@ -210,7 +210,6 @@ fun AuthScreen(
 
                         Spacer(modifier = Modifier.height(14.dp))
 
-                        // Contraseña
                         OutlinedTextField(
                             value = loginPassword,
                             onValueChange = {
@@ -239,7 +238,7 @@ fun AuthScreen(
                             Spacer(modifier = Modifier.height(12.dp))
                             Surface(
                                 shape = RoundedCornerShape(8.dp),
-                                color = ErrorRed.copy(alpha = 0.1f),
+                                color = ErrorRedLight,
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Row(
@@ -300,7 +299,8 @@ fun AuthScreen(
                 // ==========================================
                 Card(
                     shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -323,8 +323,7 @@ fun AuthScreen(
 
                         Spacer(modifier = Modifier.height(20.dp))
 
-                        // Avatar Preview y Selector
-                        Text("Elige tu Avatar o Foto de Perfil:", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                        Text("Elige tu Avatar o Foto de Perfil:", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = TextDark)
                         Spacer(modifier = Modifier.height(10.dp))
 
                         Row(
@@ -351,7 +350,6 @@ fun AuthScreen(
 
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        // Fila de Emojis de Avatares predefinidos
                         LazyRow(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                             modifier = Modifier.fillMaxWidth()
@@ -362,10 +360,10 @@ fun AuthScreen(
                                     modifier = Modifier
                                         .size(46.dp)
                                         .clip(CircleShape)
-                                        .background(if (isSelected) PrimaryGreen.copy(alpha = 0.2f) else Color(0xFFF3F4F6))
+                                        .background(if (isSelected) PrimaryGreen.copy(alpha = 0.2f) else IndigoSurfaceLight)
                                         .border(
                                             width = if (isSelected) 2.dp else 1.dp,
-                                            color = if (isSelected) PrimaryGreen else Color(0xFFD1D5DB),
+                                            color = if (isSelected) PrimaryGreen else CardBorder,
                                             shape = CircleShape
                                         )
                                         .clickable {
@@ -381,7 +379,6 @@ fun AuthScreen(
 
                         Spacer(modifier = Modifier.height(20.dp))
 
-                        // Nombre de Usuario
                         OutlinedTextField(
                             value = regUsername,
                             onValueChange = {
@@ -400,7 +397,6 @@ fun AuthScreen(
 
                         Spacer(modifier = Modifier.height(14.dp))
 
-                        // Contraseña
                         OutlinedTextField(
                             value = regPassword,
                             onValueChange = {
@@ -427,11 +423,11 @@ fun AuthScreen(
 
                         Spacer(modifier = Modifier.height(8.dp))
 
-                        // Criterios de Validación de Contraseña en vivo
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(Color(0xFFF9FAFB), RoundedCornerShape(10.dp))
+                                .background(IndigoSurfaceLight, RoundedCornerShape(10.dp))
+                                .border(1.dp, CardBorder, RoundedCornerShape(10.dp))
                                 .padding(10.dp)
                         ) {
                             Text(
@@ -449,7 +445,6 @@ fun AuthScreen(
 
                         Spacer(modifier = Modifier.height(14.dp))
 
-                        // Confirmar Contraseña
                         OutlinedTextField(
                             value = regConfirmPassword,
                             onValueChange = {
@@ -478,7 +473,7 @@ fun AuthScreen(
                             Spacer(modifier = Modifier.height(12.dp))
                             Surface(
                                 shape = RoundedCornerShape(8.dp),
-                                color = ErrorRed.copy(alpha = 0.1f),
+                                color = ErrorRedLight,
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Row(
@@ -498,7 +493,6 @@ fun AuthScreen(
 
                         Spacer(modifier = Modifier.height(24.dp))
 
-                        // Botón Registrar
                         Button(
                             onClick = {
                                 val userErr = AuthValidator.validateUsername(regUsername)
@@ -572,14 +566,14 @@ private fun PasswordCriterionRow(label: String, isSatisfied: Boolean) {
         Icon(
             imageVector = if (isSatisfied) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
             contentDescription = null,
-            tint = if (isSatisfied) PrimaryGreenDark else Color(0xFF9CA3AF),
+            tint = if (isSatisfied) SuccessGreen else TextMuted,
             modifier = Modifier.size(16.dp)
         )
         Spacer(modifier = Modifier.width(6.dp))
         Text(
             text = label,
             fontSize = 12.sp,
-            color = if (isSatisfied) PrimaryGreenDark else Color(0xFF4B5563),
+            color = if (isSatisfied) SuccessGreen else TextMedium,
             fontWeight = if (isSatisfied) FontWeight.SemiBold else FontWeight.Normal
         )
     }

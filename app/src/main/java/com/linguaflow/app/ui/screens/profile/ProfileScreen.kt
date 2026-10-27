@@ -15,6 +15,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -60,7 +62,7 @@ fun ProfileScreen(
                 title = { Text("Mi Perfil", fontWeight = FontWeight.Bold, color = TextLight) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver", tint = TextLight)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver", tint = TextLight)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -165,7 +167,8 @@ fun ProfileScreen(
                             val levelCefr = languageLevels[lang.id] ?: "A1"
                             Surface(
                                 shape = RoundedCornerShape(14.dp),
-                                color = Color(0xFFF9FAFB),
+                                color = IndigoSurfaceLight,
+                                border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 4.dp)
@@ -224,7 +227,7 @@ fun ProfileScreen(
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Icon(Icons.Default.Logout, contentDescription = null, tint = ErrorRed)
+                Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null, tint = ErrorRed)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Cerrar Sesión", fontWeight = FontWeight.Bold, fontSize = 15.sp)
             }
@@ -247,8 +250,9 @@ fun ProfileScreen(
     if (showLogoutConfirm) {
         AlertDialog(
             onDismissRequest = { showLogoutConfirm = false },
-            title = { Text("Cerrar Sesión", fontWeight = FontWeight.Bold) },
-            text = { Text("¿Deseas cerrar tu sesión actual? Tu progreso quedará guardado para cuando vuelvas a ingresar.") },
+            containerColor = IndigoCard,
+            title = { Text("Cerrar Sesión", fontWeight = FontWeight.Bold, color = TextDark) },
+            text = { Text("¿Deseas cerrar tu sesión actual? Tu progreso quedará guardado para cuando vuelvas a ingresar.", color = TextMedium) },
             confirmButton = {
                 Button(
                     onClick = {
@@ -262,7 +266,7 @@ fun ProfileScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showLogoutConfirm = false }) {
-                    Text("Cancelar")
+                    Text("Cancelar", color = TextMedium)
                 }
             }
         )
@@ -297,7 +301,8 @@ private fun EditProfileDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Editar Perfil", fontWeight = FontWeight.Bold) },
+        containerColor = IndigoCard,
+        title = { Text("Editar Perfil", fontWeight = FontWeight.Bold, color = TextDark) },
         text = {
             Column(
                 modifier = Modifier
@@ -335,10 +340,10 @@ private fun EditProfileDialog(
                             modifier = Modifier
                                 .size(42.dp)
                                 .clip(CircleShape)
-                                .background(if (isSelected) PrimaryGreen.copy(alpha = 0.2f) else Color(0xFFF3F4F6))
+                                .background(if (isSelected) PrimaryGreen.copy(alpha = 0.2f) else IndigoSurfaceLight)
                                 .border(
                                     width = if (isSelected) 2.dp else 1.dp,
-                                    color = if (isSelected) PrimaryGreen else Color(0xFFD1D5DB),
+                                    color = if (isSelected) PrimaryGreen else CardBorder,
                                     shape = CircleShape
                                 )
                                 .clickable {
@@ -389,7 +394,7 @@ private fun EditProfileDialog(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancelar")
+                Text("Cancelar", color = TextMedium)
             }
         }
     )
