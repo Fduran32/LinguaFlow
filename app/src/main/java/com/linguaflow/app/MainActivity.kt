@@ -196,11 +196,22 @@ fun LinguaFlowApp(
         }
 
         AppNavState.PRACTICE_HUB -> {
+            val vocabularyItems by produceState<List<com.linguaflow.app.ui.screens.path.VocabularyItem>>(
+                initialValue = emptyList(),
+                key1 = uiState.currentLanguage.id,
+                key2 = uiState.userAssignedLevel
+            ) {
+                value = viewModel.getVocabularyForActiveLevel()
+            }
             PracticeHubScreen(
                 languageName = uiState.currentLanguage.name,
                 flagEmoji = uiState.currentLanguage.flagEmoji,
                 currentCefr = uiState.userAssignedLevel,
                 pendingMistakesCount = uiState.pendingMistakesCount,
+                vocabularyItems = vocabularyItems,
+                onPlayAudio = { text, isSlow ->
+                    onPlayAudio(text, uiState.currentLanguage.ttsLocale, isSlow)
+                },
                 onStartPractice = { mode ->
                     viewModel.selectedPracticeMode = mode
                     coroutineScope.launch {
@@ -309,6 +320,8 @@ fun LinguaFlowApp(
                     user = currentUser,
                     languages = uiState.languages,
                     languageLevels = uiState.allLanguageLevels,
+                    completedLevelsCount = uiState.levels.count { it.isCompleted },
+                    pendingMistakesCount = uiState.pendingMistakesCount,
                     onUpdateProfile = { newName, newAvatar, isPhoto ->
                         viewModel.updateProfile(newName, newAvatar, isPhoto)
                     },

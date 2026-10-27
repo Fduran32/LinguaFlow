@@ -39,7 +39,9 @@ import com.linguaflow.app.domain.model.AnswerResult
 import com.linguaflow.app.domain.model.Question
 import com.linguaflow.app.domain.model.QuestionType
 import com.linguaflow.app.domain.usecase.EvaluateAnswerUseCase
+import com.linguaflow.app.ui.screens.practice.PhoneticSpeakingTipBanner
 import com.linguaflow.app.ui.theme.*
+import com.linguaflow.app.util.SoundAndHapticsManager
 import com.linguaflow.app.util.SpeechManager
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
@@ -60,6 +62,10 @@ fun LessonSessionScreen(
     var answerResult by remember { mutableStateOf<AnswerResult?>(null) }
     var correctCount by remember { mutableStateOf(0) }
     var showCompletionDialog by remember { mutableStateOf(false) }
+
+    // Límite estricto de 3 pistas por lección (1 máximo por pregunta, sin revelar la solución)
+    var hintsRemaining by remember { mutableStateOf(3) }
+    var hintUsedForQuestion by remember(currentIndex) { mutableStateOf(false) }
 
     // Estado para ordenar palabras (TRANSLATE_BUILD)
     var sentenceTokens by remember(currentIndex) { mutableStateOf<List<String>>(emptyList()) }
@@ -192,6 +198,11 @@ fun LessonSessionScreen(
                             if (currentIndex + 1 < questions.size) {
                                 currentIndex++
                             } else {
+                                val finalCorrect = if (result.isCorrect) correctCount else correctCount
+                                val finalPct = if (total > 0) (finalCorrect * 100) / total else 0
+                                if (finalPct >= 80) {
+                                    SoundAndHapticsManager.playCelebration(context)
+                                }
                                 showCompletionDialog = true
                             }
                         },
@@ -231,7 +242,10 @@ fun LessonSessionScreen(
                             }
                             val res = evaluateUseCase.execute(currentQuestion, answerToValidate)
                             answerResult = res
-                            if (!res.isCorrect) {
+                            if (res.isCorrect) {
+                                SoundAndHapticsManager.playCorrect(context)
+                            } else {
+                                SoundAndHapticsManager.playWrong(context)
                                 onWrongAnswer?.invoke(currentQuestion.id, answerToValidate)
                             }
                         },
@@ -353,7 +367,16 @@ fun LessonSessionScreen(
                                     }
                                 }
 
-                                Spacer(modifier = Modifier.height(20.dp))
+                                Spacer(modifier = Modifier.height(14.dp))
+
+                                // Opción 5: Guía Fonética en Ejercicios de Speaking
+                                PhoneticSpeakingTipBanner(
+                                    localeStr = ttsLocaleStr,
+                                    targetText = currentQuestion.correctAnswer,
+                                    phonetic = currentQuestion.promptPhonetic
+                                )
+
+                                Spacer(modifier = Modifier.height(18.dp))
 
                                 // Botón de Micrófono Integrado (100% in-app, sin Google Dialog)
                                 Box(
@@ -578,6 +601,9 @@ fun LessonSessionScreen(
                         }
 
                         Spacer(modifier = Modifier.height(18.dp))
+                        val targetTokens = remember(currentQuestion.id) {
+                            currentQuestion.correctAnswer.split(" ").filter { it.isNotBlank() }
+                        }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
@@ -590,39 +616,53 @@ fun LessonSessionScreen(
                                 color = TextMuted
                             )
 
-                            // Opción C: Botón de Pista Interactiva para colocar la siguiente ficha correcta
-                            val targetTokens = remember(currentQuestion.id) {
-                                currentQuestion.correctAnswer.split(" ").filter { it.isNotBlank() }
-                            }
-                            if (answerResult == null && sentenceTokens.size < targetTokens.size) {
+                            // Sistema de 3 Pistas por lección (1 máximo por pregunta, sin completar toda la frase)
+                            if (answerResult == null && !hintUsedForQuestion) {
                                 TextButton(
                                     onClick = {
-                                        // Verifica cuántas fichas colocadas coinciden desde el inicio y añade la siguiente ficha correcta
-                                        var matchingPrefix = 0
-                                        while (matchingPrefix < sentenceTokens.size &&
-                                            matchingPrefix < targetTokens.size &&
-                                            sentenceTokens[matchingPrefix] == targetTokens[matchingPrefix]
-                                        ) {
-                                            matchingPrefix++
+                                        if (hintsRemaining > 0) {
+                                            hintsRemaining--
+                                            hintUsedForQuestion = true
+                                            // Si la zona de armado está vacía y hay más de 1 palabra, solo coloca la 1ª palabra como guía
+                                            if (sentenceTokens.isEmpty() && targetTokens.size > 1) {
+                                                sentenceTokens = listOf(targetTokens.first())
+                                            }
                                         }
-                                        val nextWord = targetTokens[matchingPrefix]
-                                        sentenceTokens = targetTokens.take(matchingPrefix) + nextWord
-                                    }
+                                    },
+                                    enabled = hintsRemaining > 0
                                 ) {
                                     Icon(
                                         Icons.Default.Lightbulb,
                                         contentDescription = "Pista",
-                                        tint = AccentYellow,
+                                        tint = if (hintsRemaining > 0) AccentYellow else TextMuted,
                                         modifier = Modifier.size(16.dp)
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Text(
-                                        text = "Pista (+1 palabra)",
+                                        text = if (hintsRemaining > 0) "Pista ($hintsRemaining/3)" else "Sin pistas (0/3)",
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = PrimaryGreenDark
+                                        color = if (hintsRemaining > 0) PrimaryGreenDark else TextMuted
                                     )
                                 }
+                            }
+                        }
+
+                        if (hintUsedForQuestion && targetTokens.isNotEmpty()) {
+                            Surface(
+                                shape = RoundedCornerShape(8.dp),
+                                color = AccentYellow.copy(alpha = 0.2f),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 6.dp)
+                            ) {
+                                Text(
+                                    text = "💡 Pista: La oración comienza con \"${targetTokens.first()}\" y tiene ${targetTokens.size} bloques en total.",
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = TextDark,
+                                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                                )
                             }
                         }
                         Spacer(modifier = Modifier.height(6.dp))
@@ -712,11 +752,70 @@ fun LessonSessionScreen(
                             }
                         }
 
-                        Spacer(modifier = Modifier.height(24.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
 
                         // Opciones barajadas aleatoriamente cada vez que se presenta la pregunta
                         val shuffledOptions = remember(currentQuestion.id, currentIndex) {
                             currentQuestion.options.shuffled()
+                        }
+                        val discardedDistractor = remember(currentQuestion.id, currentIndex) {
+                            shuffledOptions.firstOrNull { !it.equals(currentQuestion.correctAnswer, ignoreCase = true) }
+                        }
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Selecciona la opción correcta:",
+                                fontSize = 14.sp,
+                                color = TextMuted,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            if (answerResult == null && !hintUsedForQuestion && discardedDistractor != null) {
+                                TextButton(
+                                    onClick = {
+                                        if (hintsRemaining > 0) {
+                                            hintsRemaining--
+                                            hintUsedForQuestion = true
+                                        }
+                                    },
+                                    enabled = hintsRemaining > 0
+                                ) {
+                                    Icon(
+                                        Icons.Default.Lightbulb,
+                                        contentDescription = "Pista",
+                                        tint = if (hintsRemaining > 0) AccentYellow else TextMuted,
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Text(
+                                        text = if (hintsRemaining > 0) "Pista ($hintsRemaining/3)" else "Sin pistas (0/3)",
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = if (hintsRemaining > 0) PrimaryGreenDark else TextMuted
+                                    )
+                                }
+                            }
+                        }
+
+                        if (hintUsedForQuestion && discardedDistractor != null) {
+                            Surface(
+                                shape = RoundedCornerShape(8.dp),
+                                color = AccentYellow.copy(alpha = 0.2f),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 6.dp)
+                            ) {
+                                Text(
+                                    text = "💡 Pista: Puedes descartar la opción \"$discardedDistractor\".",
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = TextDark,
+                                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                                )
+                            }
                         }
 
                         shuffledOptions.forEach { option ->

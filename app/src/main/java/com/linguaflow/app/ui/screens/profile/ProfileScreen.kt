@@ -44,6 +44,8 @@ fun ProfileScreen(
     user: User,
     languages: List<Language>,
     languageLevels: Map<String, String>,
+    completedLevelsCount: Int = 0,
+    pendingMistakesCount: Int = 0,
     onUpdateProfile: (String, String, Boolean) -> Unit,
     onLogout: () -> Unit,
     onBack: () -> Unit
@@ -132,7 +134,155 @@ fun ProfileScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Opción 3: Panel de Estadísticas Globales
+            val totalGems = 120 + (completedLevelsCount * 25)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                ProfileStatBox(
+                    emoji = "🔥",
+                    value = "3 días",
+                    label = "Racha Activa",
+                    modifier = Modifier.weight(1f)
+                )
+                ProfileStatBox(
+                    emoji = "💎",
+                    value = "$totalGems",
+                    label = "Gemas XP",
+                    modifier = Modifier.weight(1f)
+                )
+                ProfileStatBox(
+                    emoji = "✅",
+                    value = "$completedLevelsCount",
+                    label = "Subniveles",
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Opción 3: Vitrina de Medallas y Logros Políglotas
+            Card(
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
+                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp)
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(text = "🏆", fontSize = 20.sp)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Logros y Medallas Políglotas",
+                            fontSize = 17.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = TextDark
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(14.dp))
+
+                    val hasAdvancedLevel = languageLevels.values.any { !it.equals("A1", ignoreCase = true) }
+                    val achievements = listOf(
+                        AchievementBadge(
+                            emoji = "🎯",
+                            title = "Primer Paso",
+                            description = "Iniciar tu camino políglota en LinguaFlow",
+                            isUnlocked = true
+                        ),
+                        AchievementBadge(
+                            emoji = "📖",
+                            title = "Estudiante Constante",
+                            description = "Superar tu primer subnivel o test de ubicación",
+                            isUnlocked = completedLevelsCount > 0 || hasAdvancedLevel
+                        ),
+                        AchievementBadge(
+                            emoji = "🧠",
+                            title = "Mente Implacable",
+                            description = "Mantener 0 errores pendientes en el Repaso SRS",
+                            isUnlocked = pendingMistakesCount == 0
+                        ),
+                        AchievementBadge(
+                            emoji = "🌍",
+                            title = "Espíritu Políglota",
+                            description = "Explorar los 3 idiomas (Inglés, Italiano y Chino)",
+                            isUnlocked = languages.size >= 3
+                        )
+                    )
+
+                    achievements.forEach { badge ->
+                        Surface(
+                            shape = RoundedCornerShape(12.dp),
+                            color = if (badge.isUnlocked) IndigoSurfaceLight else LockedGray.copy(alpha = 0.25f),
+                            border = androidx.compose.foundation.BorderStroke(
+                                1.dp,
+                                if (badge.isUnlocked) AccentTeal.copy(alpha = 0.45f) else CardBorder
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(12.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(40.dp)
+                                        .clip(CircleShape)
+                                        .background(
+                                            if (badge.isUnlocked) AccentYellow.copy(alpha = 0.2f)
+                                            else LockedGray.copy(alpha = 0.3f)
+                                        ),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(text = if (badge.isUnlocked) badge.emoji else "🔒", fontSize = 20.sp)
+                                }
+                                Spacer(modifier = Modifier.width(12.dp))
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = badge.title,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp,
+                                        color = if (badge.isUnlocked) TextDark else TextMedium
+                                    )
+                                    Text(
+                                        text = badge.description,
+                                        fontSize = 12.sp,
+                                        color = TextMedium
+                                    )
+                                }
+                                if (badge.isUnlocked) {
+                                    Surface(
+                                        shape = RoundedCornerShape(8.dp),
+                                        color = PrimaryGreen.copy(alpha = 0.18f)
+                                    ) {
+                                        Text(
+                                            text = "Logrado",
+                                            fontSize = 11.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = PrimaryGreenDark,
+                                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
 
             // Tarjeta de Niveles Asignados por Idioma
             Card(
@@ -398,6 +548,50 @@ private fun EditProfileDialog(
             }
         }
     )
+}
+
+private data class AchievementBadge(
+    val emoji: String,
+    val title: String,
+    val description: String,
+    val isUnlocked: Boolean
+)
+
+@Composable
+private fun ProfileStatBox(
+    emoji: String,
+    value: String,
+    label: String,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = IndigoCard),
+        border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        modifier = modifier
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 14.dp, horizontal = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = emoji, fontSize = 20.sp)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = value,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 16.sp,
+                color = TextDark
+            )
+            Text(
+                text = label,
+                fontSize = 11.sp,
+                color = TextMedium
+            )
+        }
+    }
 }
 
 private fun saveImageToAppStorage(context: Context, uri: Uri): String? {

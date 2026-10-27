@@ -23,6 +23,14 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
+data class VocabularyItem(
+    val sublevelCefr: String,
+    val levelTitle: String,
+    val targetPhrase: String,
+    val spanishMeaning: String,
+    val phonetic: String? = null
+)
+
 data class LearningPathUiState(
     val currentUser: User? = null,
     val languages: List<Language> = emptyList(),
@@ -357,5 +365,44 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
         viewModelScope.launch(Dispatchers.IO) {
             progressRepo.resolveMistake(userId, questionId)
         }
+    }
+
+    suspend fun getVocabularyForActiveLevel(): List<VocabularyItem> {
+        val activeLangId = _currentLanguageId.value
+        val currentCefr = _uiState.value.userAssignedLevel.take(2).uppercase()
+        val allLevels = db.levelDao().getLevelsForLanguageSync(activeLangId).sortedBy { it.orderIndex }
+        val matchingLevels = allLevels.filter { it.cefrCode.take(2).equals(currentCefr, ignoreCase = true) }
+        val targetLevels = if (matchingLevels.isNotEmpty()) matchingLevels else allLevels
+
+        val items = mutableListOf<VocabularyItem>()
+        val seenPhrases = mutableSetOf<String>()
+
+        for (lvl in targetLevels) {
+            val qEntities = db.questionDao().getQuestionsForLevel(lvl.id)
+            for (q in qEntities) {
+                val phrase = when {
+                    isMeaningfulSentence(q.promptAudioText) -> q.promptAudioText!!.trim()
+                    isMeaningfulSentence(q.correctAnswer) -> q.correctAnswer.trim()
+                    else -> ""
+                }
+                if (phrase.isBlank()) continue
+                val normalizedKey = phrase.lowercase()
+                if (seenPhrases.contains(normalizedKey)) continue
+                seenPhrases.add(normalizedKey)
+
+                val cleanSpanish = PracticeSentenceFilter.extractSpanishPromptForWriting(q.type, q.prompt, phrase)
+                    ?: q.explanation
+                items.add(
+                    VocabularyItem(
+                        sublevelCefr = lvl.cefrCode,
+                        levelTitle = lvl.title,
+                        targetPhrase = phrase,
+                        spanishMeaning = cleanSpanish,
+                        phonetic = q.promptPhonetic
+                    )
+                )
+            }
+        }
+        return items
     }
 }

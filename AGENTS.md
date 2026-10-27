@@ -20,8 +20,10 @@ Este documento define las directrices técnicas, arquitectónicas y pedagógicas
 2. **Estándar Pedagógico de Maestro Políglota (`polyglot-language-master`):**
    - **Prohibición de palabras aisladas sin contexto:** Ningún ejercicio de *Writing*, *Speaking*, *Listening* o *Mix* debe presentar monosílabos o fragmentos sueltos (como `"am"`, `"is"`, `"where"`). Toda práctica debe utilizar oraciones completas, naturales y con contexto comunicativo real (validadas por `PracticeSentenceFilter`).
    - **Progresión real por nivel (A1 → C2):** La complejidad gramatical y léxica debe crecer desde oraciones cotidianas de supervivencia en **A1** hasta registros académicos, profesionales, literarios y diplomáticos en **C1–C2**.
-   - **Evaluación inteligente de voz y texto (`SpeechManager`):** El sistema debe aceptar contracciones naturales equivalentes (ej. `"she's"` = `"she is"`, `"I'm"` = `"I am"`, tanto con apóstrofe recto `'` como curvo `’`) y entregar retroalimentación constructiva en español.
+   - **Evaluación inteligente de voz y texto (`SpeechManager`):** El sistema debe aceptar contracciones naturales equivalentes (ej. `"she's"` = `"she is"`, `"I'm"` = `"I am"`, tanto con apóstrofe recto `'` como curvo `’`), tolerar 1 error tipográfico menor (*"¡Casi perfecto!"*) y entregar retroalimentación constructiva en español.
    - **Claridad en ejercicios de Escritura (`Writing` / `TRANSLATE_BUILD`):** Todo ejercicio de traducción escrita debe mostrar al estudiante una oración clara en español para traducir al idioma objetivo, nunca instrucciones vacías como *"Escucha el audio..."* o *"Toca el micrófono..."*.
+   - **Pistas Pedagógicas Limitadas (Máximo 3 por sesión, sin regalar la respuesta):** Las pistas están limitadas a **3 por sesión** (máximo 1 por pregunta) y deben orientar al estudiante (mostrando estructura enmascarada, el primer bloque o descartando 1 distractor) sin revelar jamás la solución completa.
+   - **Soporte Fonético y Velocidad Dual de Audio:** Todos los ejercicios auditivos, de pronunciación y el Glosario Interactivo cuentan con reproducción normal ($1.0\times$) y lenta (🐢 $0.65\times$), además de guía fonética contextual en ejercicios de *Speaking* y soporte Pinyin para Chino Mandarín.
 
 ---
 

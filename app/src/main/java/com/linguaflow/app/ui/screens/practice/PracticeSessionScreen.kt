@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.linguaflow.app.domain.model.Question
 import com.linguaflow.app.ui.theme.*
+import com.linguaflow.app.util.SoundAndHapticsManager
 import com.linguaflow.app.util.SpeechManager
 
 @Composable
@@ -67,13 +68,14 @@ fun PracticeSessionScreen(
     var correctCount by remember { mutableStateOf(0) }
     var isFinished by remember { mutableStateOf(false) }
 
-    // Estados por pregunta
+    // Estados por pregunta y límite estricto de 3 pistas por sesión
     var writtenInput by remember { mutableStateOf("") }
     var selectedOptionIndex by remember { mutableStateOf<Int?>(null) }
     var isAnswerChecked by remember { mutableStateOf(false) }
     var isCurrentCorrect by remember { mutableStateOf(false) }
     var feedbackText by remember { mutableStateOf("") }
-    var hintLevel by remember(currentIndex) { mutableStateOf(0) }
+    var hintsRemaining by remember { mutableStateOf(3) }
+    var hintUsedForQuestion by remember(currentIndex) { mutableStateOf(false) }
 
     // Estados de voz
     var isListening by remember { mutableStateOf(false) }
@@ -129,22 +131,14 @@ fun PracticeSessionScreen(
     val isSpeakingType = currentQuestion.type == com.linguaflow.app.domain.model.QuestionType.SPEAKING || skillMode == PracticeSkillMode.SPEAKING
     val isListeningType = !isSpeakingType && (currentQuestion.type == com.linguaflow.app.domain.model.QuestionType.LISTENING || skillMode == PracticeSkillMode.LISTENING)
 
-    // Opción C: Generador de pistas progresivas para Writing y Listening
+    // Sistema de 3 Pistas Reales por Sesión (estructura parcial enmascarada sin regalar jamás la solución)
     val targetAnswerForHint = if (isListeningType) {
         (currentQuestion.promptAudioText ?: currentQuestion.correctAnswer).ifBlank { currentQuestion.prompt }
     } else {
         currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt }
     }
-    val targetWords = remember(currentQuestion.id, currentIndex) {
-        targetAnswerForHint.trim().split(Regex("\\s+")).filter { it.isNotBlank() }
-    }
-    val hintMessage = when (hintLevel) {
-        1 -> "💡 Pista (1ª palabra): \"${targetWords.firstOrNull() ?: ""} ...\""
-        2 -> {
-            val preview = targetWords.take(2).joinToString(" ")
-            "💡 Pista: \"$preview ...\" (${targetWords.size} palabras en total)"
-        }
-        else -> null
+    val hintMessage = remember(currentQuestion.id, currentIndex, hintUsedForQuestion) {
+        if (!hintUsedForQuestion) null else buildMaskedStructureHint(targetAnswerForHint)
     }
 
     Scaffold(
@@ -297,6 +291,15 @@ fun PracticeSessionScreen(
                                 Text("Lento", fontSize = 13.sp)
                             }
                         }
+
+                        Spacer(modifier = Modifier.height(14.dp))
+
+                        // Opción 5: Guía Fonética en Ejercicios de Speaking
+                        PhoneticSpeakingTipBanner(
+                            localeStr = ttsLocaleStr,
+                            targetText = targetText,
+                            phonetic = currentQuestion.promptPhonetic
+                        )
                     }
                 }
 
@@ -349,7 +352,10 @@ fun PracticeSessionScreen(
                                             isCurrentCorrect = evaluation.isPassed
                                             feedbackText = evaluation.feedback
                                             isAnswerChecked = true
-                                            if (!evaluation.isPassed) {
+                                            if (evaluation.isPassed) {
+                                                SoundAndHapticsManager.playCorrect(context)
+                                            } else {
+                                                SoundAndHapticsManager.playWrong(context)
                                                 onWrongAnswer?.invoke(currentQuestion.id, recognizedSpokenText)
                                             }
                                         },
@@ -475,11 +481,24 @@ fun PracticeSessionScreen(
                                 color = TextMuted
                             )
 
-                            if (!isAnswerChecked && hintLevel < 2) {
-                                TextButton(onClick = { hintLevel++ }) {
-                                    Icon(Icons.Default.Lightbulb, contentDescription = "Pista", tint = AccentYellow, modifier = Modifier.size(16.dp))
+                            if (!isAnswerChecked && !hintUsedForQuestion) {
+                                TextButton(
+                                    onClick = {
+                                        if (hintsRemaining > 0) {
+                                            hintsRemaining--
+                                            hintUsedForQuestion = true
+                                        }
+                                    },
+                                    enabled = hintsRemaining > 0
+                                ) {
+                                    Icon(Icons.Default.Lightbulb, contentDescription = "Pista", tint = if (hintsRemaining > 0) AccentYellow else TextMuted, modifier = Modifier.size(16.dp))
                                     Spacer(modifier = Modifier.width(4.dp))
-                                    Text(if (hintLevel == 0) "Ver pista" else "Más pista", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PrimaryGreenDark)
+                                    Text(
+                                        text = if (hintsRemaining > 0) "Pista ($hintsRemaining/3)" else "Sin pistas (0/3)",
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = if (hintsRemaining > 0) PrimaryGreenDark else TextMuted
+                                    )
                                 }
                             }
                         }
@@ -542,11 +561,24 @@ fun PracticeSessionScreen(
                                 color = TextMuted
                             )
 
-                            if (!isAnswerChecked && hintLevel < 2) {
-                                TextButton(onClick = { hintLevel++ }) {
-                                    Icon(Icons.Default.Lightbulb, contentDescription = "Pista", tint = AccentYellow, modifier = Modifier.size(16.dp))
+                            if (!isAnswerChecked && !hintUsedForQuestion) {
+                                TextButton(
+                                    onClick = {
+                                        if (hintsRemaining > 0) {
+                                            hintsRemaining--
+                                            hintUsedForQuestion = true
+                                        }
+                                    },
+                                    enabled = hintsRemaining > 0
+                                ) {
+                                    Icon(Icons.Default.Lightbulb, contentDescription = "Pista", tint = if (hintsRemaining > 0) AccentYellow else TextMuted, modifier = Modifier.size(16.dp))
                                     Spacer(modifier = Modifier.width(4.dp))
-                                    Text(if (hintLevel == 0) "Ver pista" else "Más pista", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PrimaryGreenDark)
+                                    Text(
+                                        text = if (hintsRemaining > 0) "Pista ($hintsRemaining/3)" else "Sin pistas (0/3)",
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = if (hintsRemaining > 0) PrimaryGreenDark else TextMuted
+                                    )
                                 }
                             }
                         }
@@ -681,6 +713,7 @@ fun PracticeSessionScreen(
                             speechSimilarityPercentage = 0
                             speechErrorMessage = null
                         } else {
+                            SoundAndHapticsManager.playCelebration(context)
                             isFinished = true
                         }
                     },
@@ -707,7 +740,10 @@ fun PracticeSessionScreen(
                         isCurrentCorrect = writtenEval.isPassed
                         feedbackText = writtenEval.typoNotice ?: ""
                         isAnswerChecked = true
-                        if (!writtenEval.isPassed) {
+                        if (writtenEval.isPassed) {
+                            SoundAndHapticsManager.playCorrect(context)
+                        } else {
+                            SoundAndHapticsManager.playWrong(context)
                             onWrongAnswer?.invoke(currentQuestion.id, writtenInput)
                         }
                     },
@@ -722,6 +758,91 @@ fun PracticeSessionScreen(
                 }
             }
         }
+    }
+}
+
+/**
+ * Construye una pista de estructura enmascarada que orienta al estudiante
+ * pero NUNCA revela la respuesta completa.
+ */
+fun buildMaskedStructureHint(targetAnswer: String): String {
+    val clean = targetAnswer.trim()
+    if (clean.isEmpty()) return "💡 Observa el verbo principal de la oración."
+    val words = clean.split(Regex("\\s+")).filter { it.isNotBlank() }
+
+    // Si es Chino Mandarín (sin espacios entre caracteres)
+    if (words.size == 1 && clean.length >= 2) {
+        val firstChar = clean.first()
+        val maskedRest = "＿".repeat((clean.length - 1).coerceAtLeast(1))
+        return "💡 Pista de estructura (${clean.length} caracteres): \"$firstChar$maskedRest\""
+    }
+
+    val maskedWords = words.mapIndexed { idx, word ->
+        val lettersOnly = word.replace(Regex("[^\\p{L}\\p{N}']"), "")
+        if (idx == 0 && words.size > 2) {
+            // Solo muestra la primera palabra si la oración tiene 3 o más palabras
+            word
+        } else if (lettersOnly.length <= 1) {
+            "_"
+        } else {
+            val firstChar = word.first()
+            val underscores = "_".repeat((word.length - 1).coerceAtMost(5))
+            "$firstChar$underscores"
+        }
+    }.joinToString(" ")
+
+    return "💡 Pista de estructura (${words.size} palabras): \"$maskedWords\""
+}
+
+@Composable
+fun PhoneticSpeakingTipBanner(
+    localeStr: String,
+    targetText: String,
+    phonetic: String?
+) {
+    val tipText = remember(localeStr, targetText, phonetic) {
+        val langPrefix = localeStr.take(2).lowercase()
+        when (langPrefix) {
+            "zh" -> {
+                if (!phonetic.isNullOrBlank()) {
+                    "🗣️ Guía Fonética (Tonos): Apóyate en el Pinyin ($phonetic) y pronuncia cada sílaba con ritmo pausado."
+                } else {
+                    "🗣️ Guía Fonética: Pronuncia cada carácter chino con claridad y escucha primero el audio lento 🐢."
+                }
+            }
+            "it" -> {
+                val hasDoubleConsonant = Regex("([bcdfglmnpqrstvz])\\1", RegexOption.IGNORE_CASE).containsMatchIn(targetText)
+                if (hasDoubleConsonant) {
+                    "🗣️ Guía Fonética (Italiano): Marca con fuerza las consonantes dobles y vocales abiertas al final."
+                } else {
+                    "🗣️ Guía Fonética (Italiano): Mantén las vocales claras y cuida la entonación musical de la frase."
+                }
+            }
+            else -> {
+                val lower = targetText.lowercase()
+                if (lower.contains("i am") || lower.contains("i'm") || lower.contains("she is") || lower.contains("he is") || lower.contains("do not") || lower.contains("can't")) {
+                    "🗣️ Guía Fonética (Inglés): Puedes pronunciar tanto la forma completa como la contracción natural (ej. 'I am' o 'I'm')."
+                } else {
+                    "🗣️ Guía Fonética (Inglés): Enlaza suavemente las palabras y marca las consonantes finales."
+                }
+            }
+        }
+    }
+
+    Surface(
+        shape = RoundedCornerShape(10.dp),
+        color = AccentTeal.copy(alpha = 0.12f),
+        border = androidx.compose.foundation.BorderStroke(1.dp, AccentTeal.copy(alpha = 0.35f)),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = tipText,
+            fontSize = 12.sp,
+            color = TextDark,
+            fontWeight = FontWeight.Medium,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+        )
     }
 }
 
