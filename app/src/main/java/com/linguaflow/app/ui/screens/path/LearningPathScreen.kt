@@ -13,11 +13,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.School
@@ -91,7 +91,7 @@ fun LearningPathScreen(
                         Text(text = currentFlagEmoji, fontSize = 28.sp)
                         if (availableLanguages.isNotEmpty()) {
                             Spacer(modifier = Modifier.width(2.dp))
-                            Icon(Icons.Default.ArrowDropDown, contentDescription = "Cambiar idioma")
+                            Icon(Icons.Default.ArrowDropDown, contentDescription = "Cambiar idioma ($currentLanguageName)")
                         }
                     }
 
@@ -144,7 +144,7 @@ fun LearningPathScreen(
                             }
                         ) {
                             Icon(
-                                Icons.Default.MenuBook,
+                                Icons.AutoMirrored.Filled.MenuBook,
                                 contentDescription = "Cuaderno de Errores",
                                 tint = if (pendingMistakesCount > 0) ErrorRed else TextDark,
                                 modifier = Modifier.size(24.dp)
@@ -176,7 +176,7 @@ fun LearningPathScreen(
             )
         }
     ) { paddingValues ->
-        if (levels.isEmpty()) {
+        if (isLoading || levels.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()

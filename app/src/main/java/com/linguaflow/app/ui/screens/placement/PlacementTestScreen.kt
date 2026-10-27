@@ -1,4 +1,4 @@
-package com.linguaflow.app.ui.screens.placement
+﻿package com.linguaflow.app.ui.screens.placement
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.School
@@ -126,6 +126,50 @@ fun PlacementTestScreen(
                     Question("zh_c2_3", "diag", QuestionType.MULTIPLE_CHOICE, "Registro diplomático/académico: '___目前严峻形势，双方深化合作。'", "Jiànyú...", "鉴于", listOf("鉴于 (jiànyú)", "关于 (guānyú)", "至于 (zhìyú)", "对于 (duìyú)"), "鉴于 (jiànyú)", "鉴于 significa 'En vista de / Considerando'."),
                     Question("zh_c2_4", "diag", QuestionType.MULTIPLE_CHOICE, "Partícula clásica: '敏而好学，不耻下问，是___谓之文也。'", "Shì yǐ...", "是以", listOf("以 (yǐ)", "于 (yú)", "之 (zhī)", "而 (ér)"), "以 (yǐ)", "是以 equivale a 'por lo tanto / por eso' en chino clásico."),
                     Question("zh_c2_5", "diag", QuestionType.MULTIPLE_CHOICE, "Metáfora filosófica: ¿Qué critica '刻舟求剑' (kè zhōu qiú jiàn)?", "Kè zhōu qiú jiàn", "刻舟求剑", listOf("La terquedad de usar métodos caducos sin adaptarse al cambio", "Navegar con armas", "Perder cosas en el río", "El paso del tiempo"), "La terquedad de usar métodos caducos sin adaptarse al cambio", "Parábola clásica sobre la incapacidad de adaptarse a las circunstancias cambiantes.")
+                )
+            }
+            "pt" -> when (stage) {
+                "A1" -> listOf(
+                    Question("pt_a1_1", "diag", QuestionType.MULTIPLE_CHOICE, "¿Cómo se dice 'Buenos días, ¿cómo está usted?' en portugués?", null, "Bom dia, tudo bem com você?", listOf("Bom dia, tudo bem com você?", "Boa noite, até amanhã", "Com licença, por favor", "Muito obrigado pela ajuda"), "Bom dia, tudo bem com você?", "'Bom dia, tudo bem com você?' es el saludo matutino cordial."),
+                    Question("pt_a1_2", "diag", QuestionType.MULTIPLE_CHOICE, "Traduce 'Muchas gracias por tu ayuda hoy':", null, "Muito obrigado pela sua ajuda hoje.", listOf("Muito obrigado pela sua ajuda hoje.", "Por favor, onde fica a estação?", "Prazer em conhecer você.", "Eu estudo português todos os dias."), "Muito obrigado pela sua ajuda hoje.", "'Muito obrigado pela sua ajuda hoje' expresa agradecimiento completo."),
+                    Question("pt_a1_3", "diag", QuestionType.MULTIPLE_CHOICE, "Completa: 'Eu ___ português todos os dias.'", null, "estudo", listOf("estudo", "estuda", "estudamos", "estudam"), "estudo", "Primera persona singular de estudar: Eu estudo."),
+                    Question("pt_a1_4", "diag", QuestionType.MULTIPLE_CHOICE, "¿Cómo se pide un café cortésmente?", null, "Eu gostaria de um café com leite, por favor.", listOf("Eu gostaria de um café com leite, por favor.", "Eu não falo português.", "A conta, por gentileza.", "Onde fica o hotel?"), "Eu gostaria de um café com leite, por favor.", "'Eu gostaria de...' equivale a 'Me gustaría...'."),
+                    Question("pt_a1_5", "diag", QuestionType.MULTIPLE_CHOICE, "Completa: 'Muito prazer em ___ você.'", null, "conhecer", listOf("conhecer", "falar", "comer", "morar"), "conhecer", "'Prazer em conhecer você' significa mucho gusto en conocerte.")
+                )
+                "A2" -> listOf(
+                    Question("pt_a2_1", "diag", QuestionType.MULTIPLE_CHOICE, "Completa en pasado: 'Ontem nós ___ um museu histórico.'", null, "visitamos", listOf("visitamos", "visitaram", "visito", "visitarei"), "visitamos", "Pretérito perfeito con nós: visitamos."),
+                    Question("pt_a2_2", "diag", QuestionType.MULTIPLE_CHOICE, "Completa: 'Ela ___ de acordar cedo todos os dias.'", null, "gosta", listOf("gosta", "gosto", "gostam", "gostamos"), "gosta", "El verbo gostar rige la preposición 'de': Ela gosta de..."),
+                    Question("pt_a2_3", "diag", QuestionType.MULTIPLE_CHOICE, "¿Cómo preguntas cuánto cuesta un pasaje?", null, "Quanto custa a passagem de trem?", listOf("Quanto custa a passagem de trem?", "Que horas são agora?", "Onde você mora?", "Como está o tempo hoje?"), "Quanto custa a passagem de trem?", "'Quanto custa...?' pregunta por el precio."),
+                    Question("pt_a2_4", "diag", QuestionType.MULTIPLE_CHOICE, "Completa con pretérito imperfeito: 'Quando eu era criança, ___ na praia.'", null, "brincava", listOf("brincava", "brinquei", "brinco", "brincarei"), "brincava", "Hábito en la infancia: pretérito imperfeito (brincava)."),
+                    Question("pt_a2_5", "diag", QuestionType.MULTIPLE_CHOICE, "Completa: 'Eles estão ___ para a prova agora.'", null, "estudando", listOf("estudando", "estudar", "estudado", "estudam"), "estudando", "En portugués brasileño el gerundio se forma con -ndo: estudando.")
+                )
+                "B1" -> listOf(
+                    Question("pt_b1_1", "diag", QuestionType.MULTIPLE_CHOICE, "Subjuntivo presente: 'Espero que você ___ uma ótima viagem.'", null, "tenha", listOf("tenha", "tem", "teve", "teria"), "tenha", "Esperar que exige presente do subjuntivo: tenha."),
+                    Question("pt_b1_2", "diag", QuestionType.MULTIPLE_CHOICE, "Futuro do subjuntivo: 'Quando nós ___ em Lisboa, ligaremos.'", null, "chegarmos", listOf("chegarmos", "chegamos", "cheguemos", "chegar"), "chegarmos", "Quando referido al futuro usa futuro do subjuntivo: chegarmos."),
+                    Question("pt_b1_3", "diag", QuestionType.MULTIPLE_CHOICE, "Condicional: 'Se você tiver tempo, ___ me ajudar?'", null, "poderia", listOf("poderia", "pode", "pôde", "poderá"), "poderia", "Futuro do pretérito de cortesía: poderia."),
+                    Question("pt_b1_4", "diag", QuestionType.MULTIPLE_CHOICE, "Conector concesivo: '___ estivesse chovendo, fomos caminhar.'", null, "Embora", listOf("Embora", "Porque", "Portanto", "Quando"), "Embora", "'Embora' significa 'aunque' y exige subjuntivo."),
+                    Question("pt_b1_5", "diag", QuestionType.MULTIPLE_CHOICE, "Completa: 'Faz dois anos que ___ nesta empresa.'", null, "trabalho", listOf("trabalho", "trabalhava", "trabalharei", "trabalhe"), "trabalho", "Fazer indicando tiempo transcurrido se usa con presente: trabalho.")
+                )
+                "B2" -> listOf(
+                    Question("pt_b2_1", "diag", QuestionType.MULTIPLE_CHOICE, "Condicional hipotético: 'Se eu soubesse antes, ___ uma solução.'", null, "teria proposto", listOf("teria proposto", "tinha proposto", "proporia", "propus"), "teria proposto", "Condicional compuesto para hipótesis pasada: teria proposto."),
+                    Question("pt_b2_2", "diag", QuestionType.MULTIPLE_CHOICE, "Infinitivo pessoal: 'É fundamental ___ nossas metas com clareza.'", null, "definirmos", listOf("definirmos", "definir", "definimos", "definindo"), "definirmos", "El infinitivo pessoal en portugués flexiona la persona (nós -> definirmos)."),
+                    Question("pt_b2_3", "diag", QuestionType.MULTIPLE_CHOICE, "Voz pasiva: 'O relatório foi ___ pela diretoria.'", null, "aprovado", listOf("aprovado", "aprovar", "aprovando", "aprovou"), "aprovado", "Voz pasiva analítica: foi + participio pasado (aprovado)."),
+                    Question("pt_b2_4", "diag", QuestionType.MULTIPLE_CHOICE, "Subjuntivo imperfecto: 'Caso eles ___ mais prazo, avisariam.'", null, "precisassem", listOf("precisassem", "precisam", "precisarem", "precisavam"), "precisassem", "La conjunción 'Caso' rige pretérito imperfeito do subjuntivo."),
+                    Question("pt_b2_5", "diag", QuestionType.MULTIPLE_CHOICE, "Conector consecutivo: 'Os dados foram validados; ___, podemos avançar.'", null, "portanto", listOf("portanto", "embora", "contudo", "todavia"), "portanto", "'Portanto' significa 'por lo tanto'.")
+                )
+                "C1" -> listOf(
+                    Question("pt_c1_1", "diag", QuestionType.MULTIPLE_CHOICE, "Conector culto: '___ os obstáculos financeiros, o projeto prosperou.'", null, "Não obstante", listOf("Não obstante", "Porquanto", "Portanto", "Conquanto que"), "Não obstante", "'Não obstante' equivale a 'no obstante / a pesar de'."),
+                    Question("pt_c1_2", "diag", QuestionType.MULTIPLE_CHOICE, "Pronombre relativo con preposición: 'A tese ___ qual o autor se apoia é sólida.'", null, "na", listOf("na", "que", "cujo", "onde"), "na", "Apoiar-se em + a qual = na qual."),
+                    Question("pt_c1_3", "diag", QuestionType.MULTIPLE_CHOICE, "Léxico C1: Algo que es 'imprescindível' significa:", null, "Indispensável e fundamental", listOf("Indispensável e fundamental", "Opcional e secundário", "Duvidoso e incerto", "Temporário e breve"), "Indispensável e fundamental", "'Imprescindível' denota algo de lo que no se puede prescindir."),
+                    Question("pt_c1_4", "diag", QuestionType.MULTIPLE_CHOICE, "Subjuntivo mais-que-perfeito: 'Se nós ___ previsto o risco, teríamos evitado.'", null, "tivéssemos", listOf("tivéssemos", "tínhamos", "teríamos", "tivermos"), "tivéssemos", "Mais-que-perfeito do subjuntivo: tivéssemos previsto."),
+                    Question("pt_c1_5", "diag", QuestionType.MULTIPLE_CHOICE, "Expresión idiomática: 'Trocar os pés pelas mãos' significa:", null, "Atrapalhar-se e agir com precipitação", listOf("Atrapalhar-se e agir com precipitação", "Caminhar rapidamente", "Mudar de opinião com calma", "Dançar com habilidade"), "Atrapalhar-se e agir com precipitação", "Modismo clásico que indica confundirse por actuar apresuradamente.")
+                )
+                else -> listOf(
+                    Question("pt_c2_1", "diag", QuestionType.MULTIPLE_CHOICE, "Mesóclisis literaria: '___-se-ia que tal hipótese carece de fundamento.'", null, "Dir", listOf("Dir", "Dizer", "Disse", "Direi"), "Dir", "Mesóclisis culta en futuro do pretérito: Dir-se-ia (Se diría)."),
+                    Question("pt_c2_2", "diag", QuestionType.MULTIPLE_CHOICE, "Conector causal erudito: 'A decisão é legítima, ___ respeita a Constituição.'", null, "porquanto", listOf("porquanto", "conquanto", "contudo", "outrossim"), "porquanto", "'Porquanto' es una conjunción causal culta equivalente a 'puesto que / ya que'."),
+                    Question("pt_c2_3", "diag", QuestionType.MULTIPLE_CHOICE, "Retórica C2: Uma argumentação 'capciosa' caracteriza-se por ser:", null, "Enganosa e formulada para induzir ao erro", listOf("Enganosa e formulada para induzir ao erro", "Cristalina e irrefutável", "Concisa e imparcial", "Superficial e ingênua"), "Enganosa e formulada para induzir ao erro", "'Capcioso' describe un argumento falaz pero aparentemente convincente."),
+                    Question("pt_c2_4", "diag", QuestionType.MULTIPLE_CHOICE, "Adverbio aditivo formal: 'Cumpre destacar, ___, a relevância jurídica do tratado.'", null, "outrossim", listOf("outrossim", "todavia", "destarte", "amiúde"), "outrossim", "'Outrossim' significa 'asimismo / igualmente' en registro jurídico y académico."),
+                    Question("pt_c2_5", "diag", QuestionType.MULTIPLE_CHOICE, "Modismo erudito: 'Passar incólume por uma crise' significa:", null, "Sair ileso e sem sofrer danos", listOf("Sair ileso e sem sofrer danos", "Sofrer grandes prejuízos", "Ignorar os problemas alheios", "Adiar uma decisão urgente"), "Sair ileso e sem sofrer danos", "'Incólume' significa ileso, intacto o libre de daño.")
                 )
             }
             else -> when (stage) {
@@ -515,7 +559,7 @@ fun PlacementTestScreen(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text("EVALUAR NIVEL $nextCefr", fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.width(6.dp))
-                            Icon(Icons.Default.ArrowForward, contentDescription = null)
+                            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null)
                         }
                     }
                 },

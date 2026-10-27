@@ -151,6 +151,40 @@ abstract class LinguaFlowDatabase : RoomDatabase() {
                 db.questionDao().deleteAllQuestions()
                 db.questionDao().insertQuestions(questionEntities)
                 db.mistakeDao().deleteOrphanMistakes()
+
+                // Si ya existe un usuario activo y se agregó un nuevo idioma (ej. Portugués), inicializar su progreso A1
+                val activeUser = db.userDao().getActiveUserSync()
+                if (activeUser != null) {
+                    val timestamp = System.currentTimeMillis()
+                    for (lang in languageEntities) {
+                        val existingCount = db.progressDao().getUserLevelProgressCount(activeUser.id, lang.id)
+                        if (existingCount == 0) {
+                            db.progressDao().saveLanguageProfile(
+                                UserLanguageProfileEntity(
+                                    userId = activeUser.id,
+                                    languageId = lang.id,
+                                    assignedCefrLevel = "A1",
+                                    assignedLevelOrder = 1,
+                                    diagnosticScorePercentage = 0,
+                                    lastUpdated = timestamp
+                                )
+                            )
+                            val langLevels = levelEntities.filter { it.languageId == lang.id }
+                            val newProgress = langLevels.map { lvl ->
+                                UserLevelProgressEntity(
+                                    userId = activeUser.id,
+                                    levelId = lvl.id,
+                                    languageId = lang.id,
+                                    isUnlocked = lvl.cefrCode.take(2).uppercase() == "A1" && lvl.orderIndex == 1,
+                                    isCompleted = false,
+                                    highestScore = 0,
+                                    lastCompletedAt = 0L
+                                )
+                            }
+                            db.progressDao().saveAllLevelProgress(newProgress)
+                        }
+                    }
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }

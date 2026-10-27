@@ -8,6 +8,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -16,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,6 +26,7 @@ import com.linguaflow.app.domain.model.Language
 import com.linguaflow.app.domain.model.User
 import com.linguaflow.app.ui.components.UserAvatar
 import com.linguaflow.app.ui.theme.*
+import com.linguaflow.app.util.DailyGoalAndStreakManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,6 +43,10 @@ fun HomeScreen(
     onOpenLearningPath: () -> Unit,
     onOpenPracticeHub: () -> Unit
 ) {
+    val context = LocalContext.current
+    val dailyStats = remember(currentUser.id) {
+        DailyGoalAndStreakManager.getStats(context, currentUser.id)
+    }
     var showLanguageMenu by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -108,7 +116,7 @@ fun HomeScreen(
                             }
                         ) {
                             Icon(
-                                Icons.Default.MenuBook,
+                                Icons.AutoMirrored.Filled.MenuBook,
                                 contentDescription = "Cuaderno de Errores",
                                 tint = if (pendingMistakesCount > 0) ErrorRed else TextDark,
                                 modifier = Modifier.size(24.dp)
@@ -198,7 +206,84 @@ fun HomeScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // Opción 2 (Fase 3): Tarjeta de Racha Real y Meta Diaria de Estudio
+            val progressRatio = (dailyStats.completedToday.toFloat() / dailyStats.dailyTarget.toFloat()).coerceIn(0f, 1f)
+            val isGoalReached = dailyStats.completedToday >= dailyStats.dailyTarget
+            Card(
+                shape = RoundedCornerShape(18.dp),
+                colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                border = androidx.compose.foundation.BorderStroke(
+                    1.dp,
+                    if (isGoalReached) PrimaryGreen.copy(alpha = 0.5f) else CardBorder
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(text = "🎯", fontSize = 20.sp)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Column {
+                                Text(
+                                    text = if (isGoalReached) "¡Meta Diaria Cumplida! 🎉" else "Meta Diaria de Estudio",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 15.sp,
+                                    color = TextDark
+                                )
+                                Text(
+                                    text = "${dailyStats.completedToday} de ${dailyStats.dailyTarget} sesiones completadas hoy",
+                                    fontSize = 12.sp,
+                                    color = TextMedium
+                                )
+                            }
+                        }
+
+                        Surface(
+                            shape = RoundedCornerShape(10.dp),
+                            color = AccentYellow.copy(alpha = 0.2f)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(text = "🔥", fontSize = 15.sp)
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(
+                                    text = "${dailyStats.streakDays} día${if (dailyStats.streakDays == 1) "" else "s"}",
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 13.sp,
+                                    color = TextDark
+                                )
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    LinearProgressIndicator(
+                        progress = { progressRatio },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(9.dp)
+                            .clip(RoundedCornerShape(5.dp)),
+                        color = if (isGoalReached) PrimaryGreen else PrimaryCoral,
+                        trackColor = IndigoSurfaceLight
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
 
             Text(
                 text = "¿Qué deseas practicar hoy?",
@@ -282,7 +367,7 @@ fun HomeScreen(
                         ) {
                             Text("Entrar a la Ruta de Niveles", fontWeight = FontWeight.Bold, color = Color.White)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Icon(Icons.Default.ArrowForward, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
+                            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
                         }
                     }
                 }
@@ -381,7 +466,7 @@ fun HomeScreen(
                         ) {
                             Text("Abrir Centro de Práctica", fontWeight = FontWeight.Bold, color = IndigoBackground)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Icon(Icons.Default.ArrowForward, contentDescription = null, tint = IndigoBackground, modifier = Modifier.size(18.dp))
+                            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, tint = IndigoBackground, modifier = Modifier.size(18.dp))
                         }
                     }
                 }

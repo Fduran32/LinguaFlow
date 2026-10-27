@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.linguaflow.app.domain.model.*
 import com.linguaflow.app.ui.screens.auth.AuthScreen
 import com.linguaflow.app.ui.screens.home.HomeScreen
@@ -23,6 +24,7 @@ import com.linguaflow.app.ui.screens.practice.PracticeSkillMode
 import com.linguaflow.app.ui.screens.profile.ProfileScreen
 import com.linguaflow.app.ui.screens.review.MistakesReviewScreen
 import com.linguaflow.app.ui.theme.LinguaFlowTheme
+import com.linguaflow.app.util.DailyGoalAndStreakManager
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -73,6 +75,7 @@ class MainActivity : ComponentActivity(), TextToSpeech.OnInitListener {
         val locale = when (localeStr) {
             "it-IT" -> Locale.ITALIAN
             "zh-CN" -> Locale.SIMPLIFIED_CHINESE
+            "pt-BR" -> Locale("pt", "BR")
             else -> Locale.US
         }
         tts?.language = locale
@@ -94,6 +97,7 @@ fun LinguaFlowApp(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     if (uiState.currentUser == null) {
         AuthScreen(
@@ -205,6 +209,7 @@ fun LinguaFlowApp(
             }
             PracticeHubScreen(
                 languageName = uiState.currentLanguage.name,
+                languageId = uiState.currentLanguage.id,
                 flagEmoji = uiState.currentLanguage.flagEmoji,
                 currentCefr = uiState.userAssignedLevel,
                 pendingMistakesCount = uiState.pendingMistakesCount,
@@ -243,6 +248,9 @@ fun LinguaFlowApp(
                     viewModel.recordMistake(questionId, wrongAnswer)
                 },
                 onFinished = {
+                    uiState.currentUser?.let { user ->
+                        DailyGoalAndStreakManager.recordSessionCompleted(context, user.id)
+                    }
                     viewModel.navState = AppNavState.PRACTICE_HUB
                 },
                 onClose = {
@@ -271,6 +279,11 @@ fun LinguaFlowApp(
                     }
                 },
                 onLessonFinished = { passed, scorePercentage ->
+                    if (passed) {
+                        uiState.currentUser?.let { user ->
+                            DailyGoalAndStreakManager.recordSessionCompleted(context, user.id)
+                        }
+                    }
                     if (passed && targetLevel != null && !viewModel.isMistakeReviewMode) {
                         viewModel.onLevelCompleted(targetLevel.id, scorePercentage)
                     }

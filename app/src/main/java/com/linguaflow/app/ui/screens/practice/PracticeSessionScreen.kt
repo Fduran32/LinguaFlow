@@ -818,6 +818,14 @@ fun PhoneticSpeakingTipBanner(
                     "🗣️ Guía Fonética (Italiano): Mantén las vocales claras y cuida la entonación musical de la frase."
                 }
             }
+            "pt" -> {
+                val hasNasal = targetText.contains("ão") || targetText.contains("õe") || targetText.contains("ã")
+                if (hasNasal) {
+                    "🗣️ Guía Fonética (Portugués): Pronuncia suavemente las vocales nasales (ão / õe) y el ritmo fluido brasileño."
+                } else {
+                    "🗣️ Guía Fonética (Portugués): Cuida la cadencia melódica brasileña y las sílabas finales suaves."
+                }
+            }
             else -> {
                 val lower = targetText.lowercase()
                 if (lower.contains("i am") || lower.contains("i'm") || lower.contains("she is") || lower.contains("he is") || lower.contains("do not") || lower.contains("can't")) {

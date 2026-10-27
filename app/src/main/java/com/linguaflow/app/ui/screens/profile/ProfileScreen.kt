@@ -136,15 +136,19 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Opción 3: Panel de Estadísticas Globales
-            val totalGems = 120 + (completedLevelsCount * 25)
+            // Opción 3: Panel de Estadísticas Globales con Racha Real
+            val context = LocalContext.current
+            val dailyStats = remember(user.id) {
+                com.linguaflow.app.util.DailyGoalAndStreakManager.getStats(context, user.id)
+            }
+            val totalGems = 120 + (completedLevelsCount * 25) + (dailyStats.completedToday * 15)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 ProfileStatBox(
                     emoji = "🔥",
-                    value = "3 días",
+                    value = "${dailyStats.streakDays} día${if (dailyStats.streakDays == 1) "" else "s"}",
                     label = "Racha Activa",
                     modifier = Modifier.weight(1f)
                 )
