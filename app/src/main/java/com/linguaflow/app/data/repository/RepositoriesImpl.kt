@@ -162,6 +162,7 @@ class LanguageRepositoryImpl(
 
             levels.map { levelEntity ->
                 val progress = progressMap[levelEntity.id]
+                val isFirstA1Sublevel = levelEntity.cefrCode.take(2).equals("A1", ignoreCase = true) && levelEntity.orderIndex == 1
                 Level(
                     id = levelEntity.id,
                     languageId = levelEntity.languageId,
@@ -169,7 +170,7 @@ class LanguageRepositoryImpl(
                     title = levelEntity.title,
                     cefrCode = levelEntity.cefrCode,
                     requiredPreviousLevelId = levelEntity.requiredPreviousLevelId,
-                    isUnlocked = progress?.isUnlocked ?: (levelEntity.orderIndex == 1),
+                    isUnlocked = progress?.isUnlocked ?: isFirstA1Sublevel,
                     isCompleted = progress?.isCompleted ?: false
                 )
             }
@@ -234,48 +235,85 @@ class ProgressRepositoryImpl(
         completedLevelId: String,
         score: Int
     ) {
-        // Solo desbloquear si el puntaje es de al menos 80% (Opción B)
+        // Solo desbloquear si el puntaje es de al menos 80% (RN-01)
         if (score < 80) return
 
         val levels = db.levelDao().getLevelsForLanguage(languageId).first()
         val currentLevel = levels.firstOrNull { it.id == completedLevelId } ?: return
         val timestamp = System.currentTimeMillis()
 
-        // 1. Marcar el subnivel actual como completado
-        db.progressDao().markLevelCompleted(userId, currentLevel.id, score, timestamp)
+        // 1. Marcar el subnivel actual como completado (usando INSERT OR REPLACE para soportar nuevos subniveles)
+        val existingCurrent = db.progressDao().getLevelProgressSync(userId, currentLevel.id)
+        db.progressDao().saveLevelProgress(
+            UserLevelProgressEntity(
+                userId = userId,
+                levelId = currentLevel.id,
+                languageId = languageId,
+                isUnlocked = true,
+                isCompleted = true,
+                highestScore = maxOf(score, existingCurrent?.highestScore ?: 0),
+                lastCompletedAt = timestamp
+            )
+        )
 
-        // 2. Buscar el siguiente subnivel dentro del mismo nivel CEFR (ej. A1.1 -> A1.2)
+        // 2. Buscar el siguiente subnivel dentro del mismo nivel CEFR (ej. A1.1 -> A1.2 ... -> A1.11 Exam)
         val nextSubLevel = levels.firstOrNull {
-            it.cefrCode == currentLevel.cefrCode && it.orderIndex == currentLevel.orderIndex + 1
+            it.cefrCode.equals(currentLevel.cefrCode, ignoreCase = true) && it.orderIndex == currentLevel.orderIndex + 1
         }
 
         if (nextSubLevel != null) {
             // Desbloquear el siguiente subnivel dentro del mismo nivel macro
-            db.progressDao().unlockLevel(userId, nextSubLevel.id)
-        } else {
-            // Completó todos los 10 subniveles del nivel macro (ej. A1.10 completado)
-            val currentMacroOrder = cefrToOrder(currentLevel.cefrCode)
-            val nextMacroOrder = currentMacroOrder + 1
-            val nextCefrCode = orderToCefr(nextMacroOrder)
-
-            // Guardar el nuevo nivel macro en el perfil del usuario
-            db.progressDao().saveLanguageProfile(
-                UserLanguageProfileEntity(
+            val existingNext = db.progressDao().getLevelProgressSync(userId, nextSubLevel.id)
+            db.progressDao().saveLevelProgress(
+                UserLevelProgressEntity(
                     userId = userId,
+                    levelId = nextSubLevel.id,
                     languageId = languageId,
-                    assignedCefrLevel = nextCefrCode,
-                    assignedLevelOrder = nextMacroOrder,
-                    diagnosticScorePercentage = score,
-                    lastUpdated = timestamp
+                    isUnlocked = true,
+                    isCompleted = existingNext?.isCompleted ?: false,
+                    highestScore = existingNext?.highestScore ?: 0,
+                    lastCompletedAt = existingNext?.lastCompletedAt ?: 0L
                 )
             )
+        } else {
+            // Completó todos los subniveles y examen del nivel macro (ej. A1 completado -> pasa a A2)
+            val currentMacroOrder = cefrToOrder(currentLevel.cefrCode)
+            val nextMacroOrder = (currentMacroOrder + 1).coerceAtMost(6)
+            val nextCefrCode = orderToCefr(nextMacroOrder)
+
+            // Actualizar el perfil del usuario solo si avanzó a un nivel superior al asignado
+            val currentProfile = db.progressDao().getLanguageProfileSync(userId, languageId)
+            val assignedOrder = cefrToOrder(currentProfile?.assignedCefrLevel ?: "A1")
+            if (nextMacroOrder > assignedOrder) {
+                db.progressDao().saveLanguageProfile(
+                    UserLanguageProfileEntity(
+                        userId = userId,
+                        languageId = languageId,
+                        assignedCefrLevel = nextCefrCode,
+                        assignedLevelOrder = nextMacroOrder,
+                        diagnosticScorePercentage = score,
+                        lastUpdated = timestamp
+                    )
+                )
+            }
 
             // Desbloquear el primer subnivel del nuevo macro nivel
             val firstSubLevelOfNext = levels.firstOrNull {
                 it.cefrCode.take(2).equals(nextCefrCode.take(2), ignoreCase = true) && it.orderIndex == 1
             }
             if (firstSubLevelOfNext != null) {
-                db.progressDao().unlockLevel(userId, firstSubLevelOfNext.id)
+                val existingFirstNext = db.progressDao().getLevelProgressSync(userId, firstSubLevelOfNext.id)
+                db.progressDao().saveLevelProgress(
+                    UserLevelProgressEntity(
+                        userId = userId,
+                        levelId = firstSubLevelOfNext.id,
+                        languageId = languageId,
+                        isUnlocked = true,
+                        isCompleted = existingFirstNext?.isCompleted ?: false,
+                        highestScore = existingFirstNext?.highestScore ?: 0,
+                        lastCompletedAt = existingFirstNext?.lastCompletedAt ?: 0L
+                    )
+                )
             }
         }
     }
@@ -320,7 +358,7 @@ class ProgressRepositoryImpl(
                     )
                 }
                 lvlMacroOrder == targetMacroOrder -> {
-                    // Nivel macro actual: Subnivel 1 desbloqueado, subniveles 2 al 10 bloqueados
+                    // Nivel macro actual: Subnivel 1 desbloqueado, subniveles siguientes bloqueados
                     db.progressDao().saveLevelProgress(
                         UserLevelProgressEntity(
                             userId = userId,

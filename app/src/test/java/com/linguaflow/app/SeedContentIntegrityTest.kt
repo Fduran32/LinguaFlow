@@ -24,6 +24,7 @@ class SeedContentIntegrityTest {
         assertTrue("Debe existir al menos un idioma", languages.size() > 0)
 
         val validEnumTypes = QuestionType.values().map { it.name }.toSet()
+        val validCefrCodes = setOf("A1", "A2", "B1", "B2", "C1", "C2")
 
         var totalQuestions = 0
         var completeSentencesCount = 0
@@ -36,6 +37,11 @@ class SeedContentIntegrityTest {
 
             for (lvlElement in levels) {
                 val lvlObj = lvlElement.asJsonObject
+                val lvlCode = lvlObj.get("cefr_code").asString
+                assertTrue(
+                    "El código CEFR '$lvlCode' debe ser válido (A1-C2)",
+                    validCefrCodes.contains(lvlCode)
+                )
                 val lessons = lvlObj.getAsJsonArray("lessons")
 
                 for (lesElement in lessons) {
@@ -55,11 +61,22 @@ class SeedContentIntegrityTest {
                         assertFalse("El prompt de la pregunta no debe estar en blanco ($qId)", prompt.isBlank())
                         assertFalse("La respuesta correcta no debe estar en blanco ($qId)", correctAnswer.isBlank())
 
-                        // Verificación crítica: el tipo debe ser exactamente uno de los valores válidos del enum
                         assertTrue(
                             "El tipo de pregunta '$qType' en '$qId' debe ser un QuestionType válido en Models.kt",
                             validEnumTypes.contains(qType)
                         )
+
+                        if (qType == QuestionType.TRANSLATE_BUILD.name) {
+                            val extracted = PracticeSentenceFilter.extractSpanishPromptForWriting(
+                                QuestionType.TRANSLATE_BUILD.name,
+                                prompt,
+                                correctAnswer
+                            )
+                            assertNotNull(
+                                "Toda pregunta TRANSLATE_BUILD ($qId) debe tener una traducción en español distinta a la respuesta",
+                                extracted
+                            )
+                        }
 
                         if (PracticeSentenceFilter.isMeaningfulSentence(correctAnswer)) {
                             completeSentencesCount++
@@ -69,10 +86,10 @@ class SeedContentIntegrityTest {
             }
         }
 
-        assertTrue("Deben existir al menos 100 preguntas en total (actual: $totalQuestions)", totalQuestions >= 100)
+        assertTrue("Deben existir al menos 1000 preguntas en total (actual: $totalQuestions)", totalQuestions >= 1000)
         assertTrue(
-            "Deben existir al menos 300 oraciones completas y significativas para el Centro de Entrenamiento (actual: $completeSentencesCount)",
-            completeSentencesCount >= 300
+            "Deben existir al menos 500 oraciones completas y significativas para el Centro de Entrenamiento (actual: $completeSentencesCount)",
+            completeSentencesCount >= 500
         )
     }
 }

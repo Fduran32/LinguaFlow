@@ -1713,7 +1713,7 @@
                 {
                   "id": "en_ex1_3",
                   "type": "SPEAKING",
-                  "prompt": "Toca el micrófono y pronuncia tu profesión:",
+                  "prompt": "Pronuncia en voz alta: 'Yo soy estudiante'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "I am a student",
                   "options": [],
@@ -1771,7 +1771,7 @@
                 {
                   "id": "en_ex1_7",
                   "type": "SPEAKING",
-                  "prompt": "Toca el micrófono y pronuncia la descripción:",
+                  "prompt": "Pronuncia en voz alta: 'El cielo está azul hoy'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "The sky is blue today",
                   "options": [],
@@ -3600,7 +3600,7 @@
                 {
                   "id": "en_ex2_3",
                   "type": "SPEAKING",
-                  "prompt": "Toca el micrófono y expresa tu plan:",
+                  "prompt": "Pronuncia en voz alta: 'Voy a estudiar esta noche'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "I am going to study tonight",
                   "options": [],
@@ -3658,7 +3658,7 @@
                 {
                   "id": "en_ex2_7",
                   "type": "SPEAKING",
-                  "prompt": "Toca el micrófono y pronuncia:",
+                  "prompt": "Pronuncia en voz alta: 'Este es el mejor día de mi vida'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "This is the best day of my life",
                   "options": [],
@@ -5528,7 +5528,7 @@
                 {
                   "id": "en_lvl_b1_exam_ex3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia:",
+                  "prompt": "Pronuncia en voz alta: 'Espero con ilusión conocerte pronto'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "I am looking forward to meeting you soon",
                   "options": [],
@@ -5587,7 +5587,7 @@
                 {
                   "id": "en_lvl_b1_exam_ex7",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia la hipótesis:",
+                  "prompt": "Pronuncia en voz alta: 'Si tuviera más tiempo libre aprendería guitarra'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "If I had more free time I would learn guitar",
                   "options": [],
@@ -7520,7 +7520,7 @@
                 {
                   "id": "en_lvl_b2_exam_ex3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia la deducción:",
+                  "prompt": "Pronuncia en voz alta: 'Ella ya debe haber llegado al lugar'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "She must have arrived at the venue by now",
                   "options": [],
@@ -7581,7 +7581,7 @@
                 {
                   "id": "en_lvl_b2_exam_ex7",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia la reflexión:",
+                  "prompt": "Pronuncia en voz alta: 'Si hubiera sabido del riesgo habría actuado diferente'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Had I known about the risk I would have acted differently",
                   "options": [],
@@ -7676,7 +7676,7 @@
                 {
                   "id": "en_lvl_c1_1_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Rigorous empirical methodology underpins genuine scientific inquiries'",
+                  "prompt": "Ordena las fichas: 'Una metodología empírica rigurosa sustenta las investigaciones científicas genuinas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Rigorous empirical methodology underpins genuine scientific inquiries",
                   "options": [
@@ -7694,7 +7694,7 @@
                 {
                   "id": "en_lvl_c1_1_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con entonación académica y precisión fonética:",
+                  "prompt": "Pronuncia en voz alta: 'Las publicaciones revisadas por pares aseguran la integridad académica'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Peer reviewed publications ensure scholarly integrity and accuracy",
                   "options": [],
@@ -7751,7 +7751,7 @@
                 {
                   "id": "en_lvl_c1_2_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Diplomatic multilateralism remains pivotal in crisis resolution'",
+                  "prompt": "Ordena las fichas: 'El multilateralismo diplomático sigue siendo fundamental en la resolución de crisis'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Diplomatic multilateralism remains pivotal in crisis resolution",
                   "options": [
@@ -7769,7 +7769,7 @@
                 {
                   "id": "en_lvl_c1_2_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con entonación académica y precisión fonética:",
+                  "prompt": "Pronuncia en voz alta: 'La autonomía soberana debe equilibrar las obligaciones colectivas internacionales'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Sovereign autonomy must balance international collective obligations",
                   "options": [],
@@ -7826,7 +7826,7 @@
                 {
                   "id": "en_lvl_c1_3_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Deontological frameworks emphasize inviolable moral duties'",
+                  "prompt": "Ordena las fichas: 'Los marcos deontológicos enfatizan deberes morales inviolables'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Deontological frameworks emphasize inviolable moral duties",
                   "options": [
@@ -7843,7 +7843,7 @@
                 {
                   "id": "en_lvl_c1_3_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con entonación académica y precisión fonética:",
+                  "prompt": "Pronuncia en voz alta: 'La filosofía existencialista defiende la libertad humana radical y la autenticidad'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Existentialist philosophy champions radical human freedom and authenticity",
                   "options": [],
@@ -7900,7 +7900,7 @@
                 {
                   "id": "en_lvl_c1_4_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Quantitative easing mitigated severe liquidity shortages nationwide'",
+                  "prompt": "Ordena las fichas: 'La flexibilización cuantitativa mitigó la grave escasez de liquidez en todo el país'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Quantitative easing mitigated severe liquidity shortages nationwide",
                   "options": [
@@ -7918,7 +7918,7 @@
                 {
                   "id": "en_lvl_c1_4_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con entonación académica y precisión fonética:",
+                  "prompt": "Pronuncia en voz alta: 'La austeridad fiscal a menudo agrava las desigualdades socioeconómicas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Fiscal austerity often exacerbates socioeconomic inequalities",
                   "options": [],
@@ -7975,7 +7975,7 @@
                 {
                   "id": "en_lvl_c1_5_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Algorithmic opacity raises profound questions regarding accountability'",
+                  "prompt": "Ordena las fichas: 'La opacidad algorítmica plantea profundas interrogantes sobre la rendición de cuentas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Algorithmic opacity raises profound questions regarding accountability",
                   "options": [
@@ -7993,7 +7993,7 @@
                 {
                   "id": "en_lvl_c1_5_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con entonación académica y precisión fonética:",
+                  "prompt": "Pronuncia en voz alta: 'Los modelos generativos sintetizan representaciones multimodales sofisticadas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Generative models synthesize sophisticated multimodal representations",
                   "options": [],
@@ -8050,7 +8050,7 @@
                 {
                   "id": "en_lvl_c1_6_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'His trenchant prose laid bare societal hypocrisies'",
+                  "prompt": "Ordena las fichas: 'Su prosa incisiva dejó al descubierto las hipocresías sociales'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "His trenchant prose laid bare societal hypocrisies",
                   "options": [
@@ -8068,7 +8068,7 @@
                 {
                   "id": "en_lvl_c1_6_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con entonación académica y precisión fonética:",
+                  "prompt": "Pronuncia en voz alta: 'La retórica elocuente puede impulsar la movilización cívica o engañar'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Eloquent rhetoric can galvanize civic mobilization or deceive",
                   "options": [],
@@ -8125,7 +8125,7 @@
                 {
                   "id": "en_lvl_c1_7_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Decarbonization strategies demand substantial infrastructural revamping'",
+                  "prompt": "Ordena las fichas: 'Las estrategias de descarbonización exigen una renovación sustancial de la infraestructura'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Decarbonization strategies demand substantial infrastructural revamping",
                   "options": [
@@ -8142,7 +8142,7 @@
                 {
                   "id": "en_lvl_c1_7_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con entonación académica y precisión fonética:",
+                  "prompt": "Pronuncia en voz alta: 'La degradación ecológica impone externalidades globales irreparables'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Ecological degradation imposes irreparable global externalities",
                   "options": [],
@@ -8199,7 +8199,7 @@
                 {
                   "id": "en_lvl_c1_8_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Synaptic transmission mediates complex cognitive and sensory functions'",
+                  "prompt": "Ordena las fichas: 'La transmisión sináptica media funciones cognitivas y sensoriales complejas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Synaptic transmission mediates complex cognitive and sensory functions",
                   "options": [
@@ -8218,7 +8218,7 @@
                 {
                   "id": "en_lvl_c1_8_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con entonación académica y precisión fonética:",
+                  "prompt": "Pronuncia en voz alta: 'La neurogénesis persiste en regiones cerebrales específicas durante la adultez'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Neurogenesis persists within specific cerebral regions throughout adulthood",
                   "options": [],
@@ -8275,7 +8275,7 @@
                 {
                   "id": "en_lvl_c1_9_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Disruptive innovations frequently render legacy business models obsolete'",
+                  "prompt": "Ordena las fichas: 'Las innovaciones disruptivas frecuentemente vuelven obsoletos los modelos de negocio tradicionales'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Disruptive innovations frequently render legacy business models obsolete",
                   "options": [
@@ -8294,7 +8294,7 @@
                 {
                   "id": "en_lvl_c1_9_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con entonación académica y precisión fonética:",
+                  "prompt": "Pronuncia en voz alta: 'Los paradigmas ágiles mejoran la resiliencia institucional ante la volatilidad'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Agile paradigms enhance institutional resilience amidst volatility",
                   "options": [],
@@ -8351,7 +8351,7 @@
                 {
                   "id": "en_lvl_c1_10_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Bilateral accords require meticulous textual drafting and goodwill'",
+                  "prompt": "Ordena las fichas: 'Los acuerdos bilaterales requieren una redacción textual meticulosa y buena voluntad'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Bilateral accords require meticulous textual drafting and goodwill",
                   "options": [
@@ -8370,7 +8370,7 @@
                 {
                   "id": "en_lvl_c1_10_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con entonación académica y precisión fonética:",
+                  "prompt": "Pronuncia en voz alta: 'La ambigüedad constructiva salvó las diferencias ideológicas en la cumbre'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Constructive ambiguity bridged ideological divides at the summit",
                   "options": [],
@@ -8446,7 +8446,7 @@
                 {
                   "id": "en_lvl_c1_exam_ex3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia:",
+                  "prompt": "Pronuncia en voz alta: 'La evidencia empírica corrobora inequívocamente esta hipótesis'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Empirical evidence unequivocally substantiates this hypothesis",
                   "options": [],
@@ -8504,7 +8504,7 @@
                 {
                   "id": "en_lvl_c1_exam_ex7",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia la elocución C1:",
+                  "prompt": "Pronuncia en voz alta: 'Las contradicciones inherentes socavan inevitablemente la gobernanza autocrática'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Inherent contradictions inevitably undermine autocratic governance",
                   "options": [],
@@ -8595,7 +8595,7 @@
                 {
                   "id": "en_lvl_c2_1_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Epistemic skepticism interrogates foundationalist truth paradigms'",
+                  "prompt": "Ordena las fichas: 'El escepticismo epistémico interroga los paradigmas fundacionalistas de la verdad'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Epistemic skepticism interrogates foundationalist truth paradigms",
                   "options": [
@@ -8612,7 +8612,7 @@
                 {
                   "id": "en_lvl_c2_1_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con cadencia magistral de hablante nativo culto:",
+                  "prompt": "Pronuncia en voz alta: 'La circularidad hermenéutica caracteriza las ciencias humanas interpretativas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Hermeneutic circularity characterizes interpretive human sciences",
                   "options": [],
@@ -8669,7 +8669,7 @@
                 {
                   "id": "en_lvl_c2_2_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Stare decisis guarantees predictability in common law jurisprudence'",
+                  "prompt": "Ordena las fichas: 'La doctrina del precedente judicial garantiza la previsibilidad en la jurisprudencia'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Stare decisis guarantees predictability in common law jurisprudence",
                   "options": [
@@ -8688,7 +8688,7 @@
                 {
                   "id": "en_lvl_c2_2_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con cadencia magistral de hablante nativo culto:",
+                  "prompt": "Pronuncia en voz alta: 'Las prerrogativas constitucionales delimitan estrictamente la jurisdicción ejecutiva'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Constitutional prerogatives delimit executive jurisdiction strictly",
                   "options": [],
@@ -8745,7 +8745,7 @@
                 {
                   "id": "en_lvl_c2_3_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Ciceronian eloquence combines persuasive pathos with rigorous logos'",
+                  "prompt": "Ordena las fichas: 'La elocuencia ciceroniana combina la emoción persuasiva con la lógica rigurosa'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Ciceronian eloquence combines persuasive pathos with rigorous logos",
                   "options": [
@@ -8764,7 +8764,7 @@
                 {
                   "id": "en_lvl_c2_3_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con cadencia magistral de hablante nativo culto:",
+                  "prompt": "Pronuncia en voz alta: 'Los paralelismos antitéticos elevan la cadencia retórica a alturas sublimes'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Antithetical parallelisms elevate rhetorical cadence to sublime heights",
                   "options": [],
@@ -8821,7 +8821,7 @@
                 {
                   "id": "en_lvl_c2_4_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Structural linguistics reveals unconscious semiotic matrices in culture'",
+                  "prompt": "Ordena las fichas: 'La lingüística estructural revela matrices semióticas inconscientes en la cultura'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Structural linguistics reveals unconscious semiotic matrices in culture",
                   "options": [
@@ -8840,7 +8840,7 @@
                 {
                   "id": "en_lvl_c2_4_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con cadencia magistral de hablante nativo culto:",
+                  "prompt": "Pronuncia en voz alta: 'Los lexemas polisémicos resisten las categorizaciones semánticas reductivas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Polysemous lexemes resist reductive semantic categorizations",
                   "options": [],
@@ -8897,7 +8897,7 @@
                 {
                   "id": "en_lvl_c2_5_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Avant garde aesthetics disrupt bourgeois complacencies deliberately'",
+                  "prompt": "Ordena las fichas: 'La estética vanguardista altera deliberadamente la complacencia burguesa'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Avant garde aesthetics disrupt bourgeois complacencies deliberately",
                   "options": [
@@ -8915,7 +8915,7 @@
                 {
                   "id": "en_lvl_c2_5_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con cadencia magistral de hablante nativo culto:",
+                  "prompt": "Pronuncia en voz alta: 'La contemplación estética trasciende los cálculos utilitarios instrumentales'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Aesthetic contemplation transcends instrumental utilitarian calculations",
                   "options": [],
@@ -8972,7 +8972,7 @@
                 {
                   "id": "en_lvl_c2_6_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Stochastic modeling assesses systemic counterparty insolvency risks'",
+                  "prompt": "Ordena las fichas: 'El modelado estocástico evalúa los riesgos sistémicos de insolvencia de contraparte'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Stochastic modeling assesses systemic counterparty insolvency risks",
                   "options": [
@@ -8990,7 +8990,7 @@
                 {
                   "id": "en_lvl_c2_6_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con cadencia magistral de hablante nativo culto:",
+                  "prompt": "Pronuncia en voz alta: 'La regulación macroprudencial protege a las economías de las burbujas especulativas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Macroprudential regulation shields economies from speculative bubbles",
                   "options": [],
@@ -9047,7 +9047,7 @@
                 {
                   "id": "en_lvl_c2_7_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Realpolitik dictates ruthless pragmatism in anarchic international arenas'",
+                  "prompt": "Ordena las fichas: 'La realpolitik dicta un pragmatismo implacable en escenarios internacionales anárquicos'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Realpolitik dictates ruthless pragmatism in anarchic international arenas",
                   "options": [
@@ -9066,7 +9066,7 @@
                 {
                   "id": "en_lvl_c2_7_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con cadencia magistral de hablante nativo culto:",
+                  "prompt": "Pronuncia en voz alta: 'Las arquitecturas de disuasión dependen de una capacidad de represalia creíble'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Deterrence architectures hinge upon credible retaliatory capability",
                   "options": [],
@@ -9123,7 +9123,7 @@
                 {
                   "id": "en_lvl_c2_8_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Bioethical scrutiny must precede clinical transhumanist interventions'",
+                  "prompt": "Ordena las fichas: 'El escrutinio bioético debe preceder a las intervenciones clínicas transhumanistas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Bioethical scrutiny must precede clinical transhumanist interventions",
                   "options": [
@@ -9141,7 +9141,7 @@
                 {
                   "id": "en_lvl_c2_8_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con cadencia magistral de hablante nativo culto:",
+                  "prompt": "Pronuncia en voz alta: 'Las terapias somáticas contrastan marcadamente con las alteraciones de la línea germinal'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Somatic therapies contrast sharply with germline alterations",
                   "options": [],
@@ -9198,7 +9198,7 @@
                 {
                   "id": "en_lvl_c2_9_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'Lyrical ambivalence mirrors the labyrinthine human psyche'",
+                  "prompt": "Ordena las fichas: 'La ambivalencia lírica refleja la laberíntica psique humana'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Lyrical ambivalence mirrors the labyrinthine human psyche",
                   "options": [
@@ -9216,7 +9216,7 @@
                 {
                   "id": "en_lvl_c2_9_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con cadencia magistral de hablante nativo culto:",
+                  "prompt": "Pronuncia en voz alta: 'Las metáforas elípticas evocan anhelos trascendentales inefables'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Elliptical metaphors evoke ineffable transcendental yearnings",
                   "options": [],
@@ -9273,7 +9273,7 @@
                 {
                   "id": "en_lvl_c2_10_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: 'To speak off the cuff requires immaculate rhetorical prowess'",
+                  "prompt": "Ordena las fichas: 'Hablar de forma improvisada requiere una destreza retórica inmaculada'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "To speak off the cuff requires immaculate rhetorical prowess",
                   "options": [
@@ -9293,7 +9293,7 @@
                 {
                   "id": "en_lvl_c2_10_q3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con cadencia magistral de hablante nativo culto:",
+                  "prompt": "Pronuncia en voz alta: 'Navegó las traicioneras aguas burocráticas con un aplomo consumado'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "She navigated treacherous bureaucratic waters with consummate aplomb",
                   "options": [],
@@ -9369,7 +9369,7 @@
                 {
                   "id": "en_lvl_c2_exam_ex3",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia la máxima filosófica:",
+                  "prompt": "Pronuncia en voz alta: 'Los argumentos convincentes desmantelan las posturas retóricas engañosas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Cogent arguments dismantle specious rhetorical posturing",
                   "options": [],
@@ -9430,7 +9430,7 @@
                 {
                   "id": "en_lvl_c2_exam_ex7",
                   "type": "SPEAKING",
-                  "prompt": "Pronuncia con elocuencia:",
+                  "prompt": "Pronuncia en voz alta: 'Los descubrimientos fortuitos frecuentemente catalizan revoluciones científicas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Serendipitous discoveries frequently catalyze scientific revolutions",
                   "options": [],
@@ -10438,7 +10438,7 @@
                 {
                   "id": "it_lvl_a2_1_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le parole: 'Mi lavo i denti e mi vesto velocemente'",
+                  "prompt": "Ordena las fichas: 'Me lavo los dientes y me visto rápidamente'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Mi lavo i denti e mi vesto velocemente",
                   "options": [
@@ -10514,7 +10514,7 @@
                 {
                   "id": "it_lvl_a2_2_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le parole: 'Ho mangiato una pizza deliziosa in centro'",
+                  "prompt": "Ordena las fichas: 'Comí una pizza deliciosa en el centro'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Ho mangiato una pizza deliziosa in centro",
                   "options": [
@@ -10589,7 +10589,7 @@
                 {
                   "id": "it_lvl_a2_3_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le parole: 'Vorrei due etti di formaggio parmigiano reggiano'",
+                  "prompt": "Ordena las fichas: 'Quisiera doscientos gramos de queso parmesano reggiano'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Vorrei due etti di formaggio parmigiano reggiano",
                   "options": [
@@ -10664,7 +10664,7 @@
                 {
                   "id": "it_lvl_a2_4_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le parole: 'La stazione ferroviaria si trova di fronte alla farmacia'",
+                  "prompt": "Ordena las fichas: 'La estación de tren se encuentra frente a la farmacia'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "La stazione ferroviaria si trova di fronte alla farmacia",
                   "options": [
@@ -10741,7 +10741,7 @@
                 {
                   "id": "it_lvl_a2_5_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le parole: 'I nostri nonni vivono in una bellissima campagna'",
+                  "prompt": "Ordena las fichas: 'Nuestros abuelos viven en un hermoso campo'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "I nostri nonni vivono in una bellissima campagna",
                   "options": [
@@ -10817,7 +10817,7 @@
                 {
                   "id": "it_lvl_a2_6_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le parole: 'Faceva molto freddo e nevicava sulle montagne'",
+                  "prompt": "Ordena las fichas: 'Hacía mucho frío y nevaba en las montañas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Faceva molto freddo e nevicava sulle montagne",
                   "options": [
@@ -10892,7 +10892,7 @@
                 {
                   "id": "it_lvl_a2_7_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le parole: 'Ci porti il conto e una bottiglia d'acqua'",
+                  "prompt": "Ordena las fichas: 'Tráiganos la cuenta y una botella de agua'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Ci porti il conto e una bottiglia d'acqua",
                   "options": [
@@ -10968,7 +10968,7 @@
                 {
                   "id": "it_lvl_a2_8_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le parole: 'Il gatto dorme comodamente sopra il divano morbido'",
+                  "prompt": "Ordena las fichas: 'El gato duerme cómodamente sobre el sofá suave'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Il gatto dorme comodamente sopra il divano morbido",
                   "options": [
@@ -11044,7 +11044,7 @@
                 {
                   "id": "it_lvl_a2_9_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le parole: 'Domani studierò per l'esame tutto il pomeriggio'",
+                  "prompt": "Ordena las fichas: 'Mañana estudiaré para el examen toda la tarde'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Domani studierò per l'esame tutto il pomeriggio",
                   "options": [
@@ -11119,7 +11119,7 @@
                 {
                   "id": "it_lvl_a2_10_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le parole: 'Prendi questa medicina naturale dopo ogni pasto principale'",
+                  "prompt": "Ordena las fichas: 'Toma esta medicina natural después de cada comida principal'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Prendi questa medicina naturale dopo ogni pasto principale",
                   "options": [
@@ -11195,7 +11195,7 @@
                 {
                   "id": "it_lvl_a2_exam_ex2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Vorrei un bicchiere d'acqua minerale naturale'",
+                  "prompt": "Ordena: 'Quisiera un vaso de agua mineral sin gas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Vorrei un bicchiere d'acqua minerale naturale",
                   "options": [
@@ -11252,7 +11252,7 @@
                 {
                   "id": "it_lvl_a2_exam_ex6",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Da bambino giocavo sempre nel cortile'",
+                  "prompt": "Ordena: 'De niño jugaba siempre en el patio'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Da bambino giocavo sempre nel cortile",
                   "options": [
@@ -11309,7 +11309,7 @@
                 {
                   "id": "it_lvl_a2_exam_ex10",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Abbiamo comprato una casa grande con giardino'",
+                  "prompt": "Ordena: 'Hemos comprado una casa grande con jardín'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Abbiamo comprato una casa grande con giardino",
                   "options": [
@@ -11359,7 +11359,7 @@
                 {
                   "id": "it_lvl_b1_1_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Quando sono uscito di casa pioveva a catinelle'",
+                  "prompt": "Ordena las fichas: 'Cuando salí de casa llovía a cántaros'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Quando sono uscito di casa pioveva a catinelle",
                   "options": [
@@ -11435,7 +11435,7 @@
                 {
                   "id": "it_lvl_b1_2_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Credo che loro abbiano ragione su questa questione delicata'",
+                  "prompt": "Ordena las fichas: 'Creo que ellos tienen razón sobre esta cuestión delicada'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Credo che loro abbiano ragione su questa questione delicata",
                   "options": [
@@ -11512,7 +11512,7 @@
                 {
                   "id": "it_lvl_b1_3_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Prima di partire avevamo prenotato tutti gli alberghi'",
+                  "prompt": "Ordena las fichas: 'Antes de partir habíamos reservado todos los hoteles'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Prima di partire avevamo prenotato tutti gli alberghi",
                   "options": [
@@ -11588,7 +11588,7 @@
                 {
                   "id": "it_lvl_b1_4_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Se avessi abbastanza tempo libero imparerei a suonare il pianoforte'",
+                  "prompt": "Ordena las fichas: 'Si tuviera suficiente tiempo libre aprendería a tocar el piano'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Se avessi abbastanza tempo libero imparerei a suonare il pianoforte",
                   "options": [
@@ -11666,7 +11666,7 @@
                 {
                   "id": "it_lvl_b1_5_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Le ho regalato un bel mazzo di fiori profumati'",
+                  "prompt": "Ordena las fichas: 'Le he regalado un hermoso ramo de flores perfumadas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Le ho regalato un bel mazzo di fiori profumati",
                   "options": [
@@ -11743,7 +11743,7 @@
                 {
                   "id": "it_lvl_b1_6_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Durante le vacanze estive si viaggia molto di più'",
+                  "prompt": "Ordena las fichas: 'Durante las vacaciones de verano se viaja mucho más'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Durante le vacanze estive si viaggia molto di più",
                   "options": [
@@ -11820,7 +11820,7 @@
                 {
                   "id": "it_lvl_b1_7_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Se vuoi la mia macchina fotografica te la presto volentieri'",
+                  "prompt": "Ordena las fichas: 'Si quieres mi cámara fotográfica te la presto con gusto'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Se vuoi la mia macchina fotografica te la presto volentieri",
                   "options": [
@@ -11898,7 +11898,7 @@
                 {
                   "id": "it_lvl_b1_8_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Temo che il maltempo rovini i nostri piani all'aperto'",
+                  "prompt": "Ordena las fichas: 'Temo que el mal tiempo arruine nuestros planes al aire libre'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Temo che il maltempo rovini i nostri piani all'aperto",
                   "options": [
@@ -11975,7 +11975,7 @@
                 {
                   "id": "it_lvl_b1_9_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'La cucina italiana è straordinariamente ricca di varietà e sapori'",
+                  "prompt": "Ordena las fichas: 'La cocina italiana es extraordinariamente rica en variedad y sabores'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "La cucina italiana è straordinariamente ricca di varietà e sapori",
                   "options": [
@@ -12053,7 +12053,7 @@
                 {
                   "id": "it_lvl_b1_10_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Saremmo venuti volentieri ma non abbiamo trovato i biglietti'",
+                  "prompt": "Ordena las fichas: 'Habríamos venido con gusto pero no encontramos los boletos'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Saremmo venuti volentieri ma non abbiamo trovato i biglietti",
                   "options": [
@@ -12130,7 +12130,7 @@
                 {
                   "id": "it_lvl_b1_exam_ex2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Se avessi soldi comprerei una macchina nuova'",
+                  "prompt": "Ordena: 'Si tuviera dinero compraría un auto nuevo'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Se avessi soldi comprerei una macchina nuova",
                   "options": [
@@ -12188,7 +12188,7 @@
                 {
                   "id": "it_lvl_b1_exam_ex6",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Non avevo mai provato una sensazione simile'",
+                  "prompt": "Ordena: 'Nunca había sentido una sensación similar'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Non avevo mai provato una sensazione simile",
                   "options": [
@@ -12246,7 +12246,7 @@
                 {
                   "id": "it_lvl_b1_exam_ex10",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Ci hanno invitato alla festa di inaugurazione'",
+                  "prompt": "Ordena: 'Nos han invitado a la fiesta de inauguración'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Ci hanno invitato alla festa di inaugurazione",
                   "options": [
@@ -12296,7 +12296,7 @@
                 {
                   "id": "it_lvl_b2_1_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Vorrei che tutti collaborassero attivamente a questo nobile scopo'",
+                  "prompt": "Ordena las fichas: 'Quisiera que todos colaboraran activamente en este noble propósito'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Vorrei che tutti collaborassero attivamente a questo nobile scopo",
                   "options": [
@@ -12373,7 +12373,7 @@
                 {
                   "id": "it_lvl_b2_2_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Se non avesse piovuto così tanto saremmo andati al mare'",
+                  "prompt": "Ordena las fichas: 'Si no hubiera llovido tanto habríamos ido al mar'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Se non avesse piovuto così tanto saremmo andati al mare",
                   "options": [
@@ -12451,7 +12451,7 @@
                 {
                   "id": "it_lvl_b2_3_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Il nuovo ponte cittadino viene inaugurato dalle massime autorità'",
+                  "prompt": "Ordena las fichas: 'El nuevo puente de la ciudad es inaugurado por las máximas autoridades'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Il nuovo ponte cittadino viene inaugurato dalle massime autorità",
                   "options": [
@@ -12528,7 +12528,7 @@
                 {
                   "id": "it_lvl_b2_4_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Studiando con rigore e perseveranza si ottengono splendidi risultati'",
+                  "prompt": "Ordena las fichas: 'Estudiando con rigor y perseverancia se obtienen espléndidos resultados'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Studiando con rigore e perseveranza si ottengono splendidi risultati",
                   "options": [
@@ -12605,7 +12605,7 @@
                 {
                   "id": "it_lvl_b2_5_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Mi assicurò che avrebbe risolto il problema entro poche ore'",
+                  "prompt": "Ordena las fichas: 'Me aseguró que habría resuelto el problema en pocas horas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Mi assicurò che avrebbe risolto il problema entro poche ore",
                   "options": [
@@ -12683,7 +12683,7 @@
                 {
                   "id": "it_lvl_b2_6_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Malgrado le avversità insormontabili la squadra ha trionfato con onore'",
+                  "prompt": "Ordena las fichas: 'A pesar de las adversidades insuperables el equipo triunfó con honor'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Malgrado le avversità insormontabili la squadra ha trionfato con onore",
                   "options": [
@@ -12761,7 +12761,7 @@
                 {
                   "id": "it_lvl_b2_7_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Finiti gli esami universitari partiremo per una vacanza meritata'",
+                  "prompt": "Ordena las fichas: 'Terminados los exámenes universitarios partiremos de vacaciones merecidas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Finiti gli esami universitari partiremo per una vacanza meritata",
                   "options": [
@@ -12838,7 +12838,7 @@
                 {
                   "id": "it_lvl_b2_8_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Chi cerca trova sempre una valida opportunità di crescita'",
+                  "prompt": "Ordena las fichas: 'El que busca encuentra siempre una válida oportunidad de crecimiento'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Chi cerca trova sempre una valida opportunità di crescita",
                   "options": [
@@ -12915,7 +12915,7 @@
                 {
                   "id": "it_lvl_b2_9_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Garibaldi sbarcò a Marsala con la spedizione dei Mille'",
+                  "prompt": "Ordena las fichas: 'Garibaldi desembarcó en Marsala con la expedición de los Mil'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Garibaldi sbarcò a Marsala con la spedizione dei Mille",
                   "options": [
@@ -12992,7 +12992,7 @@
                 {
                   "id": "it_lvl_b2_10_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Bisogna soppesare attentamente i pro e i contro della decisione'",
+                  "prompt": "Ordena las fichas: 'Hay que sopesar atentamente los pros y los contras de la decisión'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Bisogna soppesare attentamente i pro e i contro della decisione",
                   "options": [
@@ -13070,7 +13070,7 @@
                 {
                   "id": "it_lvl_b2_exam_ex2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'In Italia queste antiche usanze vanno tutelate'",
+                  "prompt": "Ordena: 'En Italia estas antiguas costumbres deben ser protegidas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "In Italia queste antiche usanze vanno tutelate",
                   "options": [
@@ -13128,7 +13128,7 @@
                 {
                   "id": "it_lvl_b2_exam_ex6",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Benché fosse stanco portò a termine l'incarico'",
+                  "prompt": "Ordena: 'Aunque estaba cansado llevó a cabo el encargo'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Benché fosse stanco portò a termine l'incarico",
                   "options": [
@@ -13186,7 +13186,7 @@
                 {
                   "id": "it_lvl_b2_exam_ex10",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Avendo studiato con passione superò brillantemente ogni prova'",
+                  "prompt": "Ordena: 'Habiendo estudiado con pasión superó brillantemente cada prueba'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Avendo studiato con passione superò brillantemente ogni prova",
                   "options": [
@@ -13237,7 +13237,7 @@
                 {
                   "id": "it_lvl_c1_1_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Un approccio metodologico rigoroso scongiura derive speculative'",
+                  "prompt": "Ordena las fichas: 'Un enfoque metodológico riguroso evita derivas especulativas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Un approccio metodologico rigoroso scongiura derive speculative",
                   "options": [
@@ -13312,7 +13312,7 @@
                 {
                   "id": "it_lvl_c1_2_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'La diplomazia multilaterale costituisce il baluardo della pace duratura'",
+                  "prompt": "Ordena las fichas: 'La diplomacia multilateral constituye el baluarte de la paz duradera'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "La diplomazia multilaterale costituisce il baluardo della pace duratura",
                   "options": [
@@ -13389,7 +13389,7 @@
                 {
                   "id": "it_lvl_c1_3_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'L'etica della responsabilità impone di soppesare le conseguenze remote'",
+                  "prompt": "Ordena las fichas: 'La ética de la responsabilidad impone sopesar las consecuencias remotas'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "L'etica della responsabilità impone di soppesare le conseguenze remote",
                   "options": [
@@ -13466,7 +13466,7 @@
                 {
                   "id": "it_lvl_c1_4_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'L'allentamento quantitativo ha iniettato cospicua liquidità nei mercati'",
+                  "prompt": "Ordena las fichas: 'La flexibilización cuantitativa ha inyectado abundante liquidez en los mercados'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "L'allentamento quantitativo ha iniettato cospicua liquidità nei mercati",
                   "options": [
@@ -13542,7 +13542,7 @@
                 {
                   "id": "it_lvl_c1_5_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Il diritto di cronaca non deve mai trasmodare nella diffamazione'",
+                  "prompt": "Ordena las fichas: 'El derecho a informar nunca debe degenerar en la difamación'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Il diritto di cronaca non deve mai trasmodare nella diffamazione",
                   "options": [
@@ -13620,7 +13620,7 @@
                 {
                   "id": "it_lvl_c1_6_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'La polisemia del testo poetico dischiude molteplici livelli ermeneutici'",
+                  "prompt": "Ordena las fichas: 'La polisemia del texto poético abre múltiples niveles hermenéuticos'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "La polisemia del testo poetico dischiude molteplici livelli ermeneutici",
                   "options": [
@@ -13697,7 +13697,7 @@
                 {
                   "id": "it_lvl_c1_7_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'La tutela paesaggistica rappresenta un imperativo etico intergenerazionale'",
+                  "prompt": "Ordena las fichas: 'La protección del paisaje representa un imperativo ético intergeneracional'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "La tutela paesaggistica rappresenta un imperativo etico intergenerazionale",
                   "options": [
@@ -13773,7 +13773,7 @@
                 {
                   "id": "it_lvl_c1_8_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Il consenso informato costituisce la pietra miliare dell'alleanza terapeutica'",
+                  "prompt": "Ordena las fichas: 'El consentimiento informado constituye la piedra angular de la alianza terapéutica'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Il consenso informato costituisce la pietra miliare dell'alleanza terapeutica",
                   "options": [
@@ -13850,7 +13850,7 @@
                 {
                   "id": "it_lvl_c1_9_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'L'intesa raggiunta salvaguarda i livelli occupazionali sul territorio'",
+                  "prompt": "Ordena las fichas: 'El acuerdo alcanzado salvaguarda los niveles de empleo en el territorio'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "L'intesa raggiunta salvaguarda i livelli occupazionali sul territorio",
                   "options": [
@@ -13926,7 +13926,7 @@
                 {
                   "id": "it_lvl_c1_10_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'L'incalzante climax ascendente ha conferito solennità al discorso commemorativo'",
+                  "prompt": "Ordena las fichas: 'El intenso clímax ascendente confirió solemnidad al discurso conmemorativo'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "L'incalzante climax ascendente ha conferito solennità al discorso commemorativo",
                   "options": [
@@ -14003,7 +14003,7 @@
                 {
                   "id": "it_lvl_c1_exam_ex2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Raramente la nazione ha affrontato prove così formidabili'",
+                  "prompt": "Ordena: 'Rara vez la nación ha enfrentado pruebas tan formidables'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Raramente la nazione ha affrontato prove così formidabili",
                   "options": [
@@ -14062,7 +14062,7 @@
                 {
                   "id": "it_lvl_c1_exam_ex6",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Nonostante le perplessità espresse il trattato fu ratificato'",
+                  "prompt": "Ordena: 'A pesar de las dudas expresadas el tratado fue ratificado'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Nonostante le perplessità espresse il trattato fu ratificato",
                   "options": [
@@ -14121,7 +14121,7 @@
                 {
                   "id": "it_lvl_c1_exam_ex10",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Ciò che più sorprende è la sua straordinaria lucidità intellettuale'",
+                  "prompt": "Ordena: 'Lo que más sorprende es su extraordinaria lucidez intelectual'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Ciò che più sorprende è la sua straordinaria lucidità intellettuale",
                   "options": [
@@ -14174,7 +14174,7 @@
                 {
                   "id": "it_lvl_c2_1_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'La decostruzione derridiana scardina il logocentrismo metafisico occidentale'",
+                  "prompt": "Ordena las fichas: 'La deconstrucción derridiana desmantela el logocentrismo metafísico occidental'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "La decostruzione derridiana scardina il logocentrismo metafisico occidentale",
                   "options": [
@@ -14250,7 +14250,7 @@
                 {
                   "id": "it_lvl_c2_2_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Il controllo di costituzionalità assicura la coerenza dell'ordinamento giuridico'",
+                  "prompt": "Ordena las fichas: 'El control de constitucionalidad asegura la coherencia del ordenamiento jurídico'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Il controllo di costituzionalità assicura la coerenza dell'ordinamento giuridico",
                   "options": [
@@ -14327,7 +14327,7 @@
                 {
                   "id": "it_lvl_c2_3_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'La mirabile tessitura prosodica conferisce al testo un ritmo solenne e maestoso'",
+                  "prompt": "Ordena las fichas: 'El admirable tejido prosódico confiere al texto un ritmo solemne y majestuoso'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "La mirabile tessitura prosodica conferisce al testo un ritmo solenne e maestoso",
                   "options": [
@@ -14407,7 +14407,7 @@
                 {
                   "id": "it_lvl_c2_4_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Lo stemma codicum illustra la genealogia dei testimoni manoscritti superstiti'",
+                  "prompt": "Ordena las fichas: 'El árbol genealógico ilustra la filiación de los manuscritos supervivientes'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Lo stemma codicum illustra la genealogia dei testimoni manoscritti superstiti",
                   "options": [
@@ -14485,7 +14485,7 @@
                 {
                   "id": "it_lvl_c2_5_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'La tensione estetica scaturisce dalla dialettica inesausta tra forma e materia'",
+                  "prompt": "Ordena las fichas: 'La tensión estética surge de la dialéctica inagotable entre forma y materia'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "La tensione estetica scaturisce dalla dialettica inesausta tra forma e materia",
                   "options": [
@@ -14564,7 +14564,7 @@
                 {
                   "id": "it_lvl_c2_6_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'I modelli econometrici stocastici simulano scenari macroeconomici estremi'",
+                  "prompt": "Ordena las fichas: 'Los modelos econométricos estocásticos simulan escenarios macroeconómicos extremos'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "I modelli econometrici stocastici simulano scenari macroeconomici estremi",
                   "options": [
@@ -14640,7 +14640,7 @@
                 {
                   "id": "it_lvl_c2_7_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Il protocollo diplomatico impone il rispetto scrupoloso delle consuetudini cerimoniali'",
+                  "prompt": "Ordena las fichas: 'El protocolo diplomático impone el respeto escrupuloso de las costumbres ceremoniales'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Il protocollo diplomatico impone il rispetto scrupoloso delle consuetudini cerimoniali",
                   "options": [
@@ -14718,7 +14718,7 @@
                 {
                   "id": "it_lvl_c2_8_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'L'antropocentrismo prometeico rischia di compromettere gli equilibri biosferici'",
+                  "prompt": "Ordena las fichas: 'El antropocentrismo prometeico corre el riesgo de comprometer los equilibrios biosféricos'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "L'antropocentrismo prometeico rischia di compromettere gli equilibri biosferici",
                   "options": [
@@ -14794,7 +14794,7 @@
                 {
                   "id": "it_lvl_c2_9_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'La rarefazione lirica trasfigura la contingenza terrena in canto universale'",
+                  "prompt": "Ordena las fichas: 'La depuración lírica transfigura la contingencia terrenal en canto universal'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "La rarefazione lirica trasfigura la contingenza terrena in canto universale",
                   "options": [
@@ -14872,7 +14872,7 @@
                 {
                   "id": "it_lvl_c2_10_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina le tessere: 'Sapeva districarsi tra le insidie burocratiche con consumata maestria'",
+                  "prompt": "Ordena las fichas: 'Sabía desenvolverse entre las trampas burocráticas con consumada maestría'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Sapeva districarsi tra le insidie burocratiche con consumata maestria",
                   "options": [
@@ -14949,7 +14949,7 @@
                 {
                   "id": "it_lvl_c2_exam_ex2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Quantunque fosse stato avvertito per tempo egli proseguì imperterrito'",
+                  "prompt": "Ordena: 'Aunque había sido advertido a tiempo él prosiguió impávido'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Quantunque fosse stato avvertito per tempo egli proseguì imperterrito",
                   "options": [
@@ -15009,7 +15009,7 @@
                 {
                   "id": "it_lvl_c2_exam_ex6",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Se non fosse stato per la sua lungimiranza saremmo periti'",
+                  "prompt": "Ordena: 'Si no hubiera sido por su clarividencia habríamos perecido'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Se non fosse stato per la sua lungimiranza saremmo periti",
                   "options": [
@@ -15070,7 +15070,7 @@
                 {
                   "id": "it_lvl_c2_exam_ex10",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordina: 'Risolse l'intricata controversia con un acume e un aplomb magistrali'",
+                  "prompt": "Ordena: 'Resolvió la intrincada controversia con una perspicacia y un aplomo magistrales'",
                   "prompt_phonetic": null,
                   "prompt_audio_text": "Risolse l'intricata controversia con un acume e un aplomb magistrali",
                   "options": [
@@ -16033,7 +16033,7 @@
                 {
                   "id": "zh_lvl_a2_1_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las palabras chinas: '我每天早上七点起床'",
+                  "prompt": "Ordena las fichas: 'Me levanto todos los días a las siete de la mañana'",
                   "prompt_phonetic": "Wǒ měitiān zǎoshang qī diǎn qǐchuáng.",
                   "prompt_audio_text": "我每天早上七点起床",
                   "options": [
@@ -16107,7 +16107,7 @@
                 {
                   "id": "zh_lvl_a2_2_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las palabras chinas: '太贵了能不能便宜一点儿'",
+                  "prompt": "Ordena las fichas: 'Es demasiado caro, ¿puede ser un poco más barato?'",
                   "prompt_phonetic": "Qǐngwèn zhège píngguǒ duōshǎo qián yì jīn?",
                   "prompt_audio_text": "太贵了能不能便宜一点儿",
                   "options": [
@@ -16182,7 +16182,7 @@
                 {
                   "id": "zh_lvl_a2_3_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las palabras chinas: '沿着这条路往前走'",
+                  "prompt": "Ordena las fichas: 'Camina hacia adelante por esta calle'",
                   "prompt_phonetic": "Yīyuàn zài yínháng de dōngbian.",
                   "prompt_audio_text": "沿着这条路往前走",
                   "options": [
@@ -16257,7 +16257,7 @@
                 {
                   "id": "zh_lvl_a2_4_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las palabras chinas: '明天天气比今天更冷'",
+                  "prompt": "Ordena las fichas: 'El clima de mañana será aún más frío que el de hoy'",
                   "prompt_phonetic": "Jīntiān tiānqì hěn lěng zhèngzài xiàyǔ.",
                   "prompt_audio_text": "明天天气比今天更冷",
                   "options": [
@@ -16332,7 +16332,7 @@
                 {
                   "id": "zh_lvl_a2_5_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las palabras chinas: '我非常喜欢游泳和跑步'",
+                  "prompt": "Ordena las fichas: 'Me gusta mucho nadar y correr'",
                   "prompt_phonetic": "Wǒ zhōumò chángcháng gēn péngyou yìqǐ tī zúqiú.",
                   "prompt_audio_text": "我非常喜欢游泳和跑步",
                   "options": [
@@ -16407,7 +16407,7 @@
                 {
                   "id": "zh_lvl_a2_6_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las palabras chinas: '从这里到机场坐出租车很方便'",
+                  "prompt": "Ordena las fichas: 'Desde aquí hasta el aeropuerto es muy cómodo ir en taxi'",
                   "prompt_phonetic": "Wǒ měitiān zuò dìtiě qù gōngsī shàngbān.",
                   "prompt_audio_text": "从这里到机场坐出租车很方便",
                   "options": [
@@ -16483,7 +16483,7 @@
                 {
                   "id": "zh_lvl_a2_7_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las palabras chinas: '请来一碗牛肉面和一杯绿茶'",
+                  "prompt": "Ordena las fichas: 'Por favor traiga un tazón de fideos con carne y una taza de té verde'",
                   "prompt_phonetic": "Fúwùyuán qǐng gěi wǒmen kàn yíxià càidān.",
                   "prompt_audio_text": "请来一碗牛肉面和一杯绿茶",
                   "options": [
@@ -16558,7 +16558,7 @@
                 {
                   "id": "zh_lvl_a2_8_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las palabras chinas: '医生说你需要多喝水好好休息'",
+                  "prompt": "Ordena las fichas: 'El médico dice que necesitas beber más agua y descansar bien'",
                   "prompt_phonetic": "Wǒ gǎnmào le tóuténg de lìhai.",
                   "prompt_audio_text": "医生说你需要多喝水好好休息",
                   "options": [
@@ -16634,7 +16634,7 @@
                 {
                   "id": "zh_lvl_a2_9_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las palabras chinas: '你吃过传统的北京烤鸭吗'",
+                  "prompt": "Ordena las fichas: '¿Has probado alguna vez el tradicional pato laqueado de Pekín?'",
                   "prompt_phonetic": "Wǒ qùguo Zhōngguó liǎng cì fēngjǐng fēicháng měilì.",
                   "prompt_audio_text": "你吃过传统的北京烤鸭吗",
                   "options": [
@@ -16709,7 +16709,7 @@
                 {
                   "id": "zh_lvl_a2_10_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las palabras chinas: '中国茶比咖啡更好喝'",
+                  "prompt": "Ordena las fichas: 'El té chino es más sabroso que el café'",
                   "prompt_phonetic": "Gēge bǐ dìdi gāo hěn duō.",
                   "prompt_audio_text": "中国茶比咖啡更好喝",
                   "options": [
@@ -16784,7 +16784,7 @@
                 {
                   "id": "zh_lvl_a2_exam_ex2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '我去过中国两次'",
+                  "prompt": "Ordena: 'He ido a China dos veces'",
                   "prompt_phonetic": "Wǒ qùguo Zhōngguó liǎng cì",
                   "prompt_audio_text": "我去过中国两次",
                   "options": [
@@ -16840,7 +16840,7 @@
                 {
                   "id": "zh_lvl_a2_exam_ex6",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '太贵了能不能便宜一点儿'",
+                  "prompt": "Ordena: 'Es demasiado caro, ¿puede ser un poco más barato?'",
                   "prompt_phonetic": "Tài guì le néng bu néng piányi yìdiǎnr",
                   "prompt_audio_text": "太贵了能不能便宜一点儿",
                   "options": [
@@ -16897,7 +16897,7 @@
                 {
                   "id": "zh_lvl_a2_exam_ex10",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '沿着这条路一直往前走'",
+                  "prompt": "Ordena: 'Sigue todo recto por esta calle'",
                   "prompt_phonetic": "Yánzhe zhè tiáo lù yìzhí wǎng qián zǒu",
                   "prompt_audio_text": "沿着这条路一直往前走",
                   "options": [
@@ -16947,7 +16947,7 @@
                 {
                   "id": "zh_lvl_b1_1_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '出门前请仔细检查行李和护照'",
+                  "prompt": "Ordena las fichas: 'Antes de salir, por favor revisa cuidadosamente el equipaje y el pasaporte'",
                   "prompt_phonetic": "Wǒmen tíqián zài wǎngshàng dìnghǎo le wǎngfǎn jīpiào.",
                   "prompt_audio_text": "出门前请仔细检查行李和护照",
                   "options": [
@@ -17023,7 +17023,7 @@
                 {
                   "id": "zh_lvl_b1_2_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '虽然学习汉语很难但是非常有趣'",
+                  "prompt": "Ordena las fichas: 'Aunque aprender chino es difícil, es muy interesante'",
                   "prompt_phonetic": "Yīnwèi jīntiān xià dàyǔ suǒyǐ zúqiúsài qǔxiāo le.",
                   "prompt_audio_text": "虽然学习汉语很难但是非常有趣",
                   "options": [
@@ -17099,7 +17099,7 @@
                 {
                   "id": "zh_lvl_b1_3_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '墙上挂着一幅中国传统山水画'",
+                  "prompt": "Ordena las fichas: 'En la pared cuelga una pintura tradicional china de paisajes'",
                   "prompt_phonetic": "Lǎoshī shǒulǐ názhe yì běn hòuhòu de shū.",
                   "prompt_audio_text": "墙上挂着一幅中国传统山水画",
                   "options": [
@@ -17173,7 +17173,7 @@
                 {
                   "id": "zh_lvl_b1_4_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '请大家把书包里的书拿出来'",
+                  "prompt": "Ordena las fichas: 'Por favor saquen todos el libro de la mochila'",
                   "prompt_phonetic": "Wǒ zhōngyú tīngdǒng le lǎoshī jiǎng de yǔfǎ diǎn.",
                   "prompt_audio_text": "请大家把书包里的书拿出来",
                   "options": [
@@ -17248,7 +17248,7 @@
                 {
                   "id": "zh_lvl_b1_5_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '教室前面坐着很多来自各国的留学生'",
+                  "prompt": "Ordena las fichas: 'Frente al salón se sientan muchos estudiantes extranjeros de varios países'",
                   "prompt_phonetic": "Zhuōzi shàng fàngzhe yì bēi rèqì téngténg de chá.",
                   "prompt_audio_text": "教室前面坐着很多来自各国的留学生",
                   "options": [
@@ -17323,7 +17323,7 @@
                 {
                   "id": "zh_lvl_b1_6_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '真不好意思打扰你休息了'",
+                  "prompt": "Ordena las fichas: 'Lamento mucho haber interrumpido tu descanso'",
                   "prompt_phonetic": "Zhè běn shū wǒ jiè gěi nǐ kàn xià zhōu huán gěi wǒ.",
                   "prompt_audio_text": "真不好意思打扰你休息了",
                   "options": [
@@ -17397,7 +17397,7 @@
                 {
                   "id": "zh_lvl_b1_7_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '节约用水用电是每个人的责任'",
+                  "prompt": "Ordena las fichas: 'Ahorrar agua y electricidad es responsabilidad de cada persona'",
                   "prompt_phonetic": "Bǎohù huánjìng wǒmen yào cóng lājī fēnlèi kāishǐ.",
                   "prompt_audio_text": "节约用水用电是每个人的责任",
                   "options": [
@@ -17471,7 +17471,7 @@
                 {
                   "id": "zh_lvl_b1_8_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '中秋节一家人一边赏月一边吃月饼'",
+                  "prompt": "Ordena las fichas: 'En el Festival del Medio Otoño toda la familia contempla la luna mientras come pasteles de luna'",
                   "prompt_phonetic": "Chūnjié shì quánjiā tuányuán chī jiǎozi de rìzi.",
                   "prompt_audio_text": "中秋节一家人一边赏月一边吃月饼",
                   "options": [
@@ -17545,7 +17545,7 @@
                 {
                   "id": "zh_lvl_b1_9_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '字写得太小了我看不清楚'",
+                  "prompt": "Ordena las fichas: 'La letra está escrita demasiado pequeña y no veo con claridad'",
                   "prompt_phonetic": "Zhème duō zuòyè wǒ jīntiān wǎnshang zuò bu wán.",
                   "prompt_audio_text": "字写得太小了我看不清楚",
                   "options": [
@@ -17620,7 +17620,7 @@
                 {
                   "id": "zh_lvl_b1_10_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '我希望能够成为一名优秀的翻译家'",
+                  "prompt": "Ordena las fichas: 'Espero poder convertirme en un excelente traductor'",
                   "prompt_phonetic": "Wǒ dǎsuàn míngnián shēnqǐng qù Běijīng Dàxué liúxué.",
                   "prompt_audio_text": "我希望能够成为一名优秀的翻译家",
                   "options": [
@@ -17695,7 +17695,7 @@
                 {
                   "id": "zh_lvl_b1_exam_ex2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '桌子上放着一杯热气腾腾的茶'",
+                  "prompt": "Ordena: 'Sobre la mesa hay una taza de té humeante'",
                   "prompt_phonetic": "Zhuōzi shàng fàngzhe yì bēi chá",
                   "prompt_audio_text": "桌子上放着一杯热气腾腾的茶",
                   "options": [
@@ -17751,7 +17751,7 @@
                 {
                   "id": "zh_lvl_b1_exam_ex6",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '春节是全家团圆吃饺子的重要节日'",
+                  "prompt": "Ordena: 'El Festival de Primavera es una fiesta importante para reunirse en familia y comer empanadillas'",
                   "prompt_phonetic": "Chūnjié shì quánjiā tuányuán de jiérì",
                   "prompt_audio_text": "春节是全家团圆吃饺子的重要节日",
                   "options": [
@@ -17809,7 +17809,7 @@
                 {
                   "id": "zh_lvl_b1_exam_ex10",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '请大家把书包里的课本拿出来'",
+                  "prompt": "Ordena: 'Por favor saquen todos el libro de texto de la mochila'",
                   "prompt_phonetic": "Qǐng dàjiā bǎ shūbāo lǐ de kèběn ná chūlái",
                   "prompt_audio_text": "请大家把书包里的课本拿出来",
                   "options": [
@@ -17858,7 +17858,7 @@
                 {
                   "id": "zh_lvl_b2_1_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '我们必须把这项紧急任务按时完成'",
+                  "prompt": "Ordena las fichas: 'Debemos completar esta tarea urgente a tiempo'",
                   "prompt_phonetic": "Qǐng nǐ xiān bǎ fángjiān lǐ de lājī shōushi gānjìng.",
                   "prompt_audio_text": "我们必须把这项紧急任务按时完成",
                   "options": [
@@ -17934,7 +17934,7 @@
                 {
                   "id": "zh_lvl_b2_2_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '他的科研论文被国际权威期刊录用了'",
+                  "prompt": "Ordena las fichas: 'Su artículo de investigación científica fue aceptado por una revista internacional prestigiosa'",
                   "prompt_phonetic": "Zhuōzi shàng de dàngāo bèi xiǎomāo tōuchī diào le.",
                   "prompt_audio_text": "他的科研论文被国际权威期刊录用了",
                   "options": [
@@ -18010,7 +18010,7 @@
                 {
                   "id": "zh_lvl_b2_3_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '汉语水平越高对中国文化理解越深刻'",
+                  "prompt": "Ordena las fichas: 'Cuanto más alto es el nivel de chino, más profunda es la comprensión de la cultura china'",
                   "prompt_phonetic": "Suízhe kējì de fāzhǎn shēnghuó biànde yuè lái yuè biànjié.",
                   "prompt_audio_text": "汉语水平越高对中国文化理解越深刻",
                   "options": [
@@ -18086,7 +18086,7 @@
                 {
                   "id": "zh_lvl_b2_4_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '这部电影不仅情节感人而且画面精美绝伦'",
+                  "prompt": "Ordena las fichas: 'Esta película no solo tiene una trama conmovedora sino también imágenes exquisitas'",
                   "prompt_phonetic": "Tā bùjǐn qiú tī de hǎo érqiě xuéxí chéngjì yōuyì.",
                   "prompt_audio_text": "这部电影不仅情节感人而且画面精美绝伦",
                   "options": [
@@ -18162,7 +18162,7 @@
                 {
                   "id": "zh_lvl_b2_5_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '无论明天下不下雨活动都照常举行'",
+                  "prompt": "Ordena las fichas: 'Sin importar si mañana llueve o no, el evento se celebrará como de costumbre'",
                   "prompt_phonetic": "Wúlùn yùdào duō dà kùnnan wǒmen dōu yào yíngnán'érshàng.",
                   "prompt_audio_text": "无论明天下不下雨活动都照常举行",
                   "options": [
@@ -18237,7 +18237,7 @@
                 {
                   "id": "zh_lvl_b2_6_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '请在个人简历中突出你的项目实践经验'",
+                  "prompt": "Ordena las fichas: 'Por favor destaca tu experiencia práctica en proyectos en tu currículum'",
                   "prompt_phonetic": "Miànshì shí zhǎnxiàn zìxìn hé zhuānyè sùyǎng zhìguān zhòngyào.",
                   "prompt_audio_text": "请在个人简历中突出你的项目实践经验",
                   "options": [
@@ -18314,7 +18314,7 @@
                 {
                   "id": "zh_lvl_b2_7_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '大数据和云计算加速了产业数字化转型'",
+                  "prompt": "Ordena las fichas: 'Los macrodatos y la computación en la nube aceleraron la transformación digital industrial'",
                   "prompt_phonetic": "Réngōng zhìnéng zhèngzài shēnkè gǎibiàn rénlèi de shēngchǎn shēnghuó fāngshì.",
                   "prompt_audio_text": "大数据和云计算加速了产业数字化转型",
                   "options": [
@@ -18389,7 +18389,7 @@
                 {
                   "id": "zh_lvl_b2_8_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '只要坚持不懈再难的关卡也能攻克'",
+                  "prompt": "Ordena las fichas: 'Siempre que perseveres sin descanso, incluso el obstáculo más difícil podrá superarse'",
                   "prompt_phonetic": "Dào le guówài wǒmen yīnggāi rùxiāngsuísú zūnzhòng dāngdì wénhuà.",
                   "prompt_audio_text": "只要坚持不懈再难的关卡也能攻克",
                   "options": [
@@ -18464,7 +18464,7 @@
                 {
                   "id": "zh_lvl_b2_9_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '我赞同你的观点但有些细节值得商榷'",
+                  "prompt": "Ordena las fichas: 'Estoy de acuerdo con tu punto de vista pero algunos detalles merecen discutirse'",
                   "prompt_phonetic": "Zài wǒ kànlái quánmiàn kèguān de kàndài wèntí yóuwéi guānjiàn.",
                   "prompt_audio_text": "我赞同你的观点但有些细节值得商榷",
                   "options": [
@@ -18541,7 +18541,7 @@
                 {
                   "id": "zh_lvl_b2_10_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '这部严谨的学术专著非常值得深入研读'",
+                  "prompt": "Ordena las fichas: 'Esta rigurosa monografía académica merece un estudio profundo'",
                   "prompt_phonetic": "Miànduì bùkěkànglì chǎnshēng sǔnshī wǎngwǎng zàisuǒnánmiǎn.",
                   "prompt_audio_text": "这部严谨的学术专著非常值得深入研读",
                   "options": [
@@ -18617,7 +18617,7 @@
                 {
                   "id": "zh_lvl_b2_exam_ex2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '他的学术论文被权威期刊录用了'",
+                  "prompt": "Ordena: 'Su tesis académica fue aceptada por una revista prestigiosa'",
                   "prompt_phonetic": "Tā de xuéshù lùnwén bèi quánwēi qīkān lùyòng le",
                   "prompt_audio_text": "他的学术论文被权威期刊录用了",
                   "options": [
@@ -18673,7 +18673,7 @@
                 {
                   "id": "zh_lvl_b2_exam_ex6",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '不仅开阔了眼界而且提升了竞争力'",
+                  "prompt": "Ordena: 'No solo amplió el horizonte sino que también mejoró la competitividad'",
                   "prompt_phonetic": "Bùjǐn kāikuò le yǎnjiè érqiě tíshēng le jìngzhēnglì",
                   "prompt_audio_text": "不仅开阔了眼界而且提升了竞争力",
                   "options": [
@@ -18730,7 +18730,7 @@
                 {
                   "id": "zh_lvl_b2_exam_ex10",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '我们必须把这项紧急任务按时完成'",
+                  "prompt": "Ordena: 'Debemos terminar esta tarea urgente puntualmente'",
                   "prompt_phonetic": "Wǒmen bìxū bǎ zhè xiàng jǐnjí rènwu ànshí wánchéng",
                   "prompt_audio_text": "我们必须把这项紧急任务按时完成",
                   "options": [
@@ -18780,7 +18780,7 @@
                 {
                   "id": "zh_lvl_c1_1_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '我们要拿出破釜沉舟的勇气开创新局面'",
+                  "prompt": "Ordena las fichas: 'Debemos sacar un coraje decidido para abrir un nuevo panorama'",
                   "prompt_phonetic": "Dézhī wēijī quánmiàn huàjiě dàjiā dùnshí rúshìzhòngfù.",
                   "prompt_audio_text": "我们要拿出破釜沉舟的勇气开创新局面",
                   "options": [
@@ -18854,7 +18854,7 @@
                 {
                   "id": "zh_lvl_c1_2_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '事情的发展偏偏出乎了所有专家的预料'",
+                  "prompt": "Ordena las fichas: 'El desarrollo de los acontecimientos superó inesperadamente las previsiones de todos los expertos'",
                   "prompt_phonetic": "Tā jūrán zài rúcǐ duǎnzàn de shíjiān nèi gōngkè le xuéshù nántí.",
                   "prompt_audio_text": "事情的发展偏偏出乎了所有专家的预料",
                   "options": [
@@ -18929,7 +18929,7 @@
                 {
                   "id": "zh_lvl_c1_3_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '宁可历经千辛万苦也决不轻言放弃'",
+                  "prompt": "Ordena las fichas: 'Es preferible pasar por mil dificultades antes que rendirse fácilmente'",
                   "prompt_phonetic": "Yǔqí yuàntiānyóurén bùrú jiǎotàshídì nǔlì fèndòu.",
                   "prompt_audio_text": "宁可历经千辛万苦也决不轻言放弃",
                   "options": [
@@ -19004,7 +19004,7 @@
                 {
                   "id": "zh_lvl_c1_4_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '有关部门对违规行为予以严肃查处通报'",
+                  "prompt": "Ordena las fichas: 'Las autoridades pertinentes investigaron y sancionaron severamente las infracciones'",
                   "prompt_phonetic": "Jiànyú dāngqián guójì júshì shuāngfāng juédìng shēnhuà zhànlüè xiézuò.",
                   "prompt_audio_text": "有关部门对违规行为予以严肃查处通报",
                   "options": [
@@ -19080,7 +19080,7 @@
                 {
                   "id": "zh_lvl_c1_5_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '多元化资产配置能够有效平抑投资组合波动'",
+                  "prompt": "Ordena las fichas: 'La asignación diversificada de activos puede estabilizar eficazmente la volatilidad del portafolio'",
                   "prompt_phonetic": "Shuāngfāng jiù kuàguó bìnggòu héxīn tiáokuǎn dáchéng yuánzéxìng gòngshí.",
                   "prompt_audio_text": "多元化资产配置能够有效平抑投资组合波动",
                   "options": [
@@ -19155,7 +19155,7 @@
                 {
                   "id": "zh_lvl_c1_6_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '推进新型城镇化建设必须坚持以人为本理念'",
+                  "prompt": "Ordena las fichas: 'Impulsar la nueva urbanización debe mantener el principio centrado en las personas'",
                   "prompt_phonetic": "Rénkǒu lǎolínghuà jiājù duì shèhuì bǎozhàng tǐxì tíchū yánjùn kǎoyàn.",
                   "prompt_audio_text": "推进新型城镇化建设必须坚持以人为本理念",
                   "options": [
@@ -19231,7 +19231,7 @@
                 {
                   "id": "zh_lvl_c1_7_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '儒家讲求仁义礼智信修身齐家治国平天下'",
+                  "prompt": "Ordena las fichas: 'El confucianismo promueve la benevolencia, la justicia, la cortesía, la sabiduría y la fidelidad'",
                   "prompt_phonetic": "Dàofǎzìrán tiānrén héyī yùnhánzhe shēnkè de dōngfāng zhìhuì.",
                   "prompt_audio_text": "儒家讲求仁义礼智信修身齐家治国平天下",
                   "options": [
@@ -19306,7 +19306,7 @@
                 {
                   "id": "zh_lvl_c1_8_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '文章辞藻华丽情理交融令人回味无穷'",
+                  "prompt": "Ordena las fichas: 'El artículo posee un estilo elegante que fusiona emoción y razón dejando una profunda huella'",
                   "prompt_phonetic": "Yuèguāng rú liúshuǐ bān jìngjìng de xiè zài héyè hé huābàn shàng.",
                   "prompt_audio_text": "文章辞藻华丽情理交融令人回味无穷",
                   "options": [
@@ -19381,7 +19381,7 @@
                 {
                   "id": "zh_lvl_c1_9_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '深度调查报道抽丝剥茧揭露行业潜规则真相'",
+                  "prompt": "Ordena las fichas: 'El reportaje de investigación desentraña meticulosamente la verdad detrás de las reglas ocultas del sector'",
                   "prompt_phonetic": "Méitǐ yúlùn yīnggāi bǐngchí kèguān gōngyǔn jīzhuóyángqīng de lìchǎng.",
                   "prompt_audio_text": "深度调查报道抽丝剥茧揭露行业潜规则真相",
                   "options": [
@@ -19457,7 +19457,7 @@
                 {
                   "id": "zh_lvl_c1_10_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas chinas: '难怪实验室彻夜通明原来科研团队有了重大突破'",
+                  "prompt": "Ordena las fichas: 'Con razón el laboratorio estuvo iluminado toda la noche: el equipo científico logró un gran avance'",
                   "prompt_phonetic": "Nánguài tā jīntiān miàndài xǐsè yuánlái xiàngmù huòpī le.",
                   "prompt_audio_text": "难怪实验室彻夜通明原来科研团队有了重大突破",
                   "options": [
@@ -19533,7 +19533,7 @@
                 {
                   "id": "zh_lvl_c1_exam_ex2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '与其怨天尤人不如脚踏实地努力奋斗'",
+                  "prompt": "Ordena: 'En lugar de quejarse del destino es mejor trabajar duro con los pies en la tierra'",
                   "prompt_phonetic": "Yǔqí yuàntiānyóurén bùrú jiǎotàshídì nǔlì fèndòu",
                   "prompt_audio_text": "与其怨天尤人不如脚踏实地努力奋斗",
                   "options": [
@@ -19589,7 +19589,7 @@
                 {
                   "id": "zh_lvl_c1_exam_ex6",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '道法自然天人合一蕴含着深刻东方智慧'",
+                  "prompt": "Ordena: 'Seguir la naturaleza y la armonía entre cielo y hombre encierra una profunda sabiduría oriental'",
                   "prompt_phonetic": "Dàofǎzìrán tiānrén héyī yùnhánzhe shēnkè zhìhuì",
                   "prompt_audio_text": "道法自然天人合一蕴含着深刻东方智慧",
                   "options": [
@@ -19645,7 +19645,7 @@
                 {
                   "id": "zh_lvl_c1_exam_ex10",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '秉持客观公允立场深入剖析深层逻辑'",
+                  "prompt": "Ordena: 'Mantener una postura objetiva e imparcial para analizar a fondo la lógica profunda'",
                   "prompt_phonetic": "Bǐngchí kèguān gōngyǔn lìchǎng shēnrù pōuxī shēncéng luóji",
                   "prompt_audio_text": "秉持客观公允立场深入剖析深层逻辑",
                   "options": [
@@ -19692,7 +19692,7 @@
                 {
                   "id": "zh_lvl_c2_1_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '温故而知新可以为师矣'",
+                  "prompt": "Ordena las fichas: 'Repasar lo antiguo para comprender lo nuevo permite convertirse en maestro'",
                   "prompt_phonetic": "Mǐn ér hào xué, bù chǐ xià wèn, shì yǐ wèi zhī wén yě.",
                   "prompt_audio_text": "温故而知新可以为师矣",
                   "options": [
@@ -19766,7 +19766,7 @@
                 {
                   "id": "zh_lvl_c2_2_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '恪守陈规刻舟求剑终将被时代巨浪所淘汰'",
+                  "prompt": "Ordena las fichas: 'Aferrarse a reglas obsoletas terminará siendo descartado por las olas de la época'",
                   "prompt_phonetic": "Miànduì qiánzài xìtǒngxìng wēijī wǒmen bìxū zuòdào wèiyǔchóumóu.",
                   "prompt_audio_text": "恪守陈规刻舟求剑终将被时代巨浪所淘汰",
                   "options": [
@@ -19841,7 +19841,7 @@
                 {
                   "id": "zh_lvl_c2_3_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '双方重申相互尊重主权和领土完整的庄严承诺'",
+                  "prompt": "Ordena las fichas: 'Ambas partes reafirman el compromiso solemne de respetar la soberanía e integridad territorial'",
                   "prompt_phonetic": "Liǎng guó wàijiāo shēngmíng cuòcí jǐnyán zìlǐhángjiān tǐxiàn zhànlüè kǎoliáng.",
                   "prompt_audio_text": "双方重申相互尊重主权和领土完整的庄严承诺",
                   "options": [
@@ -19918,7 +19918,7 @@
                 {
                   "id": "zh_lvl_c2_4_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '辩证法揭示了否定之否定这一螺旋上升的客观规律'",
+                  "prompt": "Ordena las fichas: 'La dialéctica revela la ley objetiva de ascenso en espiral de la negación de la negación'",
                   "prompt_phonetic": "Wànwù fù yīn ér bào yáng, chōng qì yǐ wéi hé.",
                   "prompt_audio_text": "辩证法揭示了否定之否定这一螺旋上升的客观规律",
                   "options": [
@@ -19993,7 +19993,7 @@
                 {
                   "id": "zh_lvl_c2_5_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '大江东去浪淘尽千古风流人物'",
+                  "prompt": "Ordena las fichas: 'El gran río fluye hacia el este y sus olas arrastran a los héroes milenarios'",
                   "prompt_phonetic": "Hǎinèi cún zhījǐ, tiānyá ruò bǐlín.",
                   "prompt_audio_text": "大江东去浪淘尽千古风流人物",
                   "options": [
@@ -20066,7 +20066,7 @@
                 {
                   "id": "zh_lvl_c2_6_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '深入研究跨境资本流动的微观动因与宏观溢出效应'",
+                  "prompt": "Ordena las fichas: 'Investigar a fondo las causas microeconómicas y efectos macroeconómicos del flujo de capitales'",
                   "prompt_phonetic": "Nì zhōuqī hóngguān shěnshèn jiānguǎn...",
                   "prompt_audio_text": "深入研究跨境资本流动的微观动因与宏观溢出效应",
                   "options": [
@@ -20141,7 +20141,7 @@
                 {
                   "id": "zh_lvl_c2_7_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '兼听则明偏信则暗乃千古治国之名箴'",
+                  "prompt": "Ordena las fichas: 'Escuchar a todas las partes ilumina y creer a una sola oscurece es una máxima eterna de buen gobierno'",
                   "prompt_phonetic": "Qián shì bù wàng, hòu shì zhī shī.",
                   "prompt_audio_text": "兼听则明偏信则暗乃千古治国之名箴",
                   "options": [
@@ -20216,7 +20216,7 @@
                 {
                   "id": "zh_lvl_c2_8_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '司法裁判应当在法理情三者之间探求价值平衡'",
+                  "prompt": "Ordena las fichas: 'El fallo judicial debe buscar un equilibrio de valores entre la ley, la razón y la empatía'",
                   "prompt_phonetic": "Liángfǎ shànzhì nǎi fǎzhì guójiā zuì gēnběn de shízhì yàoyì.",
                   "prompt_audio_text": "司法裁判应当在法理情三者之间探求价值平衡",
                   "options": [
@@ -20291,7 +20291,7 @@
                 {
                   "id": "zh_lvl_c2_9_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '跨文化对话需要超越我者中心主义的文化偏见'",
+                  "prompt": "Ordena las fichas: 'El diálogo intercultural necesita trascender los prejuicios culturales etnocéntricos'",
                   "prompt_phonetic": "Qiǎomiào yùnyòng yǐnyù hé shuāngguān...",
                   "prompt_audio_text": "跨文化对话需要超越我者中心主义的文化偏见",
                   "options": [
@@ -20366,7 +20366,7 @@
                 {
                   "id": "zh_lvl_c2_10_q2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena las fichas: '诙谐幽默中暗藏机锋令人击节赞赏拍案叫绝'",
+                  "prompt": "Ordena las fichas: 'El ingenio oculto en el humor brillante despierta la admiración y el aplauso unánime'",
                   "prompt_phonetic": "Tā tánxiào jiān yùnchóuwéiwò qiánglǔ huīfēi...",
                   "prompt_audio_text": "诙谐幽默中暗藏机锋令人击节赞赏拍案叫绝",
                   "options": [
@@ -20441,7 +20441,7 @@
                 {
                   "id": "zh_lvl_c2_exam_ex2",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '敏而好学不耻下问是以谓之文也'",
+                  "prompt": "Ordena: 'Ser diligente en aprender y no avergonzarse de preguntar es verdadera cultura'",
                   "prompt_phonetic": "Mǐn ér hào xué bù chǐ xià wèn shì yǐ wèi zhī wén yě",
                   "prompt_audio_text": "敏而好学不耻下问是以谓之文也",
                   "options": [
@@ -20497,7 +20497,7 @@
                 {
                   "id": "zh_lvl_c2_exam_ex6",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '前事不忘后事之师是千古治国名箴'",
+                  "prompt": "Ordena: 'No olvidar el pasado es maestro del futuro como máxima eterna de gobierno'",
                   "prompt_phonetic": "Qián shì bù wàng hòu shì zhī shī",
                   "prompt_audio_text": "前事不忘后事之师是千古治国名箴",
                   "options": [
@@ -20553,7 +20553,7 @@
                 {
                   "id": "zh_lvl_c2_exam_ex10",
                   "type": "TRANSLATE_BUILD",
-                  "prompt": "Ordena: '信手拈来皆成文章其语言驾驭已臻炉火纯青之境'",
+                  "prompt": "Ordena: 'Improvisar con maestría literaria demuestra un dominio del idioma en su máxima perfección'",
                   "prompt_phonetic": "Xìn shǒu niān lái jiē chéng wénzhāng",
                   "prompt_audio_text": "信手拈来皆成文章其语言驾驭已臻炉火纯青之境",
                   "options": [

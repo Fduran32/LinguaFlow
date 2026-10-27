@@ -1,8 +1,10 @@
 package com.linguaflow.app
 
+import com.linguaflow.app.domain.model.QuestionType
 import com.linguaflow.app.domain.util.PracticeSentenceFilter
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -69,6 +71,46 @@ class PracticeSentenceFilterTest {
         assertEquals(
             "Buenos días a todos",
             PracticeSentenceFilter.cleanSpanishPromptText("Traduce: 'Buenos días a todos'")
+        )
+    }
+
+    @Test
+    fun testExtractSpanishPromptForWritingRejectsInstructions() {
+        // Bug 1: LISTENING prompt without Spanish phrase must return null in Writing
+        assertNull(
+            PracticeSentenceFilter.extractSpanishPromptForWriting(
+                QuestionType.LISTENING.name,
+                "Escucha atentamente el audio en inglés y selecciona la opción correcta:",
+                "Can you help me find the station?"
+            )
+        )
+
+        // Bug 2: SPEAKING prompt without Spanish phrase must return null in Writing
+        assertNull(
+            PracticeSentenceFilter.extractSpanishPromptForWriting(
+                QuestionType.SPEAKING.name,
+                "Toca el micrófono y pronuncia:",
+                "She is my mother"
+            )
+        )
+
+        // Prompt identical to targetAnswer must return null
+        assertNull(
+            PracticeSentenceFilter.extractSpanishPromptForWriting(
+                QuestionType.TRANSLATE_BUILD.name,
+                "Ordena las fichas: 'She is my mother'",
+                "She is my mother"
+            )
+        )
+
+        // Valid TRANSLATE_BUILD with Spanish phrase must return the clean Spanish phrase
+        assertEquals(
+            "Ella es mi madre",
+            PracticeSentenceFilter.extractSpanishPromptForWriting(
+                QuestionType.TRANSLATE_BUILD.name,
+                "Ordena las fichas: 'Ella es mi madre'",
+                "She is my mother"
+            )
         )
     }
 }

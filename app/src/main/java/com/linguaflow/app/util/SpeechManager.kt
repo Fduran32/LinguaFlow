@@ -235,15 +235,18 @@ class SpeechManager(private val context: Context) {
             )
         }
 
-        private fun cleanText(text: String): String {
+        fun cleanText(text: String): String {
             return normalizeContractions(text)
-                .replace(Regex("[.,?!;:'\"¿¡-]"), "")
+                .replace(Regex("[.,?!;:'\"’‘`¿¡，。？！、!-]"), "")
                 .replace(Regex("\\s+"), " ")
                 .trim()
         }
 
-        private fun normalizeContractions(text: String): String {
+        fun normalizeContractions(text: String): String {
             return text.lowercase(Locale.ROOT)
+                .replace("’", "'")
+                .replace("‘", "'")
+                .replace("`", "'")
                 .replace("she's", "she is")
                 .replace("he's", "he is")
                 .replace("it's", "it is")
@@ -256,11 +259,30 @@ class SpeechManager(private val context: Context) {
                 .replace("who's", "who is")
                 .replace("what's", "what is")
                 .replace("where's", "where is")
+                .replace("how's", "how is")
+                .replace("let's", "let us")
+                .replace("i'll", "i will")
+                .replace("you'll", "you will")
+                .replace("he'll", "he will")
+                .replace("she'll", "she will")
+                .replace("we'll", "we will")
+                .replace("they'll", "they will")
+                .replace("i've", "i have")
+                .replace("you've", "you have")
+                .replace("we've", "we have")
+                .replace("they've", "they have")
+                .replace("i'd", "i would")
+                .replace("you'd", "you would")
+                .replace("he'd", "he would")
+                .replace("she'd", "she would")
+                .replace("we'd", "we would")
+                .replace("they'd", "they would")
                 .replace("don't", "do not")
                 .replace("doesn't", "does not")
                 .replace("didn't", "did not")
                 .replace("can't", "cannot")
                 .replace("couldn't", "could not")
+                .replace("shouldn't", "should not")
                 .replace("won't", "will not")
                 .replace("wouldn't", "would not")
                 .replace("isn't", "is not")
@@ -270,6 +292,7 @@ class SpeechManager(private val context: Context) {
                 .replace("haven't", "have not")
                 .replace("hasn't", "has not")
                 .replace("hadn't", "had not")
+                .replace("mustn't", "must not")
         }
 
         private fun levenshtein(lhs: CharSequence, rhs: CharSequence): Int {

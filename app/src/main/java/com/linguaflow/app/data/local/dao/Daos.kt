@@ -36,6 +36,9 @@ interface QuestionDao {
     @Query("SELECT * FROM questions WHERE levelId = :levelId")
     suspend fun getQuestionsForLevel(levelId: String): List<QuestionEntity>
 
+    @Query("DELETE FROM questions")
+    suspend fun deleteAllQuestions()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuestions(questions: List<QuestionEntity>)
 }
@@ -84,6 +87,9 @@ interface ProgressDao {
     @Query("SELECT * FROM user_level_progress WHERE userId = :userId AND languageId = :languageId")
     fun getProgressForLanguage(userId: String, languageId: String): Flow<List<UserLevelProgressEntity>>
 
+    @Query("SELECT * FROM user_level_progress WHERE userId = :userId AND levelId = :levelId LIMIT 1")
+    suspend fun getLevelProgressSync(userId: String, levelId: String): UserLevelProgressEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveLevelProgress(progress: UserLevelProgressEntity)
 
@@ -98,6 +104,9 @@ interface ProgressDao {
 
     @Query("SELECT * FROM user_language_profile WHERE userId = :userId AND languageId = :languageId")
     fun getLanguageProfile(userId: String, languageId: String): Flow<UserLanguageProfileEntity?>
+
+    @Query("SELECT * FROM user_language_profile WHERE userId = :userId AND languageId = :languageId LIMIT 1")
+    suspend fun getLanguageProfileSync(userId: String, languageId: String): UserLanguageProfileEntity?
 
     @Query("SELECT * FROM user_language_profile WHERE userId = :userId")
     fun getAllLanguageProfiles(userId: String): Flow<List<UserLanguageProfileEntity>>
@@ -125,4 +134,7 @@ interface MistakeDao {
 
     @Query("UPDATE user_mistakes SET isResolved = 1 WHERE userId = :userId AND questionId = :questionId")
     suspend fun resolveMistake(userId: String, questionId: String)
+
+    @Query("DELETE FROM user_mistakes WHERE questionId NOT IN (SELECT id FROM questions)")
+    suspend fun deleteOrphanMistakes()
 }

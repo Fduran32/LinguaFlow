@@ -85,7 +85,6 @@ abstract class LinguaFlowDatabase : RoomDatabase() {
                 val languageEntities = mutableListOf<LanguageEntity>()
                 val levelEntities = mutableListOf<LevelEntity>()
                 val questionEntities = mutableListOf<QuestionEntity>()
-                val initialProgress = mutableListOf<UserLevelProgressEntity>()
 
                 var langIndex = 0
                 for (langElem in languagesArray) {
@@ -148,7 +147,10 @@ abstract class LinguaFlowDatabase : RoomDatabase() {
 
                 db.languageDao().insertLanguages(languageEntities)
                 db.levelDao().insertLevels(levelEntities)
+                // Eliminar preguntas huérfanas de versiones anteriores para mantener exactamente las preguntas actuales
+                db.questionDao().deleteAllQuestions()
                 db.questionDao().insertQuestions(questionEntities)
+                db.mistakeDao().deleteOrphanMistakes()
             } catch (e: Exception) {
                 e.printStackTrace()
             }

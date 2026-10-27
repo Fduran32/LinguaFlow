@@ -3,19 +3,38 @@ package com.linguaflow.app.domain.usecase
 import com.linguaflow.app.domain.model.AnswerResult
 import com.linguaflow.app.domain.model.LevelAccessStatus
 import com.linguaflow.app.domain.model.Question
+import com.linguaflow.app.domain.model.QuestionType
+import com.linguaflow.app.util.SpeechManager
 
 /**
  * Caso de Uso: Evaluar respuesta con retroalimentación inmediata y explicación.
  * Cumple con RF-10, RF-11, RF-12.
+ * Soporta normalización completa de contracciones ("she's" == "she is", "I'm" == "I am", apóstrofos curvos)
+ * y evaluación fonética tolerante en ejercicios de SPEAKING.
  */
 class EvaluateAnswerUseCase {
     fun execute(question: Question, selectedAnswer: String): AnswerResult {
-        val punctuationRegex = Regex("[.,?!¿¡，。？！、!]")
-        val cleanUser = selectedAnswer.trim().lowercase().replace(punctuationRegex, "")
-        val cleanCorrect = question.correctAnswer.trim().lowercase().replace(punctuationRegex, "")
+        if (question.type == QuestionType.SPEAKING) {
+            val similarity = SpeechManager.calculateSimilarity(selectedAnswer, question.correctAnswer)
+            return AnswerResult(
+                isCorrect = similarity.isPassed,
+                selectedAnswer = selectedAnswer,
+                correctAnswer = question.correctAnswer,
+                explanation = if (similarity.isPassed) {
+                    question.explanation
+                } else {
+                    "${similarity.feedback} (${similarity.percentage}%). ${question.explanation}"
+                }
+            )
+        }
 
-        val isCorrect = cleanUser == cleanCorrect ||
+        val cleanUser = SpeechManager.cleanText(selectedAnswer)
+        val cleanCorrect = SpeechManager.cleanText(question.correctAnswer)
+
+        val isCorrect = cleanUser.isNotBlank() && (
+            cleanUser == cleanCorrect ||
                 cleanUser.replace("\\s+".toRegex(), "") == cleanCorrect.replace("\\s+".toRegex(), "")
+        )
 
         return AnswerResult(
             isCorrect = isCorrect,

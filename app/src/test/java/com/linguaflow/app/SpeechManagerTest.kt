@@ -1,5 +1,8 @@
 package com.linguaflow.app
 
+import com.linguaflow.app.domain.model.Question
+import com.linguaflow.app.domain.model.QuestionType
+import com.linguaflow.app.domain.usecase.EvaluateAnswerUseCase
 import com.linguaflow.app.util.SpeechManager
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -21,6 +24,38 @@ class SpeechManagerTest {
         val result = SpeechManager.calculateSimilarity("I'm fine, thank you", "I am fine, thank you")
         assertTrue("Debe aprobar al usar contracciones válidas", result.isPassed)
         assertTrue("El puntaje debe ser alto con contracciones", result.percentage >= 90)
+    }
+
+    @Test
+    fun testShesMyMotherContractionMatchesSheIsMyMother() {
+        // Bug 3: "she's my mother" (con apóstrofe recto y tipográfico) frente a "She is my mother"
+        val straight = SpeechManager.calculateSimilarity("she's my mother", "She is my mother")
+        assertTrue("Debe aprobar 'she's my mother' para 'She is my mother'", straight.isPassed)
+        assertEquals(100, straight.percentage)
+
+        val curly = SpeechManager.calculateSimilarity("she’s my mother", "She is my mother")
+        assertTrue("Debe aprobar 'she’s my mother' (apóstrofe curvo) para 'She is my mother'", curly.isPassed)
+        assertEquals(100, curly.percentage)
+
+        val evaluateUseCase = EvaluateAnswerUseCase()
+        val speakingQuestion = Question(
+            id = "test_q",
+            lessonId = "test_les",
+            type = QuestionType.SPEAKING,
+            prompt = "Pronuncia en voz alta: 'Ella es mi madre'",
+            promptAudioText = "She is my mother",
+            options = emptyList(),
+            correctAnswer = "She is my mother",
+            explanation = "Pronunciación correcta"
+        )
+        assertTrue(
+            "EvaluateAnswerUseCase debe aprobar 'she's my mother' en LessonSessionScreen",
+            evaluateUseCase.execute(speakingQuestion, "she's my mother").isCorrect
+        )
+        assertTrue(
+            "EvaluateAnswerUseCase debe aprobar 'she’s my mother' en LessonSessionScreen",
+            evaluateUseCase.execute(speakingQuestion, "she’s my mother").isCorrect
+        )
     }
 
     @Test

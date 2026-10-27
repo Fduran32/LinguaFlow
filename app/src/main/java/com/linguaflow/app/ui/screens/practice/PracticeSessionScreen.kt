@@ -593,34 +593,17 @@ fun PracticeSessionScreen(
                 // Botón Comprobar para Writing y Listening
                 Button(
                     onClick = {
-                        fun normalize(text: String): String {
-                            return text.lowercase()
-                                .replace("she's", "she is")
-                                .replace("he's", "he is")
-                                .replace("it's", "it is")
-                                .replace("i'm", "i am")
-                                .replace("you're", "you are")
-                                .replace("we're", "we are")
-                                .replace("they're", "they are")
-                                .replace("that's", "that is")
-                                .replace("don't", "do not")
-                                .replace("doesn't", "does not")
-                                .replace("didn't", "did not")
-                                .replace("can't", "cannot")
-                                .replace("isn't", "is not")
-                                .replace("aren't", "are not")
-                                .replace(Regex("[.,?!¿¡:;\"']"), "")
-                                .replace(Regex("\\s+"), " ")
-                                .trim()
-                        }
                         val targetText = if (isListeningType) {
                             (currentQuestion.promptAudioText ?: currentQuestion.correctAnswer).ifBlank { currentQuestion.prompt }
                         } else {
                             currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt }
                         }
-                        val cleanInput = normalize(writtenInput)
-                        val target = normalize(targetText)
-                        isCurrentCorrect = cleanInput == target
+                        val cleanInput = SpeechManager.cleanText(writtenInput)
+                        val target = SpeechManager.cleanText(targetText)
+                        isCurrentCorrect = cleanInput.isNotBlank() && (
+                            cleanInput == target ||
+                                cleanInput.replace(" ", "") == target.replace(" ", "")
+                        )
                         isAnswerChecked = true
                     },
                     enabled = writtenInput.isNotBlank(),

@@ -1,8 +1,6 @@
 package com.linguaflow.app.ui.screens.lesson
 
-import android.app.Activity
-import android.content.Intent
-import android.speech.RecognizerIntent
+import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -11,8 +9,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.CheckCircle
@@ -27,20 +27,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.core.content.ContextCompat
-import android.content.pm.PackageManager
-import com.linguaflow.app.util.SpeechManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import com.linguaflow.app.domain.model.AnswerResult
 import com.linguaflow.app.domain.model.Question
 import com.linguaflow.app.domain.model.QuestionType
 import com.linguaflow.app.domain.usecase.EvaluateAnswerUseCase
 import com.linguaflow.app.ui.theme.*
-import java.util.Locale
+import com.linguaflow.app.util.SpeechManager
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -256,10 +255,11 @@ fun LessonSessionScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(horizontal = 24.dp),
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 24.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.Top
             ) {
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
                     text = levelTitle,
@@ -316,10 +316,30 @@ fun LessonSessionScreen(
                                     text = currentQuestion.correctAnswer,
                                     fontSize = 22.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = PrimaryGreenDark
+                                    color = PrimaryGreenDark,
+                                    textAlign = TextAlign.Center
                                 )
 
-                                Spacer(modifier = Modifier.height(24.dp))
+                                Spacer(modifier = Modifier.height(14.dp))
+
+                                // Botón de referencia auditiva (Shadowing: escuchar modelo nativo antes de hablar)
+                                OutlinedButton(
+                                    onClick = {
+                                        val audioToPlay = currentQuestion.promptAudioText ?: currentQuestion.correctAnswer
+                                        onPlayAudio?.invoke(audioToPlay, ttsLocaleStr)
+                                    },
+                                    shape = RoundedCornerShape(10.dp)
+                                ) {
+                                    Icon(
+                                        Icons.AutoMirrored.Filled.VolumeUp,
+                                        contentDescription = "Escuchar referencia",
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text("Escuchar pronunciación", fontSize = 13.sp)
+                                }
+
+                                Spacer(modifier = Modifier.height(20.dp))
 
                                 // Botón de Micrófono Integrado (100% in-app, sin Google Dialog)
                                 Box(
@@ -361,9 +381,12 @@ fun LessonSessionScreen(
                                                         },
                                                         onFinalResult = { finalResult, allCandidates ->
                                                             isListeningSpeech = false
-                                                            val evaluation = SpeechManager.calculateBestSimilarity(allCandidates.ifEmpty { listOf(finalResult) }, currentQuestion.correctAnswer)
+                                                            val evaluation = SpeechManager.calculateBestSimilarity(
+                                                                allCandidates.ifEmpty { listOf(finalResult) },
+                                                                currentQuestion.correctAnswer
+                                                            )
                                                             spokenAnswer = evaluation.bestSpoken.ifBlank { finalResult }
-                                                            selectedOption = if (evaluation.isPassed) currentQuestion.correctAnswer else spokenAnswer
+                                                            selectedOption = spokenAnswer
                                                         },
                                                         onError = { errorMsg ->
                                                             isListeningSpeech = false
@@ -416,7 +439,7 @@ fun LessonSessionScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
-                                    onPlayAudio?.invoke(currentQuestion.promptAudioText ?: "", ttsLocaleStr)
+                                    onPlayAudio?.invoke(currentQuestion.promptAudioText ?: currentQuestion.correctAnswer, ttsLocaleStr)
                                 },
                             shape = RoundedCornerShape(16.dp),
                             colors = CardDefaults.cardColors(containerColor = SuccessGreenLight)
@@ -446,7 +469,12 @@ fun LessonSessionScreen(
 
                         Spacer(modifier = Modifier.height(24.dp))
 
-                        currentQuestion.options.forEach { option ->
+                        // Opciones barajadas aleatoriamente para evitar que la primera sea siempre la correcta
+                        val shuffledListeningOptions = remember(currentQuestion.id, currentIndex) {
+                            currentQuestion.options.shuffled()
+                        }
+
+                        shuffledListeningOptions.forEach { option ->
                             RenderOptionCard(
                                 option = option,
                                 isSelected = selectedOption == option,
@@ -712,4 +740,3 @@ private fun RenderOptionCard(
         }
     }
 }
-

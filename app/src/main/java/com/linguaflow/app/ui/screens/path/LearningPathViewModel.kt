@@ -88,7 +88,7 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
                             // Filtrar en la ruta exclusivamente los subniveles del nivel seleccionado para ver/practicar
                             val activeSubLevels = levels.filter {
                                 it.cefrCode.take(2).equals(viewingCefr.take(2), ignoreCase = true)
-                            }
+                            }.sortedBy { it.orderIndex }
 
                             LearningPathUiState(
                                 currentUser = activeUser,
@@ -161,9 +161,6 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
     private fun isMeaningfulSentence(text: String?): Boolean =
         PracticeSentenceFilter.isMeaningfulSentence(text)
 
-    private fun cleanSpanishPromptText(prompt: String): String =
-        PracticeSentenceFilter.cleanSpanishPromptText(prompt)
-
     suspend fun getPracticeQuestions(skillMode: PracticeSkillMode = PracticeSkillMode.MIX, limit: Int = 10): List<Question> {
         val activeLangId = _currentLanguageId.value
         val currentCefr = _uiState.value.userAssignedLevel.take(2).uppercase()
@@ -199,24 +196,22 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
 
                 when (skillMode) {
                     PracticeSkillMode.WRITING -> {
-                        // Modo Writing: traducción directa al inglés de oraciones completas
-                        if (!q.prompt.contains("___") && !q.prompt.startsWith("¿") && !q.prompt.startsWith("?")) {
-                            val cleanSpanish = cleanSpanishPromptText(q.prompt)
-                            if (cleanSpanish.isNotBlank() && cleanSpanish != phrase) {
-                                candidateQuestions.add(
-                                    Question(
-                                        id = q.id,
-                                        lessonId = q.levelId,
-                                        type = com.linguaflow.app.domain.model.QuestionType.FILL_BLANK,
-                                        prompt = cleanSpanish,
-                                        promptPhonetic = null,
-                                        promptAudioText = null,
-                                        options = emptyList(),
-                                        correctAnswer = phrase,
-                                        explanation = q.explanation
-                                    )
+                        // Modo Writing: exclusivamente oraciones reales en español para traducir (sin instrucciones de audio/micrófono)
+                        val cleanSpanish = PracticeSentenceFilter.extractSpanishPromptForWriting(q.type, q.prompt, phrase)
+                        if (cleanSpanish != null) {
+                            candidateQuestions.add(
+                                Question(
+                                    id = q.id,
+                                    lessonId = q.levelId,
+                                    type = com.linguaflow.app.domain.model.QuestionType.FILL_BLANK,
+                                    prompt = cleanSpanish,
+                                    promptPhonetic = null,
+                                    promptAudioText = null,
+                                    options = emptyList(),
+                                    correctAnswer = phrase,
+                                    explanation = q.explanation
                                 )
-                            }
+                            )
                         }
                     }
 
@@ -226,17 +221,18 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
                             qType == com.linguaflow.app.domain.model.QuestionType.TRANSLATE_BUILD ||
                             qType == com.linguaflow.app.domain.model.QuestionType.LISTENING
                         ) {
+                            val cleanMeaning = PracticeSentenceFilter.extractSpanishPromptForWriting(q.type, q.prompt, phrase)
                             candidateQuestions.add(
                                 Question(
                                     id = q.id,
                                     lessonId = q.levelId,
                                     type = com.linguaflow.app.domain.model.QuestionType.SPEAKING,
-                                    prompt = "Pronuncia en voz alta en inglés:",
+                                    prompt = "Pronuncia en voz alta:",
                                     promptPhonetic = q.promptPhonetic,
                                     promptAudioText = phrase,
                                     options = emptyList(),
                                     correctAnswer = phrase,
-                                    explanation = q.explanation
+                                    explanation = cleanMeaning ?: q.explanation
                                 )
                             )
                         }
@@ -260,22 +256,23 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
                     }
 
                     PracticeSkillMode.MIX -> {
-                        // En MIX, acumulamos candidatos válidos con significado completo
-                        val cleanSpanish = cleanSpanishPromptText(q.prompt)
-                        val spanishValid = !q.prompt.contains("___") && !q.prompt.startsWith("¿") && cleanSpanish.isNotBlank() && cleanSpanish != phrase
-                        candidateQuestions.add(
-                            Question(
-                                id = q.id,
-                                lessonId = q.levelId,
-                                type = qType,
-                                prompt = if (spanishValid) cleanSpanish else "Pronuncia o escucha la siguiente frase en inglés:",
-                                promptPhonetic = q.promptPhonetic,
-                                promptAudioText = phrase,
-                                options = emptyList(),
-                                correctAnswer = phrase,
-                                explanation = q.explanation
+                        // En MIX, solo usamos candidatos que tengan tanto oración completa como traducción limpia al español
+                        val cleanSpanish = PracticeSentenceFilter.extractSpanishPromptForWriting(q.type, q.prompt, phrase)
+                        if (cleanSpanish != null) {
+                            candidateQuestions.add(
+                                Question(
+                                    id = q.id,
+                                    lessonId = q.levelId,
+                                    type = qType,
+                                    prompt = cleanSpanish,
+                                    promptPhonetic = q.promptPhonetic,
+                                    promptAudioText = phrase,
+                                    options = emptyList(),
+                                    correctAnswer = phrase,
+                                    explanation = q.explanation
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }
@@ -288,7 +285,7 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
                 when (index % 3) {
                     0 -> q.copy(
                         type = com.linguaflow.app.domain.model.QuestionType.SPEAKING,
-                        prompt = "Pronuncia en voz alta en inglés:"
+                        prompt = "Pronuncia en voz alta:"
                     )
                     1 -> q.copy(
                         type = com.linguaflow.app.domain.model.QuestionType.LISTENING,
@@ -296,7 +293,7 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
                     )
                     else -> q.copy(
                         type = com.linguaflow.app.domain.model.QuestionType.FILL_BLANK,
-                        prompt = if (q.prompt.isNotBlank() && !q.prompt.startsWith("Pronuncia")) q.prompt else "Traduce al inglés: ${q.correctAnswer}"
+                        prompt = q.prompt // Ya validado como oración limpia en español por extractSpanishPromptForWriting
                     )
                 }
             }
