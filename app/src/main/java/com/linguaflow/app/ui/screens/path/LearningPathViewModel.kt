@@ -1,8 +1,12 @@
 package com.linguaflow.app.ui.screens.path
 
 import android.app.Application
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.linguaflow.app.AppNavState
 import com.linguaflow.app.data.local.LinguaFlowDatabase
 import com.linguaflow.app.data.repository.LanguageRepositoryImpl
 import com.linguaflow.app.data.repository.ProgressRepositoryImpl
@@ -44,6 +48,15 @@ class LearningPathViewModel(application: Application) : AndroidViewModel(applica
     private val _selectedViewingLevel = MutableStateFlow<String?>(null)
     private val _uiState = MutableStateFlow(LearningPathUiState())
     val uiState: StateFlow<LearningPathUiState> = _uiState.asStateFlow()
+
+    // Estado de navegación y sesión persistente ante rotaciones de pantalla o cambios de configuración
+    var navState by mutableStateOf(AppNavState.HOME)
+    var currentSelectedLevel by mutableStateOf<Level?>(null)
+    var activeQuestions by mutableStateOf<List<Question>>(emptyList())
+    var isMistakeReviewMode by mutableStateOf(false)
+    var mistakeQuestionsList by mutableStateOf<List<Question>>(emptyList())
+    var selectedPracticeMode by mutableStateOf(PracticeSkillMode.MIX)
+    var practiceQuestionsList by mutableStateOf<List<Question>>(emptyList())
 
     init {
         viewModelScope.launch {

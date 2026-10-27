@@ -88,10 +88,9 @@ fun LearningPathScreen(
                             if (availableLanguages.isNotEmpty()) showLanguageMenu = true
                         }
                     ) {
-                        Text(text = currentFlagEmoji, fontSize = 24.sp)
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = currentLanguageName, fontWeight = FontWeight.Bold)
+                        Text(text = currentFlagEmoji, fontSize = 28.sp)
                         if (availableLanguages.isNotEmpty()) {
+                            Spacer(modifier = Modifier.width(2.dp))
                             Icon(Icons.Default.ArrowDropDown, contentDescription = "Cambiar idioma")
                         }
                     }

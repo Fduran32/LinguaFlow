@@ -92,21 +92,13 @@ fun LinguaFlowApp(
     viewModel: LearningPathViewModel,
     onPlayAudio: (String, String, Boolean) -> Unit
 ) {
-    var navState by remember { mutableStateOf(AppNavState.HOME) }
-    var currentSelectedLevel by remember { mutableStateOf<Level?>(null) }
-    var activeQuestions by remember { mutableStateOf<List<Question>>(emptyList()) }
-    var isMistakeReviewMode by remember { mutableStateOf(false) }
-    var mistakeQuestionsList by remember { mutableStateOf<List<Question>>(emptyList()) }
-    var selectedPracticeMode by remember { mutableStateOf(PracticeSkillMode.MIX) }
-    var practiceQuestionsList by remember { mutableStateOf<List<Question>>(emptyList()) }
-
     val uiState by viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
 
     if (uiState.currentUser == null) {
         AuthScreen(
             onLoginSuccess = {
-                navState = AppNavState.HOME
+                viewModel.navState = AppNavState.HOME
             },
             onRegister = { username, password, avatar, isCustomPhoto ->
                 viewModel.registerUser(username, password, avatar, isCustomPhoto)
@@ -118,7 +110,7 @@ fun LinguaFlowApp(
         return
     }
 
-    when (navState) {
+    when (viewModel.navState) {
         AppNavState.HOME -> {
             val currentUser = uiState.currentUser
             if (currentUser != null) {
@@ -133,19 +125,19 @@ fun LinguaFlowApp(
                         viewModel.switchLanguage(langId)
                     },
                     onOpenProfile = {
-                        navState = AppNavState.PROFILE
+                        viewModel.navState = AppNavState.PROFILE
                     },
                     onOpenMistakesReview = {
                         coroutineScope.launch {
-                            mistakeQuestionsList = viewModel.getPendingMistakeQuestions()
-                            navState = AppNavState.MISTAKES_REVIEW
+                            viewModel.mistakeQuestionsList = viewModel.getPendingMistakeQuestions()
+                            viewModel.navState = AppNavState.MISTAKES_REVIEW
                         }
                     },
                     onOpenLearningPath = {
-                        navState = AppNavState.LEARNING_PATH
+                        viewModel.navState = AppNavState.LEARNING_PATH
                     },
                     onOpenPracticeHub = {
-                        navState = AppNavState.PRACTICE_HUB
+                        viewModel.navState = AppNavState.PRACTICE_HUB
                     }
                 )
             }
@@ -178,27 +170,27 @@ fun LinguaFlowApp(
                 },
                 onOpenMistakesReview = {
                     coroutineScope.launch {
-                        mistakeQuestionsList = viewModel.getPendingMistakeQuestions()
-                        navState = AppNavState.MISTAKES_REVIEW
+                        viewModel.mistakeQuestionsList = viewModel.getPendingMistakeQuestions()
+                        viewModel.navState = AppNavState.MISTAKES_REVIEW
                     }
                 },
                 onOpenProfile = {
-                    navState = AppNavState.PROFILE
+                    viewModel.navState = AppNavState.PROFILE
                 },
                 onBackToHome = {
-                    navState = AppNavState.HOME
+                    viewModel.navState = AppNavState.HOME
                 },
                 onStartLevel = { level ->
-                    currentSelectedLevel = level
-                    isMistakeReviewMode = false
+                    viewModel.currentSelectedLevel = level
+                    viewModel.isMistakeReviewMode = false
                     coroutineScope.launch {
                         val questions = viewModel.getQuestionsForLevel(level.id).shuffled()
-                        activeQuestions = questions
-                        navState = AppNavState.LESSON_SESSION
+                        viewModel.activeQuestions = questions
+                        viewModel.navState = AppNavState.LESSON_SESSION
                     }
                 },
                 onTakePlacementTest = {
-                    navState = AppNavState.PLACEMENT_TEST
+                    viewModel.navState = AppNavState.PLACEMENT_TEST
                 }
             )
         }
@@ -210,28 +202,28 @@ fun LinguaFlowApp(
                 currentCefr = uiState.userAssignedLevel,
                 pendingMistakesCount = uiState.pendingMistakesCount,
                 onStartPractice = { mode ->
-                    selectedPracticeMode = mode
+                    viewModel.selectedPracticeMode = mode
                     coroutineScope.launch {
-                        practiceQuestionsList = viewModel.getPracticeQuestions(mode, 10)
-                        navState = AppNavState.PRACTICE_SESSION
+                        viewModel.practiceQuestionsList = viewModel.getPracticeQuestions(mode, 10)
+                        viewModel.navState = AppNavState.PRACTICE_SESSION
                     }
                 },
                 onStartMistakesReview = {
                     coroutineScope.launch {
-                        mistakeQuestionsList = viewModel.getPendingMistakeQuestions()
-                        navState = AppNavState.MISTAKES_REVIEW
+                        viewModel.mistakeQuestionsList = viewModel.getPendingMistakeQuestions()
+                        viewModel.navState = AppNavState.MISTAKES_REVIEW
                     }
                 },
                 onBack = {
-                    navState = AppNavState.HOME
+                    viewModel.navState = AppNavState.HOME
                 }
             )
         }
 
         AppNavState.PRACTICE_SESSION -> {
             PracticeSessionScreen(
-                skillMode = selectedPracticeMode,
-                questions = practiceQuestionsList,
+                skillMode = viewModel.selectedPracticeMode,
+                questions = viewModel.practiceQuestionsList,
                 ttsLocaleStr = uiState.currentLanguage.ttsLocale,
                 onPlayAudio = { text, isSlow ->
                     onPlayAudio(text, uiState.currentLanguage.ttsLocale, isSlow)
@@ -240,21 +232,21 @@ fun LinguaFlowApp(
                     viewModel.recordMistake(questionId, wrongAnswer)
                 },
                 onFinished = {
-                    navState = AppNavState.PRACTICE_HUB
+                    viewModel.navState = AppNavState.PRACTICE_HUB
                 },
                 onClose = {
-                    navState = AppNavState.PRACTICE_HUB
+                    viewModel.navState = AppNavState.PRACTICE_HUB
                 }
             )
         }
 
         AppNavState.LESSON_SESSION -> {
-            val targetLevel = currentSelectedLevel ?: uiState.levels.firstOrNull()
-            val levelTitle = if (isMistakeReviewMode) "Repaso de Errores" else (targetLevel?.title ?: "Lección")
+            val targetLevel = viewModel.currentSelectedLevel ?: uiState.levels.firstOrNull()
+            val levelTitle = if (viewModel.isMistakeReviewMode) "Repaso de Errores" else (targetLevel?.title ?: "Lección")
 
             LessonSessionScreen(
                 levelTitle = levelTitle,
-                questions = activeQuestions,
+                questions = viewModel.activeQuestions,
                 ttsLocaleStr = uiState.currentLanguage.ttsLocale,
                 onPlayAudio = { text, localeStr, isSlow ->
                     onPlayAudio(text, localeStr, isSlow)
@@ -263,20 +255,20 @@ fun LinguaFlowApp(
                     viewModel.recordMistake(questionId, wrongAnswer)
                 },
                 onCorrectAnswer = { questionId ->
-                    if (isMistakeReviewMode) {
+                    if (viewModel.isMistakeReviewMode) {
                         viewModel.resolveMistake(questionId)
                     }
                 },
                 onLessonFinished = { passed, scorePercentage ->
-                    if (passed && targetLevel != null && !isMistakeReviewMode) {
+                    if (passed && targetLevel != null && !viewModel.isMistakeReviewMode) {
                         viewModel.onLevelCompleted(targetLevel.id, scorePercentage)
                     }
-                    isMistakeReviewMode = false
-                    navState = AppNavState.LEARNING_PATH
+                    viewModel.isMistakeReviewMode = false
+                    viewModel.navState = AppNavState.LEARNING_PATH
                 },
                 onClose = {
-                    isMistakeReviewMode = false
-                    navState = AppNavState.LEARNING_PATH
+                    viewModel.isMistakeReviewMode = false
+                    viewModel.navState = AppNavState.LEARNING_PATH
                 }
             )
         }
@@ -288,24 +280,24 @@ fun LinguaFlowApp(
                 currentAssignedCefr = uiState.userAssignedLevel,
                 onPlacementFinished = { startingLevelOrder, cefrCode, score ->
                     viewModel.onPlacementTestFinished(startingLevelOrder, cefrCode, score)
-                    navState = AppNavState.LEARNING_PATH
+                    viewModel.navState = AppNavState.LEARNING_PATH
                 },
                 onClose = {
-                    navState = AppNavState.LEARNING_PATH
+                    viewModel.navState = AppNavState.LEARNING_PATH
                 }
             )
         }
 
         AppNavState.MISTAKES_REVIEW -> {
             MistakesReviewScreen(
-                mistakes = mistakeQuestionsList,
+                mistakes = viewModel.mistakeQuestionsList,
                 onStartReviewSession = {
-                    activeQuestions = mistakeQuestionsList
-                    isMistakeReviewMode = true
-                    navState = AppNavState.LESSON_SESSION
+                    viewModel.activeQuestions = viewModel.mistakeQuestionsList
+                    viewModel.isMistakeReviewMode = true
+                    viewModel.navState = AppNavState.LESSON_SESSION
                 },
                 onBack = {
-                    navState = AppNavState.HOME
+                    viewModel.navState = AppNavState.HOME
                 }
             )
         }
@@ -322,10 +314,10 @@ fun LinguaFlowApp(
                     },
                     onLogout = {
                         viewModel.logout()
-                        navState = AppNavState.HOME
+                        viewModel.navState = AppNavState.HOME
                     },
                     onBack = {
-                        navState = AppNavState.HOME
+                        viewModel.navState = AppNavState.HOME
                     }
                 )
             }
