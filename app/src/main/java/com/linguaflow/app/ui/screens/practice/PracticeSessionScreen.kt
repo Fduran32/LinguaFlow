@@ -6,7 +6,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -14,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -38,6 +38,7 @@ fun PracticeSessionScreen(
     questions: List<Question>,
     ttsLocaleStr: String,
     onPlayAudio: (text: String, isSlow: Boolean) -> Unit,
+    onWrongAnswer: ((questionId: String, wrongAnswer: String) -> Unit)? = null,
     onFinished: (score: Int) -> Unit,
     onClose: () -> Unit
 ) {
@@ -72,6 +73,7 @@ fun PracticeSessionScreen(
     var isAnswerChecked by remember { mutableStateOf(false) }
     var isCurrentCorrect by remember { mutableStateOf(false) }
     var feedbackText by remember { mutableStateOf("") }
+    var hintLevel by remember(currentIndex) { mutableStateOf(0) }
 
     // Estados de voz
     var isListening by remember { mutableStateOf(false) }
@@ -107,7 +109,6 @@ fun PracticeSessionScreen(
     )
 
     if (isFinished) {
-        // PANTALLA DE RESULTADOS
         val total = questions.size
         val scorePercent = if (total > 0) (correctCount * 100) / total else 0
         PracticeResultView(
@@ -128,6 +129,24 @@ fun PracticeSessionScreen(
     val isSpeakingType = currentQuestion.type == com.linguaflow.app.domain.model.QuestionType.SPEAKING || skillMode == PracticeSkillMode.SPEAKING
     val isListeningType = !isSpeakingType && (currentQuestion.type == com.linguaflow.app.domain.model.QuestionType.LISTENING || skillMode == PracticeSkillMode.LISTENING)
 
+    // Opción C: Generador de pistas progresivas para Writing y Listening
+    val targetAnswerForHint = if (isListeningType) {
+        (currentQuestion.promptAudioText ?: currentQuestion.correctAnswer).ifBlank { currentQuestion.prompt }
+    } else {
+        currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt }
+    }
+    val targetWords = remember(currentQuestion.id, currentIndex) {
+        targetAnswerForHint.trim().split(Regex("\\s+")).filter { it.isNotBlank() }
+    }
+    val hintMessage = when (hintLevel) {
+        1 -> "💡 Pista (1ª palabra): \"${targetWords.firstOrNull() ?: ""} ...\""
+        2 -> {
+            val preview = targetWords.take(2).joinToString(" ")
+            "💡 Pista: \"$preview ...\" (${targetWords.size} palabras en total)"
+        }
+        else -> null
+    }
+
     Scaffold(
         topBar = {
             Column(
@@ -145,7 +164,7 @@ fun PracticeSessionScreen(
                     }
 
                     LinearProgressIndicator(
-                        progress = progress,
+                        progress = { progress },
                         modifier = Modifier
                             .weight(1f)
                             .height(10.dp)
@@ -220,7 +239,7 @@ fun PracticeSessionScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "Pronuncia la siguiente frase en inglés:",
+                            text = "Pronuncia la siguiente frase:",
                             fontSize = 14.sp,
                             color = TextMedium,
                             textAlign = TextAlign.Center
@@ -235,6 +254,16 @@ fun PracticeSessionScreen(
                             color = PrimaryGreenDark,
                             textAlign = TextAlign.Center
                         )
+
+                        if (!currentQuestion.promptPhonetic.isNullOrBlank()) {
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = "Pinyin: ${currentQuestion.promptPhonetic}",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = PrimaryCoral
+                            )
+                        }
 
                         if (currentQuestion.explanation.isNotBlank()) {
                             Spacer(modifier = Modifier.height(6.dp))
@@ -254,7 +283,7 @@ fun PracticeSessionScreen(
                                 onClick = { onPlayAudio(targetText, false) },
                                 shape = RoundedCornerShape(10.dp)
                             ) {
-                                Icon(Icons.Default.VolumeUp, contentDescription = null, modifier = Modifier.size(18.dp))
+                                Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = null, modifier = Modifier.size(18.dp))
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text("Escuchar", fontSize = 13.sp)
                             }
@@ -279,7 +308,6 @@ fun PracticeSessionScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     if (isListening) {
-                        // Anillo de pulso exterior
                         Box(
                             modifier = Modifier
                                 .size(110.dp)
@@ -289,7 +317,6 @@ fun PracticeSessionScreen(
                         )
                     }
 
-                    // Botón principal
                     Box(
                         modifier = Modifier
                             .size(80.dp)
@@ -322,6 +349,9 @@ fun PracticeSessionScreen(
                                             isCurrentCorrect = evaluation.isPassed
                                             feedbackText = evaluation.feedback
                                             isAnswerChecked = true
+                                            if (!evaluation.isPassed) {
+                                                onWrongAnswer?.invoke(currentQuestion.id, recognizedSpokenText)
+                                            }
                                         },
                                         onError = { errorMsg ->
                                             isListening = false
@@ -344,7 +374,7 @@ fun PracticeSessionScreen(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                    text = if (isListening) "🎙️ Escuchando... habla en inglés" else "Toca el micrófono y pronuncia la frase",
+                    text = if (isListening) "🎙️ Escuchando... habla ahora" else "Toca el micrófono y pronuncia la frase",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
                     color = if (isListening) PrimaryGreenDark else TextMedium
@@ -414,7 +444,7 @@ fun PracticeSessionScreen(
                                 shape = RoundedCornerShape(14.dp),
                                 modifier = Modifier.height(50.dp)
                             ) {
-                                Icon(Icons.Default.VolumeUp, contentDescription = null, tint = IndigoBackground)
+                                Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = null, tint = IndigoBackground)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text("Reproducir", color = IndigoBackground, fontWeight = FontWeight.Bold)
                             }
@@ -432,18 +462,50 @@ fun PracticeSessionScreen(
 
                         Spacer(modifier = Modifier.height(20.dp))
 
-                        Text(
-                            text = "¿Qué frase o palabra escuchaste?",
-                            fontSize = 14.sp,
-                            color = TextMuted
-                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "¿Qué frase escuchaste?",
+                                fontSize = 14.sp,
+                                color = TextMuted
+                            )
 
-                        Spacer(modifier = Modifier.height(10.dp))
+                            if (!isAnswerChecked && hintLevel < 2) {
+                                TextButton(onClick = { hintLevel++ }) {
+                                    Icon(Icons.Default.Lightbulb, contentDescription = "Pista", tint = AccentYellow, modifier = Modifier.size(16.dp))
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Text(if (hintLevel == 0) "Ver pista" else "Más pista", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PrimaryGreenDark)
+                                }
+                            }
+                        }
+
+                        if (hintMessage != null) {
+                            Surface(
+                                shape = RoundedCornerShape(8.dp),
+                                color = AccentYellow.copy(alpha = 0.2f),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 8.dp)
+                            ) {
+                                Text(
+                                    text = hintMessage,
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = TextDark,
+                                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(6.dp))
 
                         OutlinedTextField(
                             value = writtenInput,
                             onValueChange = { writtenInput = it },
-                            placeholder = { Text("Escribe en inglés lo que escuchas...") },
+                            placeholder = { Text("Escribe aquí lo que escuchas...") },
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(12.dp),
                             singleLine = true
@@ -467,13 +529,27 @@ fun PracticeSessionScreen(
                             .fillMaxWidth()
                             .padding(20.dp)
                     ) {
-                        Text(
-                            text = "Traduce la siguiente frase al inglés:",
-                            fontSize = 14.sp,
-                            color = TextMuted
-                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Traduce la siguiente frase:",
+                                fontSize = 14.sp,
+                                color = TextMuted
+                            )
 
-                        Spacer(modifier = Modifier.height(10.dp))
+                            if (!isAnswerChecked && hintLevel < 2) {
+                                TextButton(onClick = { hintLevel++ }) {
+                                    Icon(Icons.Default.Lightbulb, contentDescription = "Pista", tint = AccentYellow, modifier = Modifier.size(16.dp))
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Text(if (hintLevel == 0) "Ver pista" else "Más pista", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PrimaryGreenDark)
+                                }
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(6.dp))
 
                         Text(
                             text = currentQuestion.prompt,
@@ -482,12 +558,29 @@ fun PracticeSessionScreen(
                             color = PrimaryCoral
                         )
 
+                        if (hintMessage != null) {
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Surface(
+                                shape = RoundedCornerShape(8.dp),
+                                color = AccentYellow.copy(alpha = 0.2f),
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = hintMessage,
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = TextDark,
+                                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                                )
+                            }
+                        }
+
                         Spacer(modifier = Modifier.height(16.dp))
 
                         OutlinedTextField(
                             value = writtenInput,
                             onValueChange = { writtenInput = it },
-                            placeholder = { Text("Escribe aquí tu respuesta...") },
+                            placeholder = { Text("Escribe aquí tu traducción...") },
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(12.dp)
                         )
@@ -515,7 +608,13 @@ fun PracticeSessionScreen(
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = if (isCurrentCorrect) "¡Excelente pronunciación!" else if (isSpeakingType) "Pronunciación incompleta o a mejorar:" else "Respuesta correcta:",
+                                text = if (isCurrentCorrect) {
+                                    if (isSpeakingType) "¡Excelente pronunciación!" else "¡Respuesta correcta!"
+                                } else if (isSpeakingType) {
+                                    "Pronunciación incompleta o a mejorar:"
+                                } else {
+                                    "Respuesta correcta:"
+                                },
                                 fontWeight = FontWeight.Bold,
                                 color = if (isCurrentCorrect) PrimaryGreenDark else ErrorRed,
                                 fontSize = 16.sp
@@ -541,8 +640,8 @@ fun PracticeSessionScreen(
                             Text(
                                 text = feedbackText,
                                 fontSize = 13.sp,
-                                fontWeight = if (isCurrentCorrect) FontWeight.Normal else FontWeight.SemiBold,
-                                color = if (isCurrentCorrect) TextDark else ErrorRed
+                                fontWeight = FontWeight.SemiBold,
+                                color = if (isCurrentCorrect) PrimaryGreenDark else ErrorRed
                             )
                         }
 
@@ -590,7 +689,7 @@ fun PracticeSessionScreen(
                     Text("Continuar", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
                 }
             } else if (!isSpeakingType) {
-                // Botón Comprobar para Writing y Listening
+                // Opción B: Botón Comprobar para Writing y Listening con tolerancia de "Casi correcto" (1 letra)
                 Button(
                     onClick = {
                         val targetText = if (isListeningType) {
@@ -598,13 +697,13 @@ fun PracticeSessionScreen(
                         } else {
                             currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt }
                         }
-                        val cleanInput = SpeechManager.cleanText(writtenInput)
-                        val target = SpeechManager.cleanText(targetText)
-                        isCurrentCorrect = cleanInput.isNotBlank() && (
-                            cleanInput == target ||
-                                cleanInput.replace(" ", "") == target.replace(" ", "")
-                        )
+                        val writtenEval = SpeechManager.evaluateWrittenAnswer(writtenInput, targetText)
+                        isCurrentCorrect = writtenEval.isPassed
+                        feedbackText = writtenEval.typoNotice ?: ""
                         isAnswerChecked = true
+                        if (!writtenEval.isPassed) {
+                            onWrongAnswer?.invoke(currentQuestion.id, writtenInput)
+                        }
                     },
                     enabled = writtenInput.isNotBlank(),
                     colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),

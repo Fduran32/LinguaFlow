@@ -316,7 +316,42 @@ class SpeechManager(private val context: Context) {
             }
             return cost[lhsLen]
         }
+
+        /**
+         * Evalúa una respuesta escrita (Writing / Dictado) tolerando contracciones equivalentes
+         * y detectando errores de dedo de 1 sola letra ("Casi correcto") en oraciones completas.
+         */
+        fun evaluateWrittenAnswer(userInput: String, expectedAnswer: String): WrittenEvaluation {
+            val cleanInput = cleanText(userInput)
+            val cleanTarget = cleanText(expectedAnswer)
+
+            if (cleanInput.isBlank()) {
+                return WrittenEvaluation(isPassed = false, isAlmostExact = false, typoNotice = null)
+            }
+
+            if (cleanInput == cleanTarget || cleanInput.replace(" ", "") == cleanTarget.replace(" ", "")) {
+                return WrittenEvaluation(isPassed = true, isAlmostExact = false, typoNotice = null)
+            }
+
+            // Tolerancia de 1 letra de diferencia (error de tipeo/dedo) en oraciones de al menos 8 caracteres
+            val distance = levenshtein(cleanInput, cleanTarget)
+            if (cleanTarget.length >= 8 && distance == 1) {
+                return WrittenEvaluation(
+                    isPassed = true,
+                    isAlmostExact = true,
+                    typoNotice = "💡 ¡Casi perfecto! Tuviste un pequeño detalle de 1 letra. Se escribe: \"$expectedAnswer\""
+                )
+            }
+
+            return WrittenEvaluation(isPassed = false, isAlmostExact = false, typoNotice = null)
+        }
     }
+
+    data class WrittenEvaluation(
+        val isPassed: Boolean,
+        val isAlmostExact: Boolean,
+        val typoNotice: String? = null
+    )
 
     data class SimilarityResult(
         val percentage: Int,

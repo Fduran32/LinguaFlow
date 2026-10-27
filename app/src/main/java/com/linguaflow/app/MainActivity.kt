@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity(), TextToSpeech.OnInitListener {
             else -> Locale.US
         }
         tts?.language = locale
-        tts?.setSpeechRate(if (isSlow) 0.6f else 1.0f)
+        tts?.setSpeechRate(if (isSlow) 0.65f else 1.0f)
         tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
     }
 
@@ -103,7 +103,6 @@ fun LinguaFlowApp(
     val uiState by viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
 
-    // Si no hay usuario activo autenticado, mostramos la pantalla de Autenticación
     if (uiState.currentUser == null) {
         AuthScreen(
             onLoginSuccess = {
@@ -157,6 +156,7 @@ fun LinguaFlowApp(
                 currentUser = uiState.currentUser,
                 currentLanguageName = uiState.currentLanguage.name,
                 currentFlagEmoji = uiState.currentLanguage.flagEmoji,
+                ttsLocaleStr = uiState.currentLanguage.ttsLocale,
                 availableLanguages = uiState.languages,
                 levels = uiState.levels,
                 userAssignedLevel = uiState.userAssignedLevel,
@@ -164,6 +164,12 @@ fun LinguaFlowApp(
                 availablePracticeLevels = uiState.availablePracticeLevels,
                 pendingMistakesCount = uiState.pendingMistakesCount,
                 isLoading = uiState.isLoading,
+                onLoadGuideQuestions = { levelId ->
+                    viewModel.getQuestionsForLevel(levelId)
+                },
+                onPlayAudio = { text, localeStr, isSlow ->
+                    onPlayAudio(text, localeStr, isSlow)
+                },
                 onSelectLanguage = { langId ->
                     viewModel.switchLanguage(langId)
                 },
@@ -186,7 +192,6 @@ fun LinguaFlowApp(
                     currentSelectedLevel = level
                     isMistakeReviewMode = false
                     coroutineScope.launch {
-                        // Cargar preguntas desde Room SQLite y barajar su orden aleatoriamente
                         val questions = viewModel.getQuestionsForLevel(level.id).shuffled()
                         activeQuestions = questions
                         navState = AppNavState.LESSON_SESSION
@@ -203,11 +208,18 @@ fun LinguaFlowApp(
                 languageName = uiState.currentLanguage.name,
                 flagEmoji = uiState.currentLanguage.flagEmoji,
                 currentCefr = uiState.userAssignedLevel,
+                pendingMistakesCount = uiState.pendingMistakesCount,
                 onStartPractice = { mode ->
                     selectedPracticeMode = mode
                     coroutineScope.launch {
                         practiceQuestionsList = viewModel.getPracticeQuestions(mode, 10)
                         navState = AppNavState.PRACTICE_SESSION
+                    }
+                },
+                onStartMistakesReview = {
+                    coroutineScope.launch {
+                        mistakeQuestionsList = viewModel.getPendingMistakeQuestions()
+                        navState = AppNavState.MISTAKES_REVIEW
                     }
                 },
                 onBack = {
@@ -223,6 +235,9 @@ fun LinguaFlowApp(
                 ttsLocaleStr = uiState.currentLanguage.ttsLocale,
                 onPlayAudio = { text, isSlow ->
                     onPlayAudio(text, uiState.currentLanguage.ttsLocale, isSlow)
+                },
+                onWrongAnswer = { questionId, wrongAnswer ->
+                    viewModel.recordMistake(questionId, wrongAnswer)
                 },
                 onFinished = {
                     navState = AppNavState.PRACTICE_HUB
@@ -241,8 +256,8 @@ fun LinguaFlowApp(
                 levelTitle = levelTitle,
                 questions = activeQuestions,
                 ttsLocaleStr = uiState.currentLanguage.ttsLocale,
-                onPlayAudio = { text, localeStr ->
-                    onPlayAudio(text, localeStr, false)
+                onPlayAudio = { text, localeStr, isSlow ->
+                    onPlayAudio(text, localeStr, isSlow)
                 },
                 onWrongAnswer = { questionId, wrongAnswer ->
                     viewModel.recordMistake(questionId, wrongAnswer)

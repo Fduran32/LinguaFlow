@@ -84,4 +84,21 @@ class SpeechManagerTest {
         assertTrue(best.isPassed)
         assertEquals(100, best.percentage)
     }
+
+    @Test
+    fun testEvaluateWrittenAnswerAlmostCorrectOneLetterTypo() {
+        // Exact match
+        val exact = SpeechManager.evaluateWrittenAnswer("She is my mother", "She is my mother")
+        assertTrue(exact.isPassed)
+        assertFalse(exact.isAlmostExact)
+
+        // 1-letter typo ("moter" instead of "mother") should pass as "Casi correcto"
+        val typo = SpeechManager.evaluateWrittenAnswer("She is my moter", "She is my mother")
+        assertTrue("Debe aprobar error de tipeo de 1 sola letra en oración completa", typo.isPassed)
+        assertTrue("Debe marcar isAlmostExact = true", typo.isAlmostExact)
+
+        // 3+ letters wrong should fail
+        val wrong = SpeechManager.evaluateWrittenAnswer("She is my father", "She is my mother")
+        assertFalse(wrong.isPassed)
+    }
 }

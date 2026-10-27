@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Hearing
+import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.*
@@ -47,7 +48,7 @@ fun LessonSessionScreen(
     levelTitle: String,
     questions: List<Question>,
     ttsLocaleStr: String = "en-US",
-    onPlayAudio: ((text: String, locale: String) -> Unit)? = null,
+    onPlayAudio: ((text: String, locale: String, isSlow: Boolean) -> Unit)? = null,
     onWrongAnswer: ((questionId: String, wrongAnswer: String) -> Unit)? = null,
     onCorrectAnswer: ((questionId: String) -> Unit)? = null,
     onLessonFinished: (passed: Boolean, scorePercentage: Int) -> Unit,
@@ -107,7 +108,7 @@ fun LessonSessionScreen(
     // Auto-reproducir audio si es LISTENING
     LaunchedEffect(currentQuestion?.id) {
         if (currentQuestion?.type == QuestionType.LISTENING && !currentQuestion.promptAudioText.isNullOrEmpty()) {
-            onPlayAudio?.invoke(currentQuestion.promptAudioText, ttsLocaleStr)
+            onPlayAudio?.invoke(currentQuestion.promptAudioText, ttsLocaleStr, false)
         }
     }
 
@@ -322,21 +323,34 @@ fun LessonSessionScreen(
 
                                 Spacer(modifier = Modifier.height(14.dp))
 
-                                // Botón de referencia auditiva (Shadowing: escuchar modelo nativo antes de hablar)
-                                OutlinedButton(
-                                    onClick = {
-                                        val audioToPlay = currentQuestion.promptAudioText ?: currentQuestion.correctAnswer
-                                        onPlayAudio?.invoke(audioToPlay, ttsLocaleStr)
-                                    },
-                                    shape = RoundedCornerShape(10.dp)
-                                ) {
-                                    Icon(
-                                        Icons.AutoMirrored.Filled.VolumeUp,
-                                        contentDescription = "Escuchar referencia",
-                                        modifier = Modifier.size(18.dp)
-                                    )
-                                    Spacer(modifier = Modifier.width(6.dp))
-                                    Text("Escuchar pronunciación", fontSize = 13.sp)
+                                // Opción A: Botones de referencia auditiva Normal (1.0x) y Lenta (0.65x)
+                                val audioToPlay = currentQuestion.promptAudioText ?: currentQuestion.correctAnswer
+                                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                    OutlinedButton(
+                                        onClick = {
+                                            onPlayAudio?.invoke(audioToPlay, ttsLocaleStr, false)
+                                        },
+                                        shape = RoundedCornerShape(10.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.AutoMirrored.Filled.VolumeUp,
+                                            contentDescription = "Escuchar normal",
+                                            modifier = Modifier.size(18.dp)
+                                        )
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Text("Escuchar", fontSize = 13.sp)
+                                    }
+
+                                    OutlinedButton(
+                                        onClick = {
+                                            onPlayAudio?.invoke(audioToPlay, ttsLocaleStr, true)
+                                        },
+                                        shape = RoundedCornerShape(10.dp)
+                                    ) {
+                                        Text("🐢", fontSize = 15.sp)
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Text("Lento", fontSize = 13.sp)
+                                    }
                                 }
 
                                 Spacer(modifier = Modifier.height(20.dp))
@@ -435,35 +449,67 @@ fun LessonSessionScreen(
 
                     QuestionType.LISTENING -> {
                         Spacer(modifier = Modifier.height(20.dp))
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onPlayAudio?.invoke(currentQuestion.promptAudioText ?: currentQuestion.correctAnswer, ttsLocaleStr)
-                                },
-                            shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = SuccessGreenLight)
+                        val audioPhrase = currentQuestion.promptAudioText ?: currentQuestion.correctAnswer
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            Row(
+                            Card(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(20.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
+                                    .weight(1f)
+                                    .clickable {
+                                        onPlayAudio?.invoke(audioPhrase, ttsLocaleStr, false)
+                                    },
+                                shape = RoundedCornerShape(16.dp),
+                                colors = CardDefaults.cardColors(containerColor = SuccessGreenLight)
                             ) {
-                                Icon(
-                                    Icons.Default.Hearing,
-                                    contentDescription = "Escuchar",
-                                    tint = PrimaryGreenDark,
-                                    modifier = Modifier.size(36.dp)
-                                )
-                                Spacer(modifier = Modifier.width(12.dp))
-                                Text(
-                                    text = "Tocar para escuchar audio",
-                                    fontWeight = FontWeight.Bold,
-                                    color = PrimaryGreenDark,
-                                    fontSize = 16.sp
-                                )
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 18.dp, horizontal = 12.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        Icons.Default.Hearing,
+                                        contentDescription = "Escuchar normal",
+                                        tint = PrimaryGreenDark,
+                                        modifier = Modifier.size(28.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = "Escuchar (1.0x)",
+                                        fontWeight = FontWeight.Bold,
+                                        color = PrimaryGreenDark,
+                                        fontSize = 15.sp
+                                    )
+                                }
+                            }
+
+                            Card(
+                                modifier = Modifier
+                                    .clickable {
+                                        onPlayAudio?.invoke(audioPhrase, ttsLocaleStr, true)
+                                    },
+                                shape = RoundedCornerShape(16.dp),
+                                colors = CardDefaults.cardColors(containerColor = IndigoCard),
+                                border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder)
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .padding(vertical = 18.dp, horizontal = 16.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Text(text = "🐢", fontSize = 20.sp)
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text(
+                                        text = "Lento",
+                                        fontWeight = FontWeight.Bold,
+                                        color = TextLight,
+                                        fontSize = 15.sp
+                                    )
+                                }
                             }
                         }
 
@@ -530,14 +576,55 @@ fun LessonSessionScreen(
                             }
                         }
 
-                        Spacer(modifier = Modifier.height(24.dp))
-                        Text(
-                            text = "Banco de palabras:",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = TextMuted
-                        )
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(18.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Banco de palabras:",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = TextMuted
+                            )
+
+                            // Opción C: Botón de Pista Interactiva para colocar la siguiente ficha correcta
+                            val targetTokens = remember(currentQuestion.id) {
+                                currentQuestion.correctAnswer.split(" ").filter { it.isNotBlank() }
+                            }
+                            if (answerResult == null && sentenceTokens.size < targetTokens.size) {
+                                TextButton(
+                                    onClick = {
+                                        // Verifica cuántas fichas colocadas coinciden desde el inicio y añade la siguiente ficha correcta
+                                        var matchingPrefix = 0
+                                        while (matchingPrefix < sentenceTokens.size &&
+                                            matchingPrefix < targetTokens.size &&
+                                            sentenceTokens[matchingPrefix] == targetTokens[matchingPrefix]
+                                        ) {
+                                            matchingPrefix++
+                                        }
+                                        val nextWord = targetTokens[matchingPrefix]
+                                        sentenceTokens = targetTokens.take(matchingPrefix) + nextWord
+                                    }
+                                ) {
+                                    Icon(
+                                        Icons.Default.Lightbulb,
+                                        contentDescription = "Pista",
+                                        tint = AccentYellow,
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Text(
+                                        text = "Pista (+1 palabra)",
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = PrimaryGreenDark
+                                    )
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(6.dp))
 
                         // Banco de Fichas barajado aleatoriamente para evitar que aparezcan en la misma posición
                         val shuffledWordBank = remember(currentQuestion.id, currentIndex) {
@@ -578,23 +665,49 @@ fun LessonSessionScreen(
                         if (!currentQuestion.promptAudioText.isNullOrEmpty()) {
                             Spacer(modifier = Modifier.height(10.dp))
                             Row(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(20.dp))
-                                    .background(SuccessGreenLight)
-                                    .clickable {
-                                        onPlayAudio?.invoke(currentQuestion.promptAudioText, ttsLocaleStr)
-                                    }
-                                    .padding(horizontal = 14.dp, vertical = 8.dp),
+                                horizontalArrangement = Arrangement.spacedBy(10.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "Audio", tint = PrimaryGreenDark)
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Text(
-                                    text = "Escuchar pronunciación",
-                                    color = PrimaryGreenDark,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 14.sp
-                                )
+                                Row(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(20.dp))
+                                        .background(SuccessGreenLight)
+                                        .clickable {
+                                            onPlayAudio?.invoke(currentQuestion.promptAudioText, ttsLocaleStr, false)
+                                        }
+                                        .padding(horizontal = 14.dp, vertical = 8.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "Audio", tint = PrimaryGreenDark)
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text(
+                                        text = "Escuchar",
+                                        color = PrimaryGreenDark,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp
+                                    )
+                                }
+
+                                Row(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(20.dp))
+                                        .background(IndigoCard)
+                                        .border(1.dp, CardBorder, RoundedCornerShape(20.dp))
+                                        .clickable {
+                                            onPlayAudio?.invoke(currentQuestion.promptAudioText, ttsLocaleStr, true)
+                                        }
+                                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(text = "🐢", fontSize = 14.sp)
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text(
+                                        text = "Lento",
+                                        color = TextLight,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 13.sp
+                                    )
+                                }
                             }
                         }
 

@@ -9,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,7 +33,9 @@ fun PracticeHubScreen(
     languageName: String,
     flagEmoji: String,
     currentCefr: String,
+    pendingMistakesCount: Int = 0,
     onStartPractice: (PracticeSkillMode) -> Unit,
+    onStartMistakesReview: () -> Unit = {},
     onBack: () -> Unit
 ) {
     Scaffold(
@@ -107,6 +108,83 @@ fun PracticeHubScreen(
                 }
             }
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Opción D: Tarjeta de Repaso Inteligente de Errores (Repetición Espaciada / SRS)
+            Card(
+                shape = RoundedCornerShape(18.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = if (pendingMistakesCount > 0) ErrorRedLight else IndigoCard
+                ),
+                border = androidx.compose.foundation.BorderStroke(
+                    1.dp,
+                    if (pendingMistakesCount > 0) ErrorRed.copy(alpha = 0.4f) else CardBorder
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(enabled = pendingMistakesCount > 0) { onStartMistakesReview() }
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(
+                                modifier = Modifier
+                                    .size(42.dp)
+                                    .clip(CircleShape)
+                                    .background(if (pendingMistakesCount > 0) ErrorRed.copy(alpha = 0.15f) else AccentTeal.copy(alpha = 0.2f)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(text = "🧠", fontSize = 22.sp)
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Column {
+                                Text(
+                                    text = "Repaso Inteligente (SRS)",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 16.sp,
+                                    color = TextLight
+                                )
+                                Text(
+                                    text = if (pendingMistakesCount > 0) {
+                                        "Tienes $pendingMistakesCount ejercicio(s) por dominar"
+                                    } else {
+                                        "¡0 errores pendientes! Estás al día 🎉"
+                                    },
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = if (pendingMistakesCount > 0) ErrorRed else PrimaryGreenDark
+                                )
+                            }
+                        }
+                    }
+
+                    if (pendingMistakesCount > 0) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Button(
+                            onClick = onStartMistakesReview,
+                            colors = ButtonDefaults.buttonColors(containerColor = ErrorRed),
+                            shape = RoundedCornerShape(10.dp),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(
+                                text = "Dominar mis $pendingMistakesCount errores ahora",
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                        }
+                    }
+                }
+            }
+
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
@@ -123,7 +201,7 @@ fun PracticeHubScreen(
             SkillPracticeCard(
                 emoji = "🗣️",
                 title = "Speaking (Pronunciación)",
-                description = "Usa tu voz con el micrófono para pronunciar frases en inglés y recibir evaluación de dicción al instante.",
+                description = "Usa tu voz con el micrófono para pronunciar oraciones completas y recibir evaluación de dicción al instante.",
                 accentColor = AccentTeal,
                 buttonText = "Comenzar Speaking",
                 onClick = { onStartPractice(PracticeSkillMode.SPEAKING) }
@@ -135,7 +213,7 @@ fun PracticeHubScreen(
             SkillPracticeCard(
                 emoji = "✍️",
                 title = "Writing (Escritura)",
-                description = "Fortalece tu ortografía, gramática y construcción de oraciones escribiendo directamente en inglés.",
+                description = "Fortalece tu ortografía y gramática con pistas interactivas y tolerancia inteligente de tipeo.",
                 accentColor = PrimaryCoral,
                 buttonText = "Comenzar Writing",
                 onClick = { onStartPractice(PracticeSkillMode.WRITING) }
@@ -147,7 +225,7 @@ fun PracticeHubScreen(
             SkillPracticeCard(
                 emoji = "🎧",
                 title = "Listening (Comprensión Auditiva)",
-                description = "Entrena tu oído con pronunciaciones nativas a velocidad normal y lenta (tortuga 🐢).",
+                description = "Entrena tu oído con pronunciaciones nativas a velocidad normal (1.0x) y lenta (tortuga 🐢 0.65x).",
                 accentColor = AccentYellow,
                 buttonText = "Comenzar Listening",
                 onClick = { onStartPractice(PracticeSkillMode.LISTENING) }

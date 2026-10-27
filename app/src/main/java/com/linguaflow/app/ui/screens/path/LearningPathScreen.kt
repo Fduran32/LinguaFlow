@@ -1,6 +1,7 @@
 package com.linguaflow.app.ui.screens.path
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
@@ -9,8 +10,10 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Lock
@@ -29,9 +32,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linguaflow.app.domain.model.Language
 import com.linguaflow.app.domain.model.Level
+import com.linguaflow.app.domain.model.Question
 import com.linguaflow.app.domain.model.User
+import com.linguaflow.app.domain.util.PracticeSentenceFilter
 import com.linguaflow.app.ui.components.UserAvatar
 import com.linguaflow.app.ui.theme.*
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,6 +45,7 @@ fun LearningPathScreen(
     currentUser: User? = null,
     currentLanguageName: String,
     currentFlagEmoji: String,
+    ttsLocaleStr: String = "en-US",
     availableLanguages: List<Language> = emptyList(),
     levels: List<Level>,
     userAssignedLevel: String = "A1",
@@ -46,6 +53,8 @@ fun LearningPathScreen(
     availablePracticeLevels: List<String> = listOf("A1"),
     pendingMistakesCount: Int = 0,
     isLoading: Boolean = false,
+    onLoadGuideQuestions: (suspend (String) -> List<Question>)? = null,
+    onPlayAudio: ((text: String, locale: String, isSlow: Boolean) -> Unit)? = null,
     onSelectLanguage: (String) -> Unit = {},
     onSelectViewingLevel: (String) -> Unit = {},
     onOpenMistakesReview: () -> Unit = {},
@@ -56,6 +65,11 @@ fun LearningPathScreen(
 ) {
     var lockedAlertMessage by remember { mutableStateOf<String?>(null) }
     var showLanguageMenu by remember { mutableStateOf(false) }
+
+    // Opción E: Estado para la Tarjeta de Guía Gramatical Rápida antes de iniciar cada Subnivel
+    var selectedGuideLevel by remember { mutableStateOf<Level?>(null) }
+    var guideQuestions by remember { mutableStateOf<List<Question>>(emptyList()) }
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -82,7 +96,6 @@ fun LearningPathScreen(
                         }
                     }
 
-                    // Menú desplegable para cambiar entre Inglés, Italiano y Chino
                     DropdownMenu(
                         expanded = showLanguageMenu,
                         onDismissRequest = { showLanguageMenu = false }
@@ -132,7 +145,7 @@ fun LearningPathScreen(
                                 isCustomPhoto = currentUser.isCustomPhoto,
                                 size = 34.dp,
                                 textSize = 18.sp,
-                                 borderWidth = 1.5.dp
+                                borderWidth = 1.5.dp
                             )
                         } else {
                             Icon(Icons.Default.Person, contentDescription = "Perfil", tint = TextLight)
@@ -267,12 +280,27 @@ fun LearningPathScreen(
                     LevelNodeItem(
                         level = level,
                         isUnlocked = isUnlocked,
+                        onOpenGuide = if (isUnlocked && !isExam && onLoadGuideQuestions != null) {
+                            {
+                                coroutineScope.launch {
+                                    guideQuestions = onLoadGuideQuestions.invoke(level.id)
+                                    selectedGuideLevel = level
+                                }
+                            }
+                        } else null,
                         onClick = {
                             if (isUnlocked) {
-                                onStartLevel(level)
+                                if (!isExam && onLoadGuideQuestions != null) {
+                                    coroutineScope.launch {
+                                        guideQuestions = onLoadGuideQuestions.invoke(level.id)
+                                        selectedGuideLevel = level
+                                    }
+                                } else {
+                                    onStartLevel(level)
+                                }
                             } else {
                                 lockedAlertMessage = if (isExam) {
-                                    "🔒 El Examen Final está bloqueado. Debes completar primero los 10 subniveles con al menos un 80% de aciertos para poder rendir la prueba de graduación."
+                                    "🔒 El Examen Final está bloqueado. Debes completar primero los subniveles anteriores con al menos un 80% de aciertos para poder rendir la prueba de graduación."
                                 } else {
                                     "🔒 Este subnivel está bloqueado. Debes completar primero el subnivel anterior con al menos un 80% de aciertos."
                                 }
@@ -281,7 +309,6 @@ fun LearningPathScreen(
                     )
 
                     if (index < levels.size - 1) {
-                        // Línea conectora entre subniveles: verde si el subnivel ya fue completado
                         Box(
                             modifier = Modifier
                                 .width(6.dp)
@@ -291,7 +318,6 @@ fun LearningPathScreen(
                     }
                 }
 
-                // Tarjeta bloqueada del siguiente nivel macro (ej. A2 bloqueado hasta completar A1.10)
                 item {
                     val nextMacroCefr = when (userAssignedLevel.take(2).uppercase()) {
                         "A1" -> "Nivel A2"
@@ -342,7 +368,7 @@ fun LearningPathScreen(
                                 )
                                 Spacer(modifier = Modifier.height(3.dp))
                                 Text(
-                                    text = "Bloqueado hasta completar los 10 subniveles de ${userAssignedLevel.take(2).uppercase()}",
+                                    text = "Bloqueado hasta completar todos los subniveles de ${userAssignedLevel.take(2).uppercase()}",
                                     fontSize = 12.sp,
                                     color = TextGray
                                 )
@@ -354,7 +380,25 @@ fun LearningPathScreen(
             }
         }
 
-        // Diálogo de alerta si intenta saltarse niveles (RN-01)
+        // Opción E: Modal de Guía Gramatical Rápida antes de iniciar el Subnivel
+        if (selectedGuideLevel != null) {
+            val level = selectedGuideLevel!!
+            LevelQuickGuideDialog(
+                level = level,
+                questions = guideQuestions,
+                ttsLocaleStr = ttsLocaleStr,
+                onPlayAudio = onPlayAudio,
+                onStartLesson = {
+                    selectedGuideLevel = null
+                    onStartLevel(level)
+                },
+                onDismiss = {
+                    selectedGuideLevel = null
+                }
+            )
+        }
+
+        // Diálogo de alerta si intenta saltarse niveles
         if (lockedAlertMessage != null) {
             AlertDialog(
                 onDismissRequest = { lockedAlertMessage = null },
@@ -386,9 +430,157 @@ fun LearningPathScreen(
 }
 
 @Composable
+private fun LevelQuickGuideDialog(
+    level: Level,
+    questions: List<Question>,
+    ttsLocaleStr: String,
+    onPlayAudio: ((text: String, locale: String, isSlow: Boolean) -> Unit)?,
+    onStartLesson: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    val keyExamples = remember(questions) {
+        questions.filter { PracticeSentenceFilter.isMeaningfulSentence(it.correctAnswer) }
+            .take(3)
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        containerColor = IndigoCard,
+        title = {
+            Column {
+                Surface(
+                    shape = RoundedCornerShape(6.dp),
+                    color = PrimaryCoral.copy(alpha = 0.15f)
+                ) {
+                    Text(
+                        text = "📖 Guía Gramatical Rápida • Nivel ${level.cefrCode}",
+                        color = PrimaryCoral,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(
+                    text = level.title,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 18.sp,
+                    color = TextDark
+                )
+            }
+        },
+        text = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text(
+                    text = "Revisa y escucha estas estructuras clave antes de comenzar las 10 preguntas:",
+                    fontSize = 13.sp,
+                    color = TextMedium
+                )
+
+                keyExamples.forEachIndexed { idx, q ->
+                    val spanishMeaning = PracticeSentenceFilter.extractSpanishPromptForWriting(
+                        q.type.name,
+                        q.prompt,
+                        q.correctAnswer
+                    )
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = IndigoSurfaceLight,
+                        border = androidx.compose.foundation.BorderStroke(1.dp, CardBorder),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(modifier = Modifier.padding(12.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "${idx + 1}. ${q.correctAnswer}",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 15.sp,
+                                    color = PrimaryGreenDark,
+                                    modifier = Modifier.weight(1f)
+                                )
+                                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                                    IconButton(
+                                        onClick = { onPlayAudio?.invoke(q.correctAnswer, ttsLocaleStr, false) },
+                                        modifier = Modifier.size(30.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.AutoMirrored.Filled.VolumeUp,
+                                            contentDescription = "Escuchar",
+                                            tint = PrimaryGreenDark,
+                                            modifier = Modifier.size(18.dp)
+                                        )
+                                    }
+                                    TextButton(
+                                        onClick = { onPlayAudio?.invoke(q.correctAnswer, ttsLocaleStr, true) },
+                                        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 0.dp),
+                                        modifier = Modifier.height(30.dp)
+                                    ) {
+                                        Text("🐢", fontSize = 13.sp)
+                                    }
+                                }
+                            }
+
+                            if (!q.promptPhonetic.isNullOrBlank()) {
+                                Text(
+                                    text = "Pinyin: ${q.promptPhonetic}",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = PrimaryCoral
+                                )
+                            }
+
+                            if (!spanishMeaning.isNullOrBlank()) {
+                                Text(
+                                    text = "🇪🇸 \"$spanishMeaning\"",
+                                    fontSize = 13.sp,
+                                    color = TextDark
+                                )
+                            }
+
+                            if (q.explanation.isNotBlank()) {
+                                Spacer(modifier = Modifier.height(3.dp))
+                                Text(
+                                    text = "💡 ${q.explanation}",
+                                    fontSize = 12.sp,
+                                    color = TextMedium
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = onStartLesson,
+                colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Text("🚀 Comenzar Lección", fontWeight = FontWeight.Bold, color = Color.White)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Volver", color = TextGray, fontWeight = FontWeight.SemiBold)
+            }
+        }
+    )
+}
+
+@Composable
 fun LevelNodeItem(
     level: Level,
     isUnlocked: Boolean,
+    onOpenGuide: (() -> Unit)? = null,
     onClick: () -> Unit
 ) {
     val isExam = level.orderIndex == 11 || level.id.contains("exam")
@@ -450,11 +642,24 @@ fun LevelNodeItem(
                 color = if (isUnlocked) PrimaryGreenDark else TextGray
             )
         } else {
-            Text(
-                text = level.cefrCode,
-                fontSize = 13.sp,
-                color = TextGray
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                Text(
+                    text = level.cefrCode,
+                    fontSize = 13.sp,
+                    color = TextGray
+                )
+                if (isUnlocked && onOpenGuide != null) {
+                    Text(
+                        text = "• 📖 Con Guía",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = PrimaryCoral
+                    )
+                }
+            }
         }
     }
 }
