@@ -384,16 +384,18 @@ fun PracticeSessionScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     Surface(
                         shape = RoundedCornerShape(12.dp),
-                        color = Color.White,
+                        color = IndigoCard,
+                        border = androidx.compose.foundation.BorderStroke(1.dp, AccentTeal.copy(alpha = 0.5f)),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Column(modifier = Modifier.padding(14.dp)) {
-                            Text(text = "Tu voz detectada:", fontSize = 12.sp, color = TextMedium)
+                            Text(text = "Tu voz detectada:", fontSize = 12.sp, color = TextMuted)
+                            Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = "\"$recognizedSpokenText\"",
-                                fontSize = 16.sp,
+                                fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = TextDark
+                                color = AccentTeal
                             )
                         }
                     }
@@ -597,6 +599,10 @@ fun PracticeSessionScreen(
                 Surface(
                     shape = RoundedCornerShape(14.dp),
                     color = if (isCurrentCorrect) SuccessGreenLight else ErrorRedLight,
+                    border = androidx.compose.foundation.BorderStroke(
+                        1.dp,
+                        if (isCurrentCorrect) SuccessGreen.copy(alpha = 0.5f) else ErrorRed.copy(alpha = 0.5f)
+                    ),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -604,7 +610,7 @@ fun PracticeSessionScreen(
                             Icon(
                                 imageVector = if (isCurrentCorrect) Icons.Default.CheckCircle else Icons.Default.Cancel,
                                 contentDescription = null,
-                                tint = if (isCurrentCorrect) PrimaryGreenDark else ErrorRed
+                                tint = if (isCurrentCorrect) SuccessGreen else ErrorRed
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
@@ -616,7 +622,7 @@ fun PracticeSessionScreen(
                                     "Respuesta correcta:"
                                 },
                                 fontWeight = FontWeight.Bold,
-                                color = if (isCurrentCorrect) PrimaryGreenDark else ErrorRed,
+                                color = if (isCurrentCorrect) SuccessGreen else ErrorRed,
                                 fontSize = 16.sp
                             )
                         }
@@ -631,7 +637,7 @@ fun PracticeSessionScreen(
                                     "Traducción esperada: ${currentQuestion.correctAnswer.ifBlank { currentQuestion.prompt }}"
                                 },
                                 fontSize = 15.sp,
-                                color = TextDark
+                                color = TextLight
                             )
                         }
 
@@ -641,7 +647,7 @@ fun PracticeSessionScreen(
                                 text = feedbackText,
                                 fontSize = 13.sp,
                                 fontWeight = FontWeight.SemiBold,
-                                color = if (isCurrentCorrect) PrimaryGreenDark else ErrorRed
+                                color = if (isCurrentCorrect) TextLight else ErrorRed
                             )
                         }
 
@@ -651,7 +657,7 @@ fun PracticeSessionScreen(
                                 text = if (isCurrentCorrect) "Similitud fonética: $speechSimilarityPercentage%" else "Similitud fonética: $speechSimilarityPercentage% (Requiere 75% y frase completa)",
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.SemiBold,
-                                color = if (isCurrentCorrect) PrimaryGreenDark else ErrorRed
+                                color = if (isCurrentCorrect) SuccessGreen else ErrorRed
                             )
                         }
                     }

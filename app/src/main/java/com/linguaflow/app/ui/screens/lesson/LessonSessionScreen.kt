@@ -432,12 +432,13 @@ fun LessonSessionScreen(
                                     Spacer(modifier = Modifier.height(16.dp))
                                     Surface(
                                         shape = RoundedCornerShape(10.dp),
-                                        color = SuccessGreenLight
+                                        color = IndigoSurfaceLight,
+                                        border = androidx.compose.foundation.BorderStroke(1.dp, AccentTeal.copy(alpha = 0.5f))
                                     ) {
                                         Text(
                                             text = "Te escuchamos: \"$spokenAnswer\"",
                                             fontWeight = FontWeight.Bold,
-                                            color = PrimaryGreenDark,
+                                            color = AccentTeal,
                                             fontSize = 15.sp,
                                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                                         )
